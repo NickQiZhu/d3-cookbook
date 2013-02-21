@@ -1,0 +1,24 @@
+{
+  "name": "d3-cookbook",
+  "version": "0.1.0",
+  "description": "Source code for 'Data Visualization with D3 Cookbook'",
+  "keywords": [
+    "data visualization",
+    "d3",
+    "cookbook"
+  ],
+  "homepage": "http://nickqizhu.github.com/d3-cookbook/",
+  "author": {
+    "name": "Nick Zhu",
+    "url": "http://nzhu.blogspot.ca/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NickQiZhu/d3-cookbook.git"
+  },
+  "dependencies": {
+      "d3":"3.0.x"
+  },
+  "devDependencies": {},
+  "readmeFilename": "README.md"
+}
