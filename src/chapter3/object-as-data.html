@@ -29,7 +29,7 @@
         d3.select("body").selectAll("div")
                 .data(data)
             .enter().append("div")
-                .attr("class", "bar")
+                .attr("class", "h-bar")
                 .style("width", function (d) {
                     return (d.width * 5) + "px";
                 })
@@ -45,7 +45,7 @@
 
         d3.select("body").selectAll("div")
                 .data(data)
-            .attr("class", "bar")
+            .attr("class", "h-bar")
             .style("width", function (d) {
                 return (d.width * 5) + "px";
             })

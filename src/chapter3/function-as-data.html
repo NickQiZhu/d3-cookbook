@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <title>Function as Data</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+<div id="container"></div>
+
+<script type="text/javascript">
+    function generate() {
+        var data = [];
+        for (var i = 0; i < 15; ++i) {
+            data.push(2 * i + 20);
+        }
+        return data;
+    }
+
+    d3.select("#container").selectAll("div")
+            .data(generate)
+            .enter()
+            .append("div")
+            .attr("class", "v-bar")
+            .style("height", function (d) {
+                return d + "px";
+            })
+            .style("width", "10px")
+            .style("display", "inline-block")
+            .append("span")
+            .text(function (d) {
+                return d;
+            });
+</script>
+
+</body>
+
+</html>

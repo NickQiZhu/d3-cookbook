@@ -22,13 +22,24 @@ body {
     color: #f0f8ff;
 }
 
-.bar{
-    height: 13px;
+.h-bar {
+    min-height: 13px;
+    min-width: 10px;
     background-color: #4169e1;
     margin-bottom: 2px;
     font-size: 10px;
     color: #f0f8ff;
     text-align: right;
+}
+
+.v-bar {
+    min-height: 1px;
+    min-width: 30px;
+    background-color: #4169e1;
+    margin-right: 2px;
+    font-size: 10px;
+    color: #f0f8ff;
+    text-align: center;
 }
 
 .table{
