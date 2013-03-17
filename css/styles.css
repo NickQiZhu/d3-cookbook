@@ -21,3 +21,24 @@ body {
     background-color: #add8e6;
     color: #f0f8ff;
 }
+
+.table{
+    width: 70%;
+}
+
+.table td, th{
+    padding: 5px;
+}
+
+.table-header{
+    background-color: #00AFEF;
+    font-weight: bold;
+}
+
+.table-row-odd{
+    background-color: #f0f8ff;
+}
+
+.table-row-odd{
+    background-color: #d3d3d3;
+}
