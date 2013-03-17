@@ -1,6 +1,5 @@
 body {
-    font-family: "lucida";
-    font-size: 1em;
+    font-family: "helvetica";
 }
 
 .box {
@@ -9,6 +8,8 @@ body {
     margin: 40px;
     float: left;
     text-align: center;
+    border: #969696 solid thin;
+    padding: 5px;
 }
 
 .red {

@@ -3,10 +3,9 @@
 <html>
 <head>
     <title>Selection Iteration</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
-
-<script type="text/javascript" src="../../lib/d3.js"></script>
-<link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
 
 <body>
 
@@ -16,10 +15,10 @@
 
 <script type="text/javascript">
     d3.selectAll("div")
-        .attr("class", "red box")
-        .each(function(d, i){
-            d3.select(this).append("h1").text(i);
-        });
+            .attr("class", "red box")
+            .each(function (d, i) {
+                d3.select(this).append("h1").text(i);
+            });
 </script>
 
 </body>
