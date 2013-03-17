@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <title>Array as Data</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var data = [10, 15, 30, 50, 80, 65, 55, 30, 20, 10, 8];
+
+    function render(data) {
+        d3.select("body").selectAll("div")
+                .data(data)
+            .enter().append("div")
+                .attr("class", "bar")
+                .style("width", function (d) {
+                    return (d * 5) + "px";
+                })
+                .append("span")
+                    .text(function (d) {
+                        return d;
+                    });
+
+        d3.select("body").selectAll("div")
+                .data(data)
+            .exit().remove();
+
+        d3.select("body").selectAll("div")
+                .data(data)
+            .attr("class", "bar")
+            .style("width", function (d) {
+                return (d * 5) + "px";
+            })
+            .select("span")
+                .text(function (d) {
+                    return d;
+                });
+    }
+
+    setInterval(function () {
+        data.shift();
+        data.push(Math.round(Math.random() * 100));
+        render(data);
+    }, 1500);
+
+    render(data);
+</script>
+
+</body>
+
+</html>

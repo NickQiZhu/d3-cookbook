@@ -22,6 +22,15 @@ body {
     color: #f0f8ff;
 }
 
+.bar{
+    height: 13px;
+    background-color: #4169e1;
+    margin-bottom: 2px;
+    font-size: 10px;
+    color: #f0f8ff;
+    text-align: right;
+}
+
 .table{
     width: 70%;
 }
