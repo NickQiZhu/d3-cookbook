@@ -10,7 +10,20 @@
 <body>
 
 <script type="text/javascript">
-    var data = [10, 15, 30, 50, 80, 65, 55, 30, 20, 10, 8];
+    var data = [
+        {width: 10, color: 23},
+        {width: 15, color: 33},
+        {width: 30, color: 40},
+        {width: 50, color: 60},
+        {width: 80, color: 22},
+        {width: 65, color: 10},
+        {width: 55, color: 5},
+        {width: 30, color: 30},
+        {width: 20, color: 60},
+        {width: 10, color: 90},
+        {width: 8, color: 10}
+    ];
+    var colorScale = d3.scale.linear().domain([0, 100]).range(["#add8e6", "#4169e1"]);
 
     function render(data) {
         d3.select("body").selectAll("div")
@@ -18,11 +31,12 @@
             .enter().append("div")
                 .attr("class", "bar")
                 .style("width", function (d) {
-                    return (d * 3) + "px";
+                    return (d.width * 5) + "px";
                 })
+                .style("background-color", function(d){return colorScale(d.color);})
                 .append("span")
                     .text(function (d) {
-                        return d;
+                        return d.width;
                     });
 
         d3.select("body").selectAll("div")
@@ -33,17 +47,22 @@
                 .data(data)
             .attr("class", "bar")
             .style("width", function (d) {
-                return (d * 3) + "px";
+                return (d.width * 5) + "px";
             })
+            .style("background-color", function(d){return colorScale(d.color);})
             .select("span")
                 .text(function (d) {
-                    return d;
+                    return d.width;
                 });
+    }
+
+    function randomValue() {
+        return Math.round(Math.random() * 100);
     }
 
     setInterval(function () {
         data.shift();
-        data.push(Math.round(Math.random() * 100));
+        data.push({width: randomValue(), color: randomValue()});
         render(data);
     }, 1500);
 
