@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <html>
 <head>
-    <title>Object as Data</title>
+    <title>Enter + Update</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -29,15 +29,7 @@
         d3.select("body").selectAll("div")
                 .data(data)
             .enter().append("div")
-                .attr("class", "bar")
-                .style("width", function (d) {
-                    return (d.width * 5) + "px";
-                })
-                .style("background-color", function(d){return colorScale(d.color);})
-                .append("span")
-                    .text(function (d) {
-                        return d.width;
-                    });
+                .append("span");
 
         d3.select("body").selectAll("div")
                 .data(data)
