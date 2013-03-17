@@ -3,22 +3,20 @@ body {
     font-size: 1em;
 }
 
-.red-box {
+.box {
     width: 200px;
     height: 200px;
     margin: 40px;
     float: left;
-    background-color: #e9967a;
     text-align: center;
+}
+
+.red {
+    background-color: #e9967a;
     color: #f0f8ff;
 }
 
-.blue-box {
-    width: 200px;
-    height: 200px;
-    margin: 40px;
-    float: left;
+.blue {
     background-color: #add8e6;
-    text-align: center;
     color: #f0f8ff;
 }

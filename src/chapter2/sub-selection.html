@@ -11,16 +11,19 @@
 <body>
 
 <section id="section1">
-    <div class="blue-box"></div>
+    <div></div>
 </section>
 <section id="section2">
-    <div class="blue-box"></div>
+    <div></div>
 </section>
 
 <script type="text/javascript">
+    d3.select("#section1 div")
+            .attr("class", "blue box");
+
     d3.select("#section2")
             .select("div")
-            .attr("class", "red-box");
+            .attr("class", "red box");
 </script>
 
 </body>
