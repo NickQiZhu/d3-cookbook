@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pie Chart</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    function pieChart() {
+        var _chart = {};
+
+        var _width = 500, _height = 500,
+                _margins = {top: 30, left: 30, right: 30, bottom: 30},
+                _data = [],
+                _colors = d3.scale.category10(),
+                _svg,
+                _bodyG,
+                _pieG,
+                _radius,
+                _innerRadius;
+
+        _chart.render = function () {
+            if (!_svg) {
+                _svg = d3.select("body").append("svg")
+                        .attr("height", _height)
+                        .attr("width", _width);
+
+                defineBodyClip(_svg);
+            }
+
+            renderBody(_svg);
+        };
+
+        function defineBodyClip(svg) {
+            var padding = 5;
+
+            svg.append("defs")
+                    .append("clipPath")
+                    .attr("id", "body-clip")
+                    .append("rect")
+                    .attr("x", 0 - padding)
+                    .attr("y", 0)
+                    .attr("width", quadrantWidth() + 2 * padding)
+                    .attr("height", quadrantHeight());
+        }
+
+        function renderBody(svg) {
+            if (!_bodyG)
+                _bodyG = svg.append("g")
+                        .attr("class", "body")
+                        .attr("transform", "translate("
+                                + xStart() + ","
+                                + yEnd() + ")")
+                        .attr("clip-path", "url(#body-clip)");
+
+            renderPie();
+        }
+
+        function renderPie() {
+            var pie = d3.layout.pie()
+                    .value(function (d) {
+                        return d.value;
+                    })(_data);
+
+            var arc = d3.svg.arc()
+                    .outerRadius(_radius)
+                    .innerRadius(_innerRadius);
+
+            if (!_pieG)
+                _pieG = _bodyG.append("g")
+                        .attr("class", "pie")
+                        .attr("transform", "translate(" + _radius + "," + _radius + ")");
+
+            var slices = _pieG.selectAll("path.arc")
+                    .data(pie, function(d){return d.data.id;});
+
+            slices.enter()
+                    .append("path")
+                    .attr("class", "arc")
+                    .attr("fill", function (d, i) {
+                        return _colors(i);
+                    })
+
+            slices.transition()
+                    .attrTween("d", function (d) {
+                        var currentArc = this.__current_arc__;
+
+                        if(!currentArc)
+                            currentArc = {startAngle: 0, endAngle: 0};
+
+                        var interpolate = d3.interpolate(currentArc, d);
+                        this.__current_arc__ = interpolate(1);
+                        return function (t) {
+                            return arc(interpolate(t));
+                        };
+                    });
+
+            _svg.selectAll("text.label")
+                    .data(pie, function(d){return d.data.id;})
+                    .enter()
+                    .append("text")
+                    .attr("class", "label")
+                    .attr("transform", function(d) {
+                        console.log(d);
+                        return "translate(" + arc.centroid(d) + ")";
+                    })
+                    .attr("dy", "35em")
+                    .attr("text-anchor", "middle")
+                    .text(function(d) {
+                        return d.data.id;
+                    });
+        }
+
+        function xStart() {
+            return _margins.left;
+        }
+
+        function yStart() {
+            return _height - _margins.bottom;
+        }
+
+        function xEnd() {
+            return _width - _margins.right;
+        }
+
+        function yEnd() {
+            return _margins.top;
+        }
+
+        function quadrantWidth() {
+            return _width - _margins.left - _margins.right;
+        }
+
+        function quadrantHeight() {
+            return _height - _margins.top - _margins.bottom;
+        }
+
+        _chart.width = function (w) {
+            if (!arguments.length) return _width;
+            _width = w;
+            return _chart;
+        };
+
+        _chart.height = function (h) {
+            if (!arguments.length) return _height;
+            _height = h;
+            return _chart;
+        };
+
+        _chart.margins = function (m) {
+            if (!arguments.length) return _margins;
+            _margins = m;
+            return _chart;
+        };
+
+        _chart.colors = function (c) {
+            if (!arguments.length) return _colors;
+            _colors = c;
+            return _chart;
+        };
+
+        _chart.radius = function (r) {
+            if (!arguments.length) return _radius;
+            _radius = r;
+            return _chart;
+        };
+
+        _chart.innerRadius = function (r) {
+            if (!arguments.length) return _innerRadius;
+            _innerRadius = r;
+            return _chart;
+        };
+
+        _chart.data = function (d) {
+            if (!arguments.length) return _data;
+            _data = d;
+            return _chart;
+        };
+
+        return _chart;
+    }
+
+    function randomData() {
+        return Math.random() * 9;
+    }
+
+    function update() {
+        for (var j = 0; j < data.length; ++j)
+            data[j].value = randomData();
+
+        chart.render();
+    }
+
+    var numberOfDataPoint = 6,
+            data = [];
+
+    data = d3.range(numberOfDataPoint).map(function (i) {
+        return {id: i, value: randomData()};
+    });
+
+    var chart = pieChart()
+            .radius(200)
+            .innerRadius(100)
+            .data(data);
+
+    chart.render();
+</script>
+
+<div class="control-group">
+    <button onclick="update()">Update</button>
+</div>
+
+</body>
+
+</html>
