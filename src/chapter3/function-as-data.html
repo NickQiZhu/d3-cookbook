@@ -11,28 +11,50 @@
 <div id="container"></div>
 
 <script type="text/javascript">
-    function generate() {
-        var data = [];
-        for (var i = 0; i < 15; ++i) {
-            data.push(2 * i + 20);
-        }
-        return data;
+
+    function DataGenerator(data) {
+        var instance = {};
+
+        instance.random = function () {
+            return Math.round(Math.random() * 30 + 15);
+        };
+
+        instance.run = function () {
+            data.shift();
+            data.push(instance.random());
+            return data;
+        };
+
+        return instance;
     }
 
-    d3.select("#container").selectAll("div")
-            .data(generate)
-            .enter()
-            .append("div")
-            .attr("class", "v-bar")
+    function render(){
+        var selection = d3.select("#container").selectAll("div")
+                    .data(generator.run);
+
+        selection.enter().append("div").append("span");
+
+        selection.exit().remove();
+
+        selection.attr("class", "v-bar")
             .style("height", function (d) {
                 return d + "px";
             })
             .style("width", "10px")
             .style("display", "inline-block")
-            .append("span")
-            .text(function (d) {
-                return d;
-            });
+            .select("span")
+                .text(function (d) {
+                     return d;
+                 });
+    }
+
+    var generator = DataGenerator([10, 15, 20, 25, 30, 35, 40]);
+
+    setInterval(function () {
+        render();
+    }, 1500);
+
+    render();
 </script>
 
 </body>
