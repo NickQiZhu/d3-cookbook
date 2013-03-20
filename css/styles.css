@@ -42,23 +42,33 @@ body {
     text-align: center;
 }
 
-.table{
+.table {
     width: 70%;
 }
 
-.table td, th{
+.table td, th {
     padding: 5px;
 }
 
-.table-header{
+.table-header {
     background-color: #00AFEF;
     font-weight: bold;
 }
 
-.table-row-odd{
+.table-row-odd {
     background-color: #f0f8ff;
 }
 
-.table-row-odd{
+.table-row-odd {
     background-color: #d3d3d3;
+}
+
+.code {
+    display: inline-block;
+    font-style: italic;
+    background-color: #d3d3d3;
+    border: #969696 solid thin;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
