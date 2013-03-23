@@ -16,7 +16,7 @@
     "url": "<source repo url>"
   },
   "dependencies": {
-      "d3":"3.0.x"
+      "d3":"3.x"
   },
   "devDependencies": {
       "uglify-js": "2.x"
