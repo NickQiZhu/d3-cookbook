@@ -12,28 +12,27 @@
 
 <script type="text/javascript">
     function SimpleWidget(spec) {
-        var instance = {};
+        var instance = {}; // <-- A
 
-        var headline;
-        var description;
+        var headline, description; // <-- B
 
         instance.render = function () {
             var div = d3.select('body').append("div");
 
-            div.append("h3").text(headline);
+            div.append("h3").text(headline); // <-- C
 
             div.attr("class", "box")
-               .attr("style", "color:" + spec.color)
+               .attr("style", "color:" + spec.color) // <-- D
                .append("p")
-                   .text(description);
+                   .text(description); // <-- E
 
-            return instance;
+            return instance; // <-- F
         };
 
         instance.headline = function (h) {
-            if (!arguments.length) h;
+            if (!arguments.length) h; // <-- G
             headline = h;
-            return instance;
+            return instance; // <-- H
         };
 
         instance.description = function (d) {
@@ -42,7 +41,7 @@
             return instance;
         };
 
-        return instance;
+        return instance; // <-- I
     }
 
     var widget = SimpleWidget({color: "#6495ed"})
