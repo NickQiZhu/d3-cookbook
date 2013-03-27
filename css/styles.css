@@ -2,6 +2,21 @@ body {
     font-family: "helvetica";
 }
 
+button{
+    margin:0 7px 0 0;
+    background-color:#f5f5f5;
+    border:1px solid #dedede;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+
+    font-size:12px;
+    line-height:130%;
+    text-decoration:none;
+    font-weight:bold;
+    color:#565656;
+    cursor:pointer;
+}
+
 .box {
     width: 200px;
     height: 200px;
@@ -40,6 +55,14 @@ body {
     font-size: 10px;
     color: #f0f8ff;
     text-align: center;
+}
+
+.selected {
+    background-color: #f08080;
+}
+
+.control-group {
+    margin: 10px;
 }
 
 .table {
