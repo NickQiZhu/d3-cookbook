@@ -37,17 +37,19 @@
 </table>
 
 <script type="text/javascript">
-    var rows = d3.selectAll("tr");
+    var rows = d3.selectAll("tr"); // <-- A
 
-    var headerElement = rows[0][0];
-    console.log("headerElement is an instance of DOM Element: " + (headerElement instanceof Element));
+    var headerElement = rows[0][0]; // <-- B
+    console.log("headerElement is an instance of DOM Element: " 
+		+ (headerElement instanceof Element)); 
 
-    d3.select(headerElement).attr("class", "table-header");
-    console.log("d3.select(headerElement) is an instanceof of d3.selection: " + (d3.select(headerElement) instanceof d3.selection));
+    d3.select(headerElement).attr("class", "table-header"); // <-- C
+    console.log("d3.select(headerElement) is an instanceof of d3.selection: " 
+		+ (d3.select(headerElement) instanceof d3.selection)); 
 
-    d3.select(rows[0][1]).attr("class", "table-row-odd");
-    d3.select(rows[0][2]).attr("class", "table-row-even");
-    d3.select(rows[0][3]).attr("class", "table-row-odd");
+    d3.select(rows[0][1]).attr("class", "table-row-odd"); // <-- D
+    d3.select(rows[0][2]).attr("class", "table-row-even"); // <-- E
+    d3.select(rows[0][3]).attr("class", "table-row-odd"); // <-- F
 </script>
 
 </body>
