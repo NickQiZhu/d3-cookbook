@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Selection Iteration</title>
+    <title>Sub-Selection</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -21,11 +21,11 @@
 </section>
 
 <script type="text/javascript">
-    d3.select("#section1 div")
+    d3.select("#section1 div") // <-- A
             .attr("class", "blue box");
 
-    d3.select("#section2")
-            .select("div")
+    d3.select("#section2") // <-- B
+            .select("div") // <-- C
             .attr("class", "red box");
 </script>
 

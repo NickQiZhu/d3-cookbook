@@ -9,10 +9,11 @@
 
 <body>
 
-<p id="target"></p>
+<p id="target"></p> <!-- A -->
 
 <script type="text/javascript">
-    d3.select("p#target").text("Hello world!");
+    d3.select("p#target") // <-- B
+		.text("Hello world!"); // <-- C
 </script>
 
 </body>
