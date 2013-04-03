@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Quantitive Scales</title>
+    <title>Quantitative Scales</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -10,6 +10,7 @@
 <body>
 
 <div id="linear" class="clear"><span>n</span></div>
+<div id="linear-capped" class="clear"><span>a*n + b &lt;= 40</span></div>
 <div id="pow" class="clear"><span>n^2</span></div>
 <div id="pow-capped" class="clear"><span>a*n^2 + b &lt;= 20</span></div>
 <div id="log" class="clear"><span>log(n)</span></div>
@@ -20,9 +21,10 @@
     for (var i = 1; i < max; ++i) data.push(i);
 
     var linear = d3.scale.linear().domain([0, max]).range([0, max]).rangeRound([0, max]);
+    var linearCapped = d3.scale.linear().domain([0, max]).range([0, max*2]).rangeRound([0, max*2]);
     var pow = d3.scale.pow().exponent(2);
-    var log = d3.scale.log();
     var powCapped = d3.scale.pow().exponent(2).domain([0, max]).range([0, max]).rangeRound([0, max]);
+    var log = d3.scale.log();
     var logCapped = d3.scale.log().domain([1, max]).range([0, max]);
 
 
@@ -44,6 +46,7 @@
     }
 
     render(data, linear, "#linear");
+    render(data, linearCapped, "#linear-capped");
     render(data, pow, "#pow");
     render(data, powCapped, "#pow-capped");
     render(data, log, "#log");

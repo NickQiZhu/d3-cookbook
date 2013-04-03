@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Time Scale</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<div id="time" class="clear">
+    <span>Linear Time Progression<br></span>
+    <span>Mapping [01/01/2013, 12/31/2013] to [0, 900]<br></span>
+</div>
+
+<script type="text/javascript">
+    var start = new Date(2013, 0, 1),
+        end = new Date(2013, 11, 31),
+        range = [0, 900],
+        time = d3.time.scale().domain([start, end]).range([0, 900]).rangeRound([0, 900]),
+        max = 12,
+        data = [];
+    
+    for (var i = 0; i < max; ++i){
+        var date = new Date(start.getTime());
+        date.setMonth(start.getMonth() + i);
+        data.push(date);
+    }
+
+    function render(data, scale, selector) {
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .enter().append("div").classed("cell", true);
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .exit().remove();
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .style("display", "inline-block")
+                .html(function (d) {
+                    var format = d3.time.format("%x");
+                    return format(d) + "<br>" + scale(d);
+                });
+    }
+
+    render(data, time, "#time");
+</script>
+
+</body>
+
+</html>
