@@ -24,7 +24,7 @@
         {expense: 8, category: "Gas"}
     ];
 
-    function render(data, category) {
+    function render(data, comparator) {
         d3.select("body").selectAll("div.h-bar")
                 .data(data)
                 .enter().append("div")
@@ -47,24 +47,23 @@
                 });
 
         d3.select("body").selectAll("div.h-bar")
-                .filter(function (d, i) {
-                    return d.category == category;
-                })
-                .classed("selected", true);
+                .sort(comparator);
     }
+
+    var compareByExpense = function (a, b) {return a.expense < b.expense?-1:1;};
+    var compareByCategory = function (a, b) {return a.category < b.category?-1:1;};
 
     render(data);
 
-    function select(category) {
-        render(data, category);
+    function sort(comparator) {
+        render(data, comparator);
     }
 </script>
 
 <div class="control-group">
-    <button onclick="select('Retail')">Retail</button>
-    <button onclick="select('Gas')">Gas</button>
-    <button onclick="select('Dining')">Dining</button>
-    <button onclick="select()">Clear</button>
+    <button onclick="sort(compareByExpense)">Sort by Width</button>
+    <button onclick="sort(compareByCategory)">Sort by Category</button>
+    <button onclick="sort()">Clear</button>
 </div>
 
 </body>

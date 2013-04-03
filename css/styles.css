@@ -45,6 +45,7 @@ button{
     font-size: 10px;
     color: #f0f8ff;
     text-align: right;
+    padding-right: 2px;
 }
 
 .v-bar {
