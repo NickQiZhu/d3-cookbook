@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quantitive Scales</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<div id="linear" class="clear"><span>n</span></div>
+<div id="pow" class="clear"><span>n^2</span></div>
+<div id="pow-capped" class="clear"><span>a*n^2 + b &lt;= 20</span></div>
+<div id="log" class="clear"><span>log(n)</span></div>
+<div id="log-capped" class="clear"><span>a*log(n) + b &lt;= 20</span></div>
+
+<script type="text/javascript">
+    var max = 21, data = [];
+    for (var i = 1; i < max; ++i) data.push(i);
+
+    var linear = d3.scale.linear().domain([0, max]).range([0, max]).rangeRound([0, max]);
+    var pow = d3.scale.pow().exponent(2);
+    var log = d3.scale.log();
+    var powCapped = d3.scale.pow().exponent(2).domain([0, max]).range([0, max]).rangeRound([0, max]);
+    var logCapped = d3.scale.log().domain([1, max]).range([0, max]);
+
+
+    function render(data, scale, selector) {
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .enter().append("div").classed("cell", true);
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .exit().remove();
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .style("display", "inline-block")
+                .text(function (d) {
+                    return d3.round(scale(d), 2);
+                });
+    }
+
+    render(data, linear, "#linear");
+    render(data, pow, "#pow");
+    render(data, powCapped, "#pow-capped");
+    render(data, log, "#log");
+    render(data, logCapped, "#log-capped");
+</script>
+
+</body>
+
+</html>

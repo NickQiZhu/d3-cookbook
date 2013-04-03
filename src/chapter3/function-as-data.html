@@ -40,15 +40,13 @@
             .style("height", function (d) {
                 return d + "px";
             })
-            .style("width", "10px")
-            .style("display", "inline-block")
             .select("span")
                 .text(function (d) {
                      return d;
                  });
     }
 
-    var generator = DataGenerator([10, 15, 20, 25, 30, 35, 40]);
+    var generator = DataGenerator([10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 50, 45]);
 
     setInterval(function () {
         render();

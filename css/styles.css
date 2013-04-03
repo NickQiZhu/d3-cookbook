@@ -2,19 +2,19 @@ body {
     font-family: "helvetica";
 }
 
-button{
-    margin:0 7px 0 0;
-    background-color:#f5f5f5;
-    border:1px solid #dedede;
-    border-top:1px solid #eee;
-    border-left:1px solid #eee;
+button {
+    margin: 0 7px 0 0;
+    background-color: #f5f5f5;
+    border: 1px solid #dedede;
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
 
-    font-size:12px;
-    line-height:130%;
-    text-decoration:none;
-    font-weight:bold;
-    color:#565656;
-    cursor:pointer;
+    font-size: 12px;
+    line-height: 130%;
+    text-decoration: none;
+    font-weight: bold;
+    color: #565656;
+    cursor: pointer;
 }
 
 .box {
@@ -37,6 +37,16 @@ button{
     color: #f0f8ff;
 }
 
+.cell {
+    width: 40px;
+    height: 20px;
+    margin: 5px;
+    float: left;
+    text-align: center;
+    border: #969696 solid thin;
+    padding: 5px;
+}
+
 .h-bar {
     min-height: 15px;
     min-width: 10px;
@@ -56,6 +66,12 @@ button{
     font-size: 10px;
     color: #f0f8ff;
     text-align: center;
+    width: 10px;
+    display: inline-block;
+}
+
+.clear {
+    clear: both;
 }
 
 .selected {
