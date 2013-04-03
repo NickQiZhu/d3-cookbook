@@ -2,12 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Data Sort</title>
+    <title>Load JSON Data Feed</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
 
 <body>
+
+<div id="chart"></div>
 
 <script type="text/javascript">
     var data = [
@@ -24,18 +26,18 @@
         {expense: 8, category: "Gas"}
     ];
 
-    function render(data, comparator) {
-        d3.select("body").selectAll("div.h-bar")
+    function render(data) {
+        d3.select("#chart").selectAll("div.h-bar")
                 .data(data)
                 .enter().append("div")
                 .attr("class", "h-bar")
                 .append("span");
 
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("#chart").selectAll("div.h-bar")
                 .data(data)
                 .exit().remove();
 
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("#chart").selectAll("div.h-bar")
                 .data(data)
                 .attr("class", "h-bar")
                 .style("width", function (d) {
@@ -45,25 +47,22 @@
                 .text(function (d) {
                     return d.category;
                 });
-
-        d3.select("body").selectAll("div.h-bar")
-                .sort(comparator);
     }
-
-    var compareByExpense = function (a, b) {return a.expense < b.expense?-1:1;};
-    var compareByCategory = function (a, b) {return a.category < b.category?-1:1;};
 
     render(data);
 
-    function sort(comparator) {
-        render(data, comparator);
+    function load(){
+        d3.json("data.json", function(json){
+            json.forEach(function(e){
+                data.push(e);
+                render(data);
+            });
+        });
     }
 </script>
 
 <div class="control-group">
-    <button onclick="sort(compareByExpense)">Sort by Width</button>
-    <button onclick="sort(compareByCategory)">Sort by Category</button>
-    <button onclick="sort()">Clear</button>
+    <button onclick="load()">Load Data from JSON feed</button>
 </div>
 
 </body>
