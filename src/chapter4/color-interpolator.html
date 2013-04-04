@@ -22,12 +22,12 @@
 
     var colorScale = d3.scale.linear()
         .domain([0, max])
-        .range(["white", "steelblue"]);
+        .range(["white", "#4169e1"]);
 
     function divergingScale(pivot) {
         var divergingColorScale = d3.scale.linear()
                 .domain([0, pivot, max])
-                .range(["white", "steelblue", "white"]);
+                .range(["white", "#4169e1", "white"]);
         return divergingColorScale;
     }
 
