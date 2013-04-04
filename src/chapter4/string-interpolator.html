@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>String Interpolator</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<div id="dollar" class="clear">
+    <span>Dollar Interpolation<br></span>
+</div>
+
+<div id="size" class="clear">
+    <span>Size Interpolation<br></span>
+</div>
+
+<script type="text/javascript">
+    var max = 11, data = [];
+
+    var dollarScale = d3.scale.linear()
+            .domain([0, max])
+            .range(["$0", "$110"]);
+
+    var sizeScale = d3.scale.linear()
+        .domain([0, max])
+        .range(["0px", "110px"]);
+
+    for (var i = 0; i < max; ++i) data.push(i);
+
+    function render(data, scale, selector) {
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .enter().append("div").classed("cell", true)
+                .append("span");
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .exit().remove();
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .style("display", "inline-block")
+                .select("span")
+                .text(function(d,i){return scale(d);});
+    }
+
+    render(data, dollarScale, "#dollar");
+    render(data, sizeScale, "#size");
+</script>
+
+</body>
+
+</html>
