@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Color Interpolator</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<div id="color" class="clear">
+    <span>Linear Color Interpolation<br></span>
+</div>
+
+<div id="color-diverge" class="clear">
+    <span>Poly-Linear Color Interpolation<br></span>
+</div>
+
+<script type="text/javascript">
+    var max = 21, data = [];
+
+    var colorScale = d3.scale.linear()
+        .domain([0, max])
+        .range(["white", "steelblue"]);
+
+    function divergingScale(pivot) {
+        var divergingColorScale = d3.scale.linear()
+                .domain([0, pivot, max])
+                .range(["white", "steelblue", "white"]);
+        return divergingColorScale;
+    }
+
+    for (var i = 0; i < max; ++i) data.push(i);
+
+    function render(data, scale, selector) {
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .enter().append("div").classed("cell", true)
+                .append("span");
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .exit().remove();
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .style("display", "inline-block")
+                .style("background-color", function(d){return scale(d);})
+                .select("span")
+                .text(function(d,i){return i;});
+    }
+
+    render(data, colorScale, "#color");
+    render(data, divergingScale(5), "#color-diverge");
+</script>
+
+<div class="control-group clear">
+    <button onclick="render(data, divergingScale(5), '#color-diverge')">Pivot at 5</button>
+    <button onclick="render(data, divergingScale(10), '#color-diverge')">Pivot at 10</button>
+    <button onclick="render(data, divergingScale(15), '#color-diverge')">Pivot at 15</button>
+    <button onclick="render(data, divergingScale(20), '#color-diverge')">Pivot at 20</button>
+</div>
+
+</body>
+
+</html>

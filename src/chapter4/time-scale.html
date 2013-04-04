@@ -21,7 +21,7 @@
         time = d3.time.scale().domain([start, end]).range([0, 900]).rangeRound([0, 900]),
         max = 12,
         data = [];
-    
+
     for (var i = 0; i < max; ++i){
         var date = new Date(start.getTime());
         date.setMonth(start.getMonth() + i);
