@@ -10,38 +10,36 @@
 <body>
 
 <script type="text/javascript">
-    var data = [10, 15, 30, 50, 80, 65, 55, 30, 20, 10, 8];
+    var data = [10, 15, 30, 50, 80, 65, 55, 30, 20, 10, 8]; // <- A
 
-    function render(data) {
-        d3.select("body").selectAll("div")
-                .data(data)
-            .enter().append("div")
-                .attr("class", "h-bar")
-                .style("width", function (d) {
-                    return (d * 3) + "px";
-                })
-                .append("span")
-                    .text(function (d) {
-                        return d;
-                    });
+    function render(data) { // <- B
+		// Enter
+        d3.select("body").selectAll("div.h-bar") // <- C
+			.data(data) // <- D
+            .enter() // <- E
+				.append("div") // <- F
+					.attr("class", "h-bar")
+                .append("span"); // <- G
 
-        d3.select("body").selectAll("div")
-                .data(data)
-            .exit().remove();
-
-        d3.select("body").selectAll("div")
-                .data(data)
-            .attr("class", "h-bar")
-            .style("width", function (d) {
-                return (d * 3) + "px";
-            })
-            .select("span")
-                .text(function (d) {
-                    return d;
-                });
+		// Update
+        d3.select("body").selectAll("div.h-bar")
+			.data(data) 
+				.style("width", function (d) { // <- H
+					return (d * 3) + "px";
+				})
+				.select("span") // <- I
+					.text(function (d) {
+						return d;
+					});
+				
+		// Exit
+        d3.select("body").selectAll("div.h-bar")
+			.data(data)
+            .exit() // <- J
+				.remove();		
     }
 
-    setInterval(function () {
+    setInterval(function () { // <- K
         data.shift();
         data.push(Math.round(Math.random() * 100));
         render(data);
