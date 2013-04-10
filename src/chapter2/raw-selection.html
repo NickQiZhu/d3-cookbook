@@ -41,11 +41,11 @@
 
     var headerElement = rows[0][0]; // <-- B
     console.log("headerElement is an instance of DOM Element: " 
-		+ (headerElement instanceof Element)); 
+        + (headerElement instanceof Element));
 
     d3.select(headerElement).attr("class", "table-header"); // <-- C
     console.log("d3.select(headerElement) is an instanceof of d3.selection: " 
-		+ (d3.select(headerElement) instanceof d3.selection)); 
+        + (d3.select(headerElement) instanceof d3.selection));
 
     d3.select(rows[0][1]).attr("class", "table-row-odd"); // <-- D
     d3.select(rows[0][2]).attr("class", "table-row-even"); // <-- E

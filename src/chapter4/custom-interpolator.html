@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Custom Interpolator</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<div id="dollar" class="clear">
+    <span>Custom Dollar Interpolation<br></span>
+</div>
+
+<div id="alphabet" class="clear">
+    <span>Custom Alphabet Interpolation<br></span>
+</div>
+
+<script type="text/javascript">
+    // dollar custom interpolator example from https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_interpolators
+    d3.interpolators.push(function(a, b) {
+      var re = /^\$([0-9,.]+)$/, ma, mb, f = d3.format(",.02f");
+      if ((ma = re.exec(a)) && (mb = re.exec(b))) {
+        a = parseFloat(ma[1]);
+        b = parseFloat(mb[1]) - a;
+        return function(t) {
+          return "$" + f(a + b * t);
+        };
+      }
+    });
+
+    d3.interpolators.push(function(a, b) {
+          var re = /^([a-z])$/, ma, mb;
+          if ((ma = re.exec(a)) && (mb = re.exec(b))) {
+            a = a.charCodeAt(0);
+            b = a - b.charCodeAt(0);
+            return function(t) {
+              return String.fromCharCode(Math.ceil(a - b * t));
+            };
+          }
+        });
+
+    var max = 27, data = [];
+
+    var dollarScale = d3.scale.linear()
+            .domain([0, max])
+            .range(["$0", "$270"]);
+
+    var alphabetScale = d3.scale.linear()
+        .domain([0, max])
+        .range(["a", "z"]);
+
+    for (var i = 0; i < max; ++i) data.push(i);
+
+    function render(data, scale, selector) {
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .enter().append("div").classed("cell", true)
+                .append("span");
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .exit().remove();
+
+        d3.select(selector).selectAll("div.cell")
+                .data(data)
+                .style("display", "inline-block")
+                .select("span")
+                .text(function(d,i){return scale(d);});
+    }
+
+    render(data, dollarScale, "#dollar");
+    render(data, alphabetScale, "#alphabet");
+</script>
+
+</body>
+
+</html>

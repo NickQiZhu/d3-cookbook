@@ -18,31 +18,31 @@
         {width: 20, color: 60},{width: 10, color: 90},
         {width: 8, color: 10}
     ];
-	
+    
     var colorScale = d3.scale.linear()
-		.domain([0, 100])
-		.range(["#add8e6", "blue"]); // <- B
+        .domain([0, 100])
+        .range(["#add8e6", "blue"]); // <- B
 
     function render(data) {
         d3.select("body").selectAll("div.h-bar")
-			.data(data)
+            .data(data)
             .enter().append("div")
                 .attr("class", "h-bar")                
-			.append("span");
+            .append("span");
 
         d3.select("body").selectAll("div.h-bar")
-			.data(data)
+            .data(data)
             .exit().remove();
 
         d3.select("body").selectAll("div.h-bar")
-			.data(data)
-				.attr("class", "h-bar")
-				.style("width", function (d) { // <- C
-					return (d.width * 5) + "px"; // <- D
-				})
-				.style("background-color", function(d){
-					return colorScale(d.color); // <- E
-				})
+            .data(data)
+                .attr("class", "h-bar")
+                .style("width", function (d) { // <- C
+                    return (d.width * 5) + "px"; // <- D
+                })
+                .style("background-color", function(d){
+                    return colorScale(d.color); // <- E
+                })
             .select("span")
                 .text(function (d) {
                     return d.width; // <- F

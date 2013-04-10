@@ -11,20 +11,20 @@
 <div id="container"></div>
 
 <script type="text/javascript">
-	var data = []; // <- A
+    var data = []; // <- A
 
-	var next = function (x) { // <- B
-		return 15 + x * x;
-	};
-	
-    var newData = function () { // <- C		
-		data.push(next);
-		return data;
-	};
+    var next = function (x) { // <- B
+        return 15 + x * x;
+    };
+    
+    var newData = function () { // <- C        
+        data.push(next);
+        return data;
+    };
 
     function render(){
         var selection = d3.select("#container")
-					.selectAll("div")
+                    .selectAll("div")
                     .data(newData); // <- D
 
         selection.enter().append("div").append("span");
@@ -35,10 +35,10 @@
             .style("height", function (d, i) {
                 return d(i) + "px"; // <- E
             })
-			.select("span")
-				.text(function(d, i){ 
-					return d(i); // <- F
-				}); 
+            .select("span")
+                .text(function(d, i){ 
+                    return d(i); // <- F
+                }); 
     }
     
     setInterval(function () {

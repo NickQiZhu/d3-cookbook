@@ -63,11 +63,11 @@
     d3.select("#asc").text(array.sort(d3.ascending));
     d3.select("#desc").text(array.sort(d3.descending));
     d3.select("#quantile").text(
-		d3.quantile(array.sort(d3.ascending), 0.25)
-	);
+        d3.quantile(array.sort(d3.ascending), 0.25)
+    );
     d3.select("#bisect").text(
-		d3.bisect(array.sort(d3.ascending), 6)
-	);
+        d3.bisect(array.sort(d3.ascending), 6)
+    );
 
     var records = [
         {quantity: 2, total: 190, tip: 100, type: "tab"},
