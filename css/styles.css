@@ -61,13 +61,18 @@ button {
 .v-bar {
     min-height: 1px;
     min-width: 30px;
-    background-color: #4169e1;
+    background-color: #4682b4;
     margin-right: 2px;
     font-size: 10px;
     color: #f0f8ff;
     text-align: center;
     width: 10px;
     display: inline-block;
+}
+
+.baseline{
+    height: 1px;
+    background-color: black;
 }
 
 .clear {
