@@ -85,13 +85,13 @@
     ];
 
     var nest = d3.nest()
-            .key(function (d) {
+            .key(function (d) { // <- A
                 return d.type;
             })
-            .key(function (d) {
+            .key(function (d) { // <- B
                 return d.tip;
             })
-            .entries(records);
+            .entries(records); // <- C
 
     d3.select("#nest").html(printNest(nest, ""));
 
