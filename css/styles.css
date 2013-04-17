@@ -47,6 +47,16 @@ button {
     padding: 5px;
 }
 
+.fixed-cell {
+    min-width: 40px;
+    min-height: 20px;
+    margin: 5px;
+    position: fixed;
+    text-align: center;
+    border: #969696 solid thin;
+    padding: 5px;
+}
+
 .h-bar {
     min-height: 15px;
     min-width: 10px;
@@ -70,7 +80,7 @@ button {
     display: inline-block;
 }
 
-.baseline{
+.baseline {
     height: 1px;
     background-color: black;
 }
