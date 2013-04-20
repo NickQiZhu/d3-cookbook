@@ -10,7 +10,7 @@
 <body>
 
 <script type="text/javascript">
-    var data = [
+    var data = [ // <-A
         {expense: 10, category: "Retail"},
         {expense: 15, category: "Gas"},
         {expense: 30, category: "Retail"},
@@ -25,29 +25,30 @@
     ];
 
     function render(data, category) {
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("body").selectAll("div.h-bar") // <-B
                 .data(data)
-                .enter().append("div")
+			.enter()
+            .append("div")
                 .attr("class", "h-bar")
-                .append("span");
+			.append("span");
 
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("body").selectAll("div.h-bar") // <-C
                 .data(data)
-                .exit().remove();
+            .exit().remove();
 
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("body").selectAll("div.h-bar") // <-D
                 .data(data)
-                .attr("class", "h-bar")
-                .style("width", function (d) {
-                    return (d.expense * 5) + "px";
-                })
-                .select("span")
+            .attr("class", "h-bar")
+            .style("width", function (d) {
+                return (d.expense * 5) + "px";}
+            )
+            .select("span")
                 .text(function (d) {
                     return d.category;
                 });
 
         d3.select("body").selectAll("div.h-bar")
-                .filter(function (d, i) {
+                .filter(function (d, i) { // <-E
                     return d.category == category;
                 })
                 .classed("selected", true);
@@ -61,10 +62,18 @@
 </script>
 
 <div class="control-group">
-    <button onclick="select('Retail')">Retail</button>
-    <button onclick="select('Gas')">Gas</button>
-    <button onclick="select('Dining')">Dining</button>
-    <button onclick="select()">Clear</button>
+    <button onclick="select('Retail')">
+        Retail
+    </button>
+    <button onclick="select('Gas')">
+        Gas
+    </button>
+    <button onclick="select('Dining')">
+        Dining
+    </button>
+    <button onclick="select()">
+        Clear
+    </button>
 </div>
 
 </body>

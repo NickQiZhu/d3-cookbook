@@ -12,7 +12,7 @@
 <div id="chart"></div>
 
 <script type="text/javascript">
-    var data = [
+    var data = [ // <-A
         {expense: 10, category: "Retail"},
         {expense: 15, category: "Gas"},
         {expense: 30, category: "Retail"},
@@ -27,23 +27,23 @@
     ];
 
     function render(data) {
-        d3.select("#chart").selectAll("div.h-bar")
+        d3.select("#chart").selectAll("div.h-bar") // <-B
                 .data(data)
-                .enter().append("div")
-                .attr("class", "h-bar")
-                .append("span");
+            .enter().append("div")
+            .attr("class", "h-bar")
+            .append("span");
 
-        d3.select("#chart").selectAll("div.h-bar")
+        d3.select("#chart").selectAll("div.h-bar") // <-C
                 .data(data)
-                .exit().remove();
+            .exit().remove();
 
-        d3.select("#chart").selectAll("div.h-bar")
+        d3.select("#chart").selectAll("div.h-bar") // <-D
                 .data(data)
-                .attr("class", "h-bar")
-                .style("width", function (d) {
-                    return (d.expense * 5) + "px";
-                })
-                .select("span")
+            .attr("class", "h-bar")
+            .style("width", function (d) {
+                return (d.expense * 5) + "px";
+            })
+            .select("span")
                 .text(function (d) {
                     return d.category;
                 });
@@ -51,12 +51,10 @@
 
     render(data);
 
-    function load(){
-        d3.json("data.json", function(json){
-            json.forEach(function(e){
-                data.push(e);
-                render(data);
-            });
+    function load(){ // <-E
+        d3.json("data.json", function(error, json){ // <-F
+            data = data.concat(json);  
+            render(data);
         });
     }
 </script>

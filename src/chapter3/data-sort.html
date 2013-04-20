@@ -10,7 +10,7 @@
 <body>
 
 <script type="text/javascript">
-    var data = [
+    var data = [ // <-A
         {expense: 10, category: "Retail"},
         {expense: 15, category: "Gas"},
         {expense: 30, category: "Retail"},
@@ -25,33 +25,39 @@
     ];
 
     function render(data, comparator) {
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("body").selectAll("div.h-bar") // <-B
                 .data(data)
-                .enter().append("div")
+            .enter().append("div")
                 .attr("class", "h-bar")
                 .append("span");
 
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("body").selectAll("div.h-bar") // <-C
                 .data(data)
-                .exit().remove();
+            .exit().remove();
 
-        d3.select("body").selectAll("div.h-bar")
+        d3.select("body").selectAll("div.h-bar") // <-D
                 .data(data)
-                .attr("class", "h-bar")
-                .style("width", function (d) {
-                    return (d.expense * 5) + "px";
-                })
-                .select("span")
+            .attr("class", "h-bar")
+            .style("width", function (d) {
+                return (d.expense * 5) + "px";
+            })
+            .select("span")
                 .text(function (d) {
                     return d.category;
                 });
 
-        d3.select("body").selectAll("div.h-bar")
-                .sort(comparator);
+        if(comparator)
+            d3.select("body")
+                .selectAll("div.h-bar") 
+                .sort(comparator); // <-E
     }
 
-    var compareByExpense = function (a, b) {return a.expense < b.expense?-1:1;};
-    var compareByCategory = function (a, b) {return a.category < b.category?-1:1;};
+    var compareByExpense = function (a, b) {  // <-F
+        return a.expense < b.expense?-1:1;
+    };
+    var compareByCategory = function (a, b) {  // <-G
+        return a.category < b.category?-1:1;
+    };
 
     render(data);
 
@@ -61,9 +67,15 @@
 </script>
 
 <div class="control-group">
-    <button onclick="sort(compareByExpense)">Sort by Width</button>
-    <button onclick="sort(compareByCategory)">Sort by Category</button>
-    <button onclick="sort()">Clear</button>
+    <button onclick="sort(compareByExpense)">
+        Sort by Width
+    </button>
+    <button onclick="sort(compareByCategory)">
+        Sort by Category
+    </button>
+    <button onclick="sort()">
+        Clear
+    </button>
 </div>
 
 </body>
