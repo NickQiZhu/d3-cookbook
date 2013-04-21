@@ -10,22 +10,33 @@
 <body>
 
 <div id="linear" class="clear"><span>n</span></div>
-<div id="linear-capped" class="clear"><span>a*n + b &lt;= 40</span></div>
+<div id="linear-capped" class="clear"><span>1 &lt;= a*n + b &lt;= 20</span></div>
 <div id="pow" class="clear"><span>n^2</span></div>
-<div id="pow-capped" class="clear"><span>a*n^2 + b &lt;= 20</span></div>
+<div id="pow-capped" class="clear"><span>1 &lt;= a*n^2 + b &lt;= 10</span></div>
 <div id="log" class="clear"><span>log(n)</span></div>
-<div id="log-capped" class="clear"><span>a*log(n) + b &lt;= 20</span></div>
+<div id="log-capped" class="clear"><span>1 &lt;= a*log(n) + b &lt;= 10</span></div>
 
 <script type="text/javascript">
-    var max = 21, data = [];
+    var max = 11, data = [];
     for (var i = 1; i < max; ++i) data.push(i);
 
-    var linear = d3.scale.linear().domain([0, max]).range([0, max]).rangeRound([0, max]);
-    var linearCapped = d3.scale.linear().domain([0, max]).range([0, max*2]).rangeRound([0, max*2]);
-    var pow = d3.scale.pow().exponent(2);
-    var powCapped = d3.scale.pow().exponent(2).domain([0, max]).range([0, max]).rangeRound([0, max]);
-    var log = d3.scale.log();
-    var logCapped = d3.scale.log().domain([1, max]).range([0, max]);
+    var linear = d3.scale.linear() // <-A
+        .domain([1, 10]) // <-B
+        .range([1, 10]); // <-C        
+    var linearCapped = d3.scale.linear()
+        .domain([1, 10])        
+        .range([1, 20]); // <-D
+        
+    var pow = d3.scale.pow().exponent(2); // <-E
+    var powCapped = d3.scale.pow() // <-F
+        .exponent(2)
+        .domain([1, 10])
+        .rangeRound([1, 10]); // <-G
+        
+    var log = d3.scale.log(); // <-H
+    var logCapped = d3.scale.log() // <-I
+        .domain([1, 10])
+        .rangeRound([1, 10]);
 
 
     function render(data, scale, selector) {
