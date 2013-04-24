@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tweening</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var body = d3.select("body"), duration = 2000;
+
+    body.append("div")
+            .style("background-color", "steelblue")
+            .style("height", "20px")
+            .style("width", "1px")
+            .style("margin-bottom", "5px")
+        .transition().duration(duration)
+            .style("width", "400px");
+    
+    body.append("div")
+            .style("background-color", "steelblue")
+            .style("height", "20px")
+            .style("width", "1px")
+        .transition().duration(duration)
+            .styleTween("width", widthTween);
+            
+    function widthTween(){
+        var interpolate = d3.scale.quantize()
+            .domain([0, 1])
+            .range([50, 100, 150, 200, 300, 400]);
+        
+        return function(t){
+            return interpolate(t) + "px";
+        };
+    }
+</script>
+
+</body>
+
+</html>
