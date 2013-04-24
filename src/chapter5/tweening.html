@@ -10,21 +10,20 @@
 <body>
 
 <script type="text/javascript">
-    var body = d3.select("body"), duration = 2000;
+    var body = d3.select("body"), duration = 4000;
 
-    body.append("div")
-            .style("background-color", "steelblue")
-            .style("height", "20px")
+    var bar1 = body.append("div")
+            .classed("h-bar", true)
             .style("width", "1px")
-            .style("margin-bottom", "5px")
-        .transition().duration(duration)
+    bar1.append("span").text("default");            
+    bar1.transition().duration(duration)
             .style("width", "400px");
     
-    body.append("div")
-            .style("background-color", "steelblue")
-            .style("height", "20px")
-            .style("width", "1px")
-        .transition().duration(duration)
+    var bar2 = body.append("div")
+            .classed("h-bar", true)
+            .style("width", "1px");
+    bar2.append("span").text("tween");            
+    bar2.transition().duration(duration)
             .styleTween("width", widthTween);
             
     function widthTween(){
