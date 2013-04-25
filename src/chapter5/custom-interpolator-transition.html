@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Custom Transition Interpolation</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    d3.interpolators.push(function(a, b) {
+      var re = /^([a-z])$/, ma, mb;
+      if ((ma = re.exec(a)) && (mb = re.exec(b))) {
+        a = a.charCodeAt(0);
+        b = a - b.charCodeAt(0);
+        return function(t) {
+          return String.fromCharCode(Math.ceil(a - b * t));
+        };
+      }
+    });
+        
+    var body = d3.select("body");
+            
+    var countdown = body.append("div").append("input");
+    
+    countdown.attr("type", "button")
+        .attr("class", "countdown")
+        .attr("value", "a")
+        .transition().ease("linear").duration(4000).delay(300)
+        .attr("value", "z");
+</script>
+
+
+</body>
+
+</html>

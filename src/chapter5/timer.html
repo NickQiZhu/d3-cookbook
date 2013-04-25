@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Timer</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var body = d3.select("body");
+            
+    var countdown = body.append("div").append("input");
+    
+    countdown.attr("type", "button")
+        .attr("class", "countdown")
+        .attr("value", "0");
+        
+    function countup(target){
+        d3.timer(function(){
+                var value = countdown.attr("value");
+                if(value == target) return true;
+                countdown.attr("value", ++value);            
+        });
+    }
+    
+    function reset(){
+        countdown.attr("value", 0);
+    }
+</script>
+
+<div class="control-group">
+    <button onclick="countup(10)">
+        10
+    </button>
+    <button onclick="countup(50)">
+        50
+    </button>
+    <button onclick="countup(100)">
+        100
+    </button>
+    <button onclick="reset()">
+        Clear
+    </button>
+</div>
+
+</body>
+
+</html>
