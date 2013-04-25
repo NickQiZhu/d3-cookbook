@@ -10,31 +10,45 @@
 <body>
 
 <script type="text/javascript">
-    var body = d3.select("body"), duration = 4000;
-
-    var bar1 = body.append("div")
-            .classed("h-bar", true)
-            .style("width", "1px")
-    bar1.append("span").text("default");            
-    bar1.transition().duration(duration)
-            .style("width", "400px");
+    var body = d3.select("body"), duration = 5000;
     
-    var bar2 = body.append("div")
-            .classed("h-bar", true)
-            .style("width", "1px");
-    bar2.append("span").text("tween");            
-    bar2.transition().duration(duration)
-            .styleTween("width", widthTween);
+    body.append("div").append("input")
+        .attr("type", "button")
+        .attr("class", "countdown")
+        .attr("value", "0")
+        .style("width", "150px")
+        .transition().duration(duration)
+            .style("width", "400px")
+            .attr("value", "9");
+            
+    body.append("div").append("input")
+        .attr("type", "button")
+        .attr("class", "countdown")
+        .attr("value", "0")
+        .transition().duration(duration)
+            .styleTween("width", widthTween)
+            .attrTween("value", valueTween);
+            
             
     function widthTween(){
         var interpolate = d3.scale.quantize()
             .domain([0, 1])
-            .range([50, 100, 150, 200, 300, 400]);
+            .range([150, 200, 250, 350, 400]);
         
         return function(t){
             return interpolate(t) + "px";
         };
     }
+            
+    function valueTween(){
+        var interpolate = d3.scale.quantize()
+            .domain([0, 1])
+            .range([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        
+        return function(t){
+            return interpolate(t);
+        };
+    }        
 </script>
 
 </body>

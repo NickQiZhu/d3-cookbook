@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Transition Chaining</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var data = ["linear", "quad", "cubic-in-out", "sin", "exp", "circle", "back", "bounce"],
+        colors = d3.scale.category10()
+        duration = 1500;
+
+    d3.select("body").selectAll("div")
+            .data(data)
+            .enter()
+            .append("div")
+            .attr("class", "fixed-cell")
+            .style("top", function (d, i) {
+                return i * 40 + "px";
+            })
+            .style("background-color", function (d, i) {
+                return colors(i);
+            })
+            .style("color", "white")
+            .style("left", "500px")
+            .text(function (d) {
+                return d;
+            });
+
+    d3.selectAll("div").each(function(d){
+        d3.select(this).transition()
+                .ease(d)
+                .duration(duration)
+                    .style("left", "10px")
+                .transition()
+                .ease(d)
+                .duration(duration)
+                    .style("left", "500px");
+    });
+</script>
+
+</body>
+
+</html>

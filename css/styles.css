@@ -128,3 +128,10 @@ button {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.countdown{
+    width: 150px;
+    height: 150px;
+    font-size: 5em;
+    font-weight: bold;
+}
