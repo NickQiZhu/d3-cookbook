@@ -10,37 +10,23 @@
 <body>
 
 <script type="text/javascript">
-    var data = ["linear", "quad", "cubic-in-out", "sin", "exp", "circle", "back", "bounce"],
-        colors = d3.scale.category10()
-        duration = 1500;
+    var body = d3.select("body");
 
-    d3.select("body").selectAll("div")
-            .data(data)
-            .enter()
-            .append("div")
-            .attr("class", "fixed-cell")
-            .style("top", function (d, i) {
-                return i * 40 + "px";
-            })
-            .style("background-color", function (d, i) {
-                return colors(i);
-            })
-            .style("color", "white")
-            .style("left", "500px")
-            .text(function (d) {
-                return d;
-            });
-
-    d3.selectAll("div").each(function(d){
-        d3.select(this).transition()
-                .ease(d)
-                .duration(duration)
-                    .style("left", "10px")
-                .transition()
-                .ease(d)
-                .duration(duration)
-                    .style("left", "500px");
-    });
+    body.append("div")    
+            .style("position", "fixed")
+            .style("background-color", "steelblue")
+            .style("left", "10px")
+            .style("width", "80px")
+            .style("height", "80px")
+        .transition().duration(500)
+            .style("width", "200px")
+            .style("height", "1px")
+        .transition().duration(500)
+            .style("left", "600px")
+        .transition().duration(500)
+            .style("height", "80px")
+        .transition().duration(500)
+            .style("width", "80px");
 </script>
 
 </body>

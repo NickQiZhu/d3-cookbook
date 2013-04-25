@@ -10,40 +10,26 @@
 <body>
 
 <script type="text/javascript">
-    var data = ["linear", "quad", "cubic-in-out", "sin", "exp", "circle", "back", "bounce"],
-        colors = d3.scale.category10(),
-        duration = 1500;
+    var body = d3.select("body"), duration = 1000;
 
-    d3.select("body").selectAll("div")
-            .data(data)
-            .enter()
-            .append("div")
-            .attr("class", "fixed-cell")
-            .style("background-color", "grey")
-            .style("top", function (d, i) {
-                return i * 40 + "px";
-            })            
+    var div = body.append("div")
+            .classed("box", true)
+            .style("background-color", "steelblue")
             .style("color", "white")
-            .style("left", "500px")
-            .text(function (d) {
-                return d;
-            });
-
-    d3.selectAll("div").each(function(d){
-        d3.select(this).transition()
-                .delay(300)
+            .text("waiting")
+        .transition().duration(duration)
+                .delay(750)
                 .each("start", function(){
-                    d3.select(this).style("background-color", function (d, i) {
-                        return colors(i);
+                    d3.select(this).text(function (d, i) {
+                        return "transitioning";
                     });
                 })
                 .each("end", function(){
-                    d3.select(this).style("background-color", "grey");
+                    d3.select(this).text(function (d, i) {
+                        return "done";
+                    });
                 })
-                .ease(d)
-                .duration(duration)
-                .style("left", "10px");
-    });
+            .style("margin-left", "600px");
 </script>
 
 </body>
