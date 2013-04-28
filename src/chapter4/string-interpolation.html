@@ -2,53 +2,48 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>String Interpolator</title>
+    <title>String Interpolation</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
 
 <body>
 
-<div id="dollar" class="clear">
-    <span>Dollar Interpolation<br></span>
-</div>
-
-<div id="size" class="clear">
-    <span>Size Interpolation<br></span>
+<div id="font" class="clear">
+    <span>Font Interpolation<br></span>
 </div>
 
 <script type="text/javascript">
     var max = 11, data = [];
 
-    var dollarScale = d3.scale.linear()
-            .domain([0, max])
-            .range(["$0", "$110"]);
-
     var sizeScale = d3.scale.linear()
         .domain([0, max])
-        .range(["0px", "110px"]);
+        .range([
+            "italic bold 12px/30px Georgia, serif", 
+            "italic bold 120px/180px Georgia, serif"
+        ]);
 
     for (var i = 0; i < max; ++i) data.push(i);
 
     function render(data, scale, selector) {
         d3.select(selector).selectAll("div.cell")
                 .data(data)
-                .enter().append("div").classed("cell", true)
+            .enter().append("div").classed("cell", true)
                 .append("span");
 
         d3.select(selector).selectAll("div.cell")
                 .data(data)
-                .exit().remove();
+            .exit().remove();
 
         d3.select(selector).selectAll("div.cell")
                 .data(data)
-                .style("display", "inline-block")
-                .select("span")
-                .text(function(d,i){return scale(d);});
+            .style("display", "inline-block")
+            .select("span")
+                .style("font", function(d,i){return scale(d);})
+                .text(function(d,i){return i;});
     }
 
-    render(data, dollarScale, "#dollar");
-    render(data, sizeScale, "#size");
+    render(data, sizeScale, "#font");
 </script>
 
 </body>
