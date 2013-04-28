@@ -12,7 +12,6 @@
 <div id="color" class="clear">
     <span>Linear Color Interpolation<br></span>
 </div>
-
 <div id="color-diverge" class="clear">
     <span>Poly-Linear Color Interpolation<br></span>
 </div>
@@ -20,34 +19,38 @@
 <script type="text/javascript">
     var max = 21, data = [];
 
-    var colorScale = d3.scale.linear()
+    var colorScale = d3.scale.linear() // <-A
         .domain([0, max])
         .range(["white", "#4169e1"]);
 
-    function divergingScale(pivot) {
+    function divergingScale(pivot) { // <-B
         var divergingColorScale = d3.scale.linear()
-                .domain([0, pivot, max])
-                .range(["white", "#4169e1", "white"]);
+            .domain([0, pivot, max]) // <-C
+            .range(["white", "#4169e1", "white"]);
         return divergingColorScale;
     }
 
     for (var i = 0; i < max; ++i) data.push(i);
 
-    function render(data, scale, selector) {
+    function render(data, scale, selector) { // <-D
         d3.select(selector).selectAll("div.cell")
                 .data(data)
-                .enter().append("div").classed("cell", true)
+            .enter()
+                .append("div")
+                    .classed("cell", true)
                 .append("span");
 
         d3.select(selector).selectAll("div.cell")
                 .data(data)
-                .exit().remove();
+            .exit().remove();
 
         d3.select(selector).selectAll("div.cell")
                 .data(data)
-                .style("display", "inline-block")
-                .style("background-color", function(d){return scale(d);})
-                .select("span")
+            .style("display", "inline-block")
+            .style("background-color", function(d){
+                return scale(d); // <-E
+            })
+            .select("span")
                 .text(function(d,i){return i;});
     }
 
