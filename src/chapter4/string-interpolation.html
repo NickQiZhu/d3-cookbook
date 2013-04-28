@@ -16,16 +16,16 @@
 <script type="text/javascript">
     var max = 11, data = [];
 
-    var sizeScale = d3.scale.linear()
+    var sizeScale = d3.scale.linear() // <-A
         .domain([0, max])
-        .range([
+        .range([  // <-B
             "italic bold 12px/30px Georgia, serif", 
             "italic bold 120px/180px Georgia, serif"
         ]);
 
     for (var i = 0; i < max; ++i) data.push(i);
 
-    function render(data, scale, selector) {
+    function render(data, scale, selector) { // <-C
         d3.select(selector).selectAll("div.cell")
                 .data(data)
             .enter().append("div").classed("cell", true)
@@ -39,8 +39,10 @@
                 .data(data)
             .style("display", "inline-block")
             .select("span")
-                .style("font", function(d,i){return scale(d);})
-                .text(function(d,i){return i;});
+                .style("font", function(d,i){ 
+                    return scale(d); // <-D
+                })
+                .text(function(d,i){return i;}); // <-E
     }
 
     render(data, sizeScale, "#font");
