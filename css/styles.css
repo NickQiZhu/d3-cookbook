@@ -145,3 +145,8 @@ button {
 .axis text {
     font: 10px sans-serif;
 }
+
+.axis .grid-line{
+    stroke: #cccccc;
+    shape-rendering: crispEdges;
+}

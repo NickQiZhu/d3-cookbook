@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Axis Rescaling</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var height = 400, 
+        width = 500, 
+        margin = 25,
+        axisWidth = width - 2 * margin;
+    
+    var svg = d3.select("body").append("svg")            
+            .attr("width", width)
+            .attr("height", height);
+    
+    var scale = d3.scale.linear().domain([0, 100]).range([0, axisWidth]);
+    
+    var axis = d3.svg.axis()
+            .scale(scale)
+        
+    svg.append("g")    
+        .attr("class", "axis")
+        .attr("transform", function(){
+            return "translate(" + margin + "," + (height - margin) + ")";
+        })
+        .call(axis);
+        
+    renderGridlines();
+            
+    function rescale(){
+        var max = Math.round(Math.random() * 100);
+        axis.scale().domain([0, max]);
+        svg.select("g.axis")
+            .transition()
+            .call(axis);
+        
+        renderGridlines();
+    }        
+    
+    function renderGridlines(){
+        d3.selectAll("g.tick")
+          .append("line")
+            .classed("grid-line", true)
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 0)
+            .attr("y2", -axisWidth);
+    }
+</script>
+
+<div class="control-group">
+    <button onclick="rescale()">ReScale</button>
+</div>
+
+</body>
+
+</html>
