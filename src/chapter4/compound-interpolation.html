@@ -19,11 +19,14 @@
     var compoundScale = d3.scale.pow()
             .exponent(2)
             .domain([0, max])
-            .range([{color:"#add8e6", height:"15px"}, {color:"#4169e1", height:"150px"}]);
+            .range([
+                {color:"#add8e6", height:"15px"}, // <-A
+                {color:"#4169e1", height:"150px"} // <-B
+            ]);
 
     for (var i = 0; i < max; ++i) data.push(i);
 
-    function render(data, scale, selector) {
+    function render(data, scale, selector) { // <-C
         d3.select(selector).selectAll("div.v-bar")
                 .data(data)
                 .enter().append("div").classed("v-bar", true)
@@ -36,8 +39,12 @@
         d3.select(selector).selectAll("div.v-bar")
                 .data(data)
                 .classed("v-bar", true)
-                .style("height", function(d){return scale(d).height;})
-                .style("background-color", function(d){return scale(d).color;})
+                .style("height", function(d){ // <-D
+                    return scale(d).height;
+                }) 
+                .style("background-color", function(d){ // <-E
+                    return scale(d).color;
+                })
                 .select("span")
                 .text(function(d,i){return i;});
     }
