@@ -32,27 +32,27 @@
         axisWidth = width - 2 * margin,
         svg;
     
-    function createSvg(){
-         svg = d3.select("body").append("svg")
-            .attr("class", "axis")
+    function createSvg(){ // <-A
+         svg = d3.select("body").append("svg") // <-B
+            .attr("class", "axis") // <-C
             .attr("width", width)
             .attr("height", height);
     }
     
     function renderAxis(scale, i, orient){
-        var axis = d3.svg.axis()
-            .scale(scale)            
-            .orient(orient)
-            .ticks(5);
+        var axis = d3.svg.axis() // <-D
+            .scale(scale) // <-E
+            .orient(orient) // <-F
+            .ticks(5); // <-G
         
         svg.append("g")        
-            .attr("transform", function(){
+            .attr("transform", function(){ // <-H
                 if(["top", "bottom"].indexOf(orient) >= 0)
-                    return "translate("+margin+","+i*offset+")";
+                    return "translate(" + margin + "," + i * offset + ")";
                 else
-                    return "translate("+i*offset+", "+margin+")";
+                    return "translate(" + i * offset + ", " + margin + ")";
             })
-            .call(axis);
+            .call(axis); // <-I
     }
     
     function renderAll(orient){
@@ -60,9 +60,16 @@
         
         createSvg();
         
-        renderAxis(d3.scale.linear().domain([0, 1000]).range([0, axisWidth]), 1, orient);
-        renderAxis(d3.scale.pow().exponent(2).domain([0, 1000]).range([0, axisWidth]), 2, orient);
-        renderAxis(d3.time.scale().domain([new Date(2012, 0, 1), new Date()]).range([0, axisWidth]), 3, orient);
+        renderAxis(d3.scale.linear()
+                    .domain([0, 1000])
+                    .range([0, axisWidth]), 1, orient);
+        renderAxis(d3.scale.pow()
+                    .exponent(2)
+                    .domain([0, 1000])
+                    .range([0, axisWidth]), 2, orient);
+        renderAxis(d3.time.scale()
+                    .domain([new Date(2012, 0, 1), new Date()])
+                    .range([0, axisWidth]), 3, orient);
     }
 </script>
 
