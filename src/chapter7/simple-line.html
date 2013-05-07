@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Simple Lines</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var width = 500,
+        height = 500,
+        margin = 20,
+        x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
+        y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
+        
+    var data = [
+        [
+            {x: 0, y: 5},{x: 1, y: 10},{x: 2, y: 8},{x: 3, y: 5},{x: 4, y: 3},
+            {x: 5, y: 1},{x: 6, y: 4},{x: 7, y: 7},{x: 8, y: 10},{x: 9, y: 5}
+        ],
+        
+        d3.range(10).map(function(i){
+            return {x: i, y: Math.sin(i) + 5};
+        })
+    ];
+    
+    var line = d3.svg.line()
+            .x(function(d){return x(d.x);})
+            .y(function(d){return y(d.y);});
+        
+    var svg = d3.select("body").append("svg");
+    
+    svg.attr("height", height)
+        .attr("width", width);
+        
+     svg.selectAll("path")
+            .data(data)
+        .enter()
+            .append("path")
+            .attr("class", "line")            
+            .attr("d", function(d){return line(d);});
+        
+</script>
+
+</body>
+
+</html>
