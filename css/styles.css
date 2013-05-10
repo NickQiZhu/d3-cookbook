@@ -156,3 +156,14 @@ button {
     stroke: steelblue;
     stroke-width: 2;
 }
+
+.dot {
+  fill: #fff;
+  stroke: steelblue;
+}
+
+.area {
+    stroke: none;
+    fill: steelblue;
+    fill-opacity: .5;
+}

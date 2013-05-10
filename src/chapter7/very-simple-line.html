@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Simple Lines</title>
+    <title>Very Simple Line</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -12,37 +12,17 @@
 <script type="text/javascript">
     var width = 500,
         height = 500,
-        margin = 50,
-        x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
-        y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
-        
-    var data = [
-        [
-            {x: 0, y: 5},{x: 1, y: 10},{x: 2, y: 8},{x: 3, y: 5},{x: 4, y: 3},
-            {x: 5, y: 1},{x: 6, y: 4},{x: 7, y: 7},{x: 8, y: 10},{x: 9, y: 5}
-        ],
-        
-        d3.range(10).map(function(i){
-            return {x: i, y: Math.sin(i) + 5};
-        })
-    ];
-    
-    var line = d3.svg.line()
-            .x(function(d){return x(d.x);})
-            .y(function(d){return y(d.y);});
+        margin = 50;
         
     var svg = d3.select("body").append("svg");
     
     svg.attr("height", height)
-        .attr("width", width);
-        
-     svg.selectAll("path")
-            .data(data)
-        .enter()
-            .append("path")
-            .attr("class", "line")            
-            .attr("d", function(d){return line(d);});
-            
+        .attr("width", width)        
+    .append("line")
+        .attr("class", "line")            
+        .attr("x1", xStart).attr("y1", yStart)
+        .attr("x2", xEnd).attr("y2", yEnd);   
+
     renderAxes(svg);
         
     function renderAxes(svg){            
@@ -91,7 +71,7 @@
     
     function quadrantHeight(){
         return height - 2 * margin;
-    }        
+    }
 </script>
 
 </body>
