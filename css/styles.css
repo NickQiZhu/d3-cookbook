@@ -147,8 +147,9 @@ button {
 }
 
 .axis .grid-line{
-    stroke: #cccccc;
+    stroke: black;
     shape-rendering: crispEdges;
+    stroke-opacity: .2;
 }
 
 .line{

@@ -10,48 +10,106 @@
 <body>
 
 <script type="text/javascript">
-    var height = 400, 
+    var height = 500, 
         width = 500, 
         margin = 25,
-        axisWidth = width - 2 * margin;
+        xAxis, yAxis, xAxisLength, yAxisLength;
     
-    var svg = d3.select("body").append("svg")            
+    var svg = d3.select("body").append("svg")     
+            .attr("class", "axis")    
             .attr("width", width)
             .attr("height", height);
     
-    var scale = d3.scale.linear().domain([0, 100]).range([0, axisWidth]);
+    function renderXAxis(){
+        xAxisLength = width - 2 * margin;
     
-    var axis = d3.svg.axis()
-            .scale(scale)
+        var scale = d3.scale.linear()
+                        .domain([0, 100])
+                        .range([0, xAxisLength]);
         
-    svg.append("g")    
-        .attr("class", "axis")
-        .attr("transform", function(){
-            return "translate(" + margin + "," + (height - margin) + ")";
-        })
-        .call(axis);
-        
-    renderGridlines();
-            
-    function rescale(){
-        var max = Math.round(Math.random() * 100);
-        axis.scale().domain([0, max]);
-        svg.select("g.axis")
-            .transition()
-            .call(axis);
-        
-        renderGridlines();
-    }        
-    
-    function renderGridlines(){
-        d3.selectAll("g.tick")
-          .append("line")
-            .classed("grid-line", true)
-            .attr("x1", 0)
-            .attr("y1", 0)
-            .attr("x2", 0)
-            .attr("y2", -axisWidth);
+        xAxis = d3.svg.axis()
+                .scale(scale)
+                .tickSubdivide(1)
+                .orient("bottom");
+                
+        svg.append("g")       
+            .attr("class", "x-axis")
+            .attr("transform", function(){ 
+                return "translate(" + margin + "," + (height - margin) + ")";
+            })
+            .call(xAxis);
     }
+    
+    function renderYAxis(){        
+        yAxisLength = height - 2 * margin;
+    
+        var scale = d3.scale.linear()
+                        .domain([100, 0])
+                        .range([0, yAxisLength]);
+    
+        yAxis = d3.svg.axis()
+                .scale(scale)
+                .tickSubdivide(1)
+                .orient("left");
+            
+        svg.append("g")       
+            .attr("class", "y-axis")
+            .attr("transform", function(){
+                return "translate(" + margin + "," + margin + ")";
+            })
+            .call(yAxis);
+    }   
+            
+    function rescale(){ // <-A
+        var max = Math.round(Math.random() * 100);
+        
+        xAxis.scale().domain([0, max]); // <-B
+        svg.select("g.x-axis")
+            .transition()
+            .call(xAxis); // <-C
+            
+        yAxis.scale().domain([max, 0]);
+        svg.select("g.y-axis")
+            .transition()
+            .call(yAxis);
+        
+        renderXGridlines();
+        renderYGridlines();
+    }       
+    
+    function renderXGridlines(){
+        var lines = d3.selectAll("g.x-axis g.tick")
+                .select("line.grid-line")
+                .remove(); // <-D
+                
+        lines = d3.selectAll("g.x-axis g.tick")
+                .append("line") 
+                .classed("grid-line", true)
+
+        lines.attr("x1", 0) 
+                .attr("y1", 0)
+                .attr("x2", 0)
+                .attr("y2", - yAxisLength); 
+    }
+    
+    function renderYGridlines(){
+        var lines = d3.selectAll("g.y-axis g.tick")
+                .select("line.grid-line").remove(); 
+        
+        lines = d3.selectAll("g.y-axis g.tick")
+                .append("line") 
+                .classed("grid-line", true)
+                
+        lines.attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", xAxisLength)
+            .attr("y2", 0);
+    }
+    
+    renderYAxis();
+    renderXAxis();
+    renderXGridlines();
+    renderYGridlines();
 </script>
 
 <div class="control-group">

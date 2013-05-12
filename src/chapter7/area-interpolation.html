@@ -13,7 +13,6 @@
     var width = 500,
         height = 500,
         margin = 30,
-        duration = 500,
         x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
         y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
         
@@ -46,7 +45,6 @@
                 
         svg.selectAll("path.line")
                 .data([data])       
-            .transition().duration(duration).ease("linear")
             .attr("d", function(d){return line(d);});        
             
         var area = d3.svg.area()
@@ -63,7 +61,6 @@
                 
         svg.selectAll("path.area")
             .data([data])
-            .transition().duration(duration).ease("linear")
             .attr("d", function(d){return area(d);});        
     }
     

@@ -25,9 +25,9 @@
     var axis = d3.svg.axis()
             .scale(scale)
             .ticks(5)
-            .tickSubdivide(5)
-            .tickPadding(10)
-            .tickFormat(function(v){
+            .tickSubdivide(5) // <-A
+            .tickPadding(10) // <-B
+            .tickFormat(function(v){ // <-C
                 return v + "%";
             });
         
