@@ -10,9 +10,8 @@
 <body>
 
 <script type="text/javascript">
-    var width = 500,
-        height = 500,
-        margin = 50,
+    var width = 400,
+        height = 400,
         fullAngle = 2 * Math.PI,
         colors = d3.scale.category20b();
         
@@ -38,7 +37,7 @@
         svg.select("g").remove();
         
         svg.append("g")
-                .attr("transform", "translate(300,300)")
+                .attr("transform", "translate(200,200)")
         .selectAll("path.arc")
                 .data(data)
             .enter()
