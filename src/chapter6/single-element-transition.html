@@ -10,14 +10,16 @@
 <body>
 
 <script type="text/javascript">
-    var body = d3.select("body"), duration = 5000;
+    var body = d3.select("body"), 
+        duration = 5000;
 
-    body.append("div")
+    body.append("div") // <-A
             .classed("box", true)
-            .style("background-color", "#e9967a")
-        .transition().duration(duration)
-            .style("background-color", "#add8e6")
-            .style("margin-left", "600px")
+            .style("background-color", "#e9967a") // <-B
+        .transition() // <-C
+        .duration(duration) // <-D
+            .style("background-color", "#add8e6") // <-E
+            .style("margin-left", "600px") // <-F
             .style("width", "100px")
             .style("height", "100px");
 </script>
