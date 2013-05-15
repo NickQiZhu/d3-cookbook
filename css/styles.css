@@ -168,3 +168,8 @@ button {
     fill: steelblue;
     fill-opacity: .5;
 }
+
+.pie text{
+    fill: white;
+    font-weight: bold;
+}
