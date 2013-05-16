@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Arc</title>
+    <title>Arc Transition</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -12,7 +12,7 @@
 <script type="text/javascript">
     var width = 400,
         height = 400,
-        fullAngle = 2 * Math.PI,
+        endAngle = 0.25 * 2 * Math.PI,
         colors = d3.scale.category20c();
         
     var svg = d3.select("body").append("svg")
@@ -20,17 +20,18 @@
                 .attr("height", height)
                 .attr("width", width);    
     
-    function render(innerRadius, endAngle){
-        if(!endAngle) endAngle = fullAngle;
+    function render(innerRadius){
     
         var data = [
-            {startAngle: 0, endAngle: 0.1 * endAngle},
-            {startAngle: 0.1 * endAngle, endAngle: 0.2 * endAngle},
-            {startAngle: 0.2 * endAngle, endAngle: 0.4 * endAngle},
-            {startAngle: 0.4 * endAngle, endAngle: 0.6 * endAngle},        
-            {startAngle: 0.6 * endAngle, endAngle: 0.7 * endAngle},        
-            {startAngle: 0.7 * endAngle, endAngle: 0.9 * endAngle},        
-            {startAngle: 0.9 * endAngle, endAngle: endAngle}
+            {startAngle: -endAngle, endAngle: -0.5*endAngle},
+            {startAngle: -0.5*endAngle, endAngle: 0},
+            {startAngle: 0, endAngle: 0.1*endAngle},
+            {startAngle: 0.1*endAngle, endAngle: 0.2*endAngle},
+            {startAngle: 0.2*endAngle, endAngle: 0.4*endAngle},
+            {startAngle: 0.4*endAngle, endAngle: 0.7*endAngle},
+            {startAngle: 0.7*endAngle, endAngle: 0.8*endAngle},
+            {startAngle: 0.8*endAngle, endAngle: 0.9*endAngle},
+            {startAngle: 0.9*endAngle, endAngle: endAngle}
         ];
         
         var arc = d3.svg.arc().outerRadius(200).innerRadius(innerRadius);
@@ -45,18 +46,14 @@
                 .append("path")
                     .attr("class", "arc")
                     .attr("fill", function(d, i){return colors(i);})
+                    .attr("d", function(d, i){return arc({startAngle: -endAngle, endAngle: -endAngle}, i);})
+                .transition().duration(500)
                     .attr("d", function(d, i){return arc(d, i);});
     }
     
-    render(0);
+    render(100);
 </script>
 
-<div class="control-group">
-    <button onclick="render(0)">Circle</button>
-    <button onclick="render(100)">Annulus(Donut)</button>
-    <button onclick="render(0, Math.PI)">Circular Sector</button>
-    <button onclick="render(100, Math.PI)">Annulus Sector</button>
-</div>
 
 </body>
 
