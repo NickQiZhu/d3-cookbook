@@ -47,7 +47,7 @@
                     return colors(i);
                 })
                 .transition().duration(500).ease("linear")
-                .attrTween("d", function (d, i, a) {
+                .attrTween("d", function (d) {
                     var start = {startAngle: 0, endAngle: 0};
                     var interpolate = d3.interpolate(start, d);
                     return function (t) {
