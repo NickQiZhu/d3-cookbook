@@ -10,13 +10,20 @@
 <body>
 
 <script type="text/javascript">
-    var data = ["linear", "quad", "cubic-in-out", "sin", "exp", "circle", "back", "bounce"],
+    var data = [ // <-A
+			"linear", "cubic", "cubic-in-out", 
+			"sin", "sin-out", "exp", "circle", "back", 
+			"bounce",
+			function(t){ // <-B
+				return t * t;
+			}
+		],
         colors = d3.scale.category10();
 
     d3.select("body").selectAll("div")
-            .data(data)
-            .enter()
-            .append("div")
+            .data(data) // <-C
+        .enter()
+        .append("div")
             .attr("class", "fixed-cell")
             .style("top", function (d, i) {
                 return i * 40 + "px";
@@ -27,14 +34,15 @@
             .style("color", "white")
             .style("left", "500px")
             .text(function (d) {
+                if(typeof d === 'function') return "custom";
                 return d;
             });
 
     d3.selectAll("div").each(function(d){
-        d3.select(this).transition()
-                .ease(d)
-                .duration(1500)
-                .style("left", "10px");
+        d3.select(this)
+			.transition().ease(d) // <-D
+			.duration(1500)
+			.style("left", "10px");
     });
 </script>
 

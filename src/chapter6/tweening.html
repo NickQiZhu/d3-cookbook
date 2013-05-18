@@ -25,7 +25,7 @@
         .attr("type", "button")
         .attr("class", "countdown")
         .attr("value", "0")
-        .transition().duration(duration)
+        .transition().duration(duration).ease("linear")
             .styleTween("width", widthTween)
             .attrTween("value", valueTween);
             
