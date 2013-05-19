@@ -10,7 +10,7 @@
 <body>
 
 <script type="text/javascript">
-    var body = d3.select("body"), duration = 1000;
+    var body = d3.select("body"), duration = 3000;
 
     var div = body.append("div")
             .classed("box", true)
@@ -18,7 +18,7 @@
             .style("color", "white")
             .text("waiting")
         .transition().duration(duration)
-                .delay(750)
+                .delay(1000)
                 .each("start", function(){
                     d3.select(this).text(function (d, i) {
                         return "transitioning";

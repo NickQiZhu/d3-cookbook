@@ -10,13 +10,13 @@
 <body>
 
 <script type="text/javascript">
-    var data = ["Cat", "Dog", "Cat", "Dog", "Cat", "Dog", "Cat", "Dog", "Cat", "Dog"],
+    var data = ["Cat", "Dog", "Cat", "Dog", "Cat", "Dog", "Cat", "Dog"],
         duration = 1500;
 
     d3.select("body").selectAll("div")
             .data(data)
-            .enter()
-            .append("div")
+        .enter()
+        .append("div")
             .attr("class", "fixed-cell")
             .style("top", function (d, i) {
                 return i * 40 + "px";
@@ -27,11 +27,11 @@
             .text(function (d) {
                 return d;
             })
-            .transition()
+            .transition() // <- A
                 .duration(duration)
                     .style("left", "10px")
-            .filter(function(d){return d == "Cat";})
-                .transition()
+            .filter(function(d){return d == "Cat";}) // <- B
+                .transition() // <- C
                 .duration(duration)
                     .style("left", "500px");
 </script>
