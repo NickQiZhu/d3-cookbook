@@ -10,13 +10,13 @@
 <body>
 
 <script type="text/javascript">
-    d3.interpolators.push(function(a, b) {
+    d3.interpolators.push(function(a, b) { // <-A
       var re = /^([a-z])$/, ma, mb;
       if ((ma = re.exec(a)) && (mb = re.exec(b))) {
         a = a.charCodeAt(0);
-        b = a - b.charCodeAt(0);
+        var delta = a - b.charCodeAt(0);
         return function(t) {
-          return String.fromCharCode(Math.ceil(a - b * t));
+          return String.fromCharCode(Math.ceil(a - delta * t));
         };
       }
     });
@@ -27,9 +27,10 @@
     
     countdown.attr("type", "button")
         .attr("class", "countdown")
-        .attr("value", "a")
-        .transition().ease("linear").duration(4000).delay(300)
-        .attr("value", "z");
+        .attr("value", "a") // <-B
+        .transition().ease("linear") // <-C
+        .duration(4000).delay(300)
+        .attr("value", "z"); // <-D
 </script>
 
 
