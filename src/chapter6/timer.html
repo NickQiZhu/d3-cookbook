@@ -20,9 +20,9 @@
         
     function countup(target){ // <-A
         d3.timer(function(){ // <-B
-                var value = countdown.attr("value");
-                if(value == target) return true;  // <-C
-                countdown.attr("value", ++value); // <-D            
+            var value = countdown.attr("value");
+            if(value == target) return true;  // <-C
+            countdown.attr("value", ++value); // <-D            
         });
     }
     
