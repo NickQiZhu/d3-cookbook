@@ -43,26 +43,26 @@ svg polygon{
     svg.attr("height", height)
         .attr("width", width);    
         
-    svg.append("line")
+    svg.append("line") // <-A
         .attr("x1", 0)
         .attr("y1", 200)
         .attr("x2", 100)
         .attr("y2", 100);
         
-    svg.append("circle")
+    svg.append("circle") // <-B
         .attr("cx", 200)
         .attr("cy", 150)
         .attr("r", 50);
         
     svg.append("rect")
-        .attr("x", 300)
+        .attr("x", 300) // <-C
         .attr("y", 100)
-        .attr("width", 100)
+        .attr("width", 100) // <-D
         .attr("height", 100)
-        .attr("rx", 5);
+        .attr("rx", 5); // <-E
         
     svg.append("polygon")
-        .attr("points", "450,200 500,100 550,200");
+        .attr("points", "450,200 500,100 550,200"); // <-F
 </script>
 
 </body>
