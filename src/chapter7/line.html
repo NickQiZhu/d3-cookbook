@@ -13,13 +13,18 @@
     var width = 500,
         height = 500,
         margin = 50,
-        x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
-        y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
+        x = d3.scale.linear() // <-A
+            .domain([0, 10])
+            .range([margin, width - margin]),
+        y = d3.scale.linear() // <-B
+            .domain([0, 10])
+            .range([height - margin, margin]);
         
-    var data = [
+    var data = [ // <-C
         [
-            {x: 0, y: 5},{x: 1, y: 10},{x: 2, y: 8},{x: 3, y: 5},{x: 4, y: 3},
-            {x: 5, y: 1},{x: 6, y: 4},{x: 7, y: 7},{x: 8, y: 10},{x: 9, y: 5}
+            {x: 0, y: 5},{x: 1, y: 9},{x: 2, y: 7},
+            {x: 3, y: 5},{x: 4, y: 3},{x: 6, y: 4},
+            {x: 7, y: 2},{x: 8, y: 3},{x: 9, y: 2}
         ],
         
         d3.range(10).map(function(i){
@@ -27,7 +32,7 @@
         })
     ];
     
-    var line = d3.svg.line()
+    var line = d3.svg.line() // <-D
             .x(function(d){return x(d.x);})
             .y(function(d){return y(d.y);});
         
@@ -39,32 +44,36 @@
      svg.selectAll("path")
             .data(data)
         .enter()
-            .append("path")
+            .append("path") // <-E
             .attr("class", "line")            
-            .attr("d", function(d){return line(d);});
+            .attr("d", function(d){return line(d);}); // <-F
             
     renderAxes(svg);
         
-    function renderAxes(svg){            
+    function renderAxes(svg){ // <-G
         var xAxis = d3.svg.axis()
-                .scale(d3.scale.linear().range([0, quadrantWidth()]))
+                .scale(d3.scale.linear()
+                    .range([0, quadrantWidth()]))
                 .orient("bottom");            
                 
         var yAxis = d3.svg.axis()
-                .scale(d3.scale.linear().range([quadrantHeight(), 0]))
+                .scale(d3.scale.linear()
+                    .range([quadrantHeight(), 0]))
                 .orient("left");
         
         svg.append("g")        
             .attr("class", "axis")
             .attr("transform", function(){
-                return "translate(" + xStart() + "," + yStart() + ")";
+                return "translate(" + xStart() 
+                    + "," + yStart() + ")";
             })
             .call(xAxis);
             
         svg.append("g")        
             .attr("class", "axis")
             .attr("transform", function(){
-                return "translate(" + xStart() + "," + yEnd() + ")";
+                return "translate(" + xStart() 
+                    + "," + yEnd() + ")";
             })
             .call(yAxis);
     }
