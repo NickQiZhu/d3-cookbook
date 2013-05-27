@@ -13,14 +13,19 @@
     var width = 500,
         height = 500,
         margin = 30,
-        x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
-        y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
+        x = d3.scale.linear()
+            .domain([0, 10])
+            .range([margin, width - margin]),
+        y = d3.scale.linear()
+            .domain([0, 10])
+            .range([height - margin, margin]);
         
     var data = [
         [
-            {x: 0, y: 5},{x: 1, y: 10},{x: 2, y: 8},{x: 3, y: 5},{x: 4, y: 3},
-            {x: 5, y: 1},{x: 6, y: 4},{x: 7, y: 7},{x: 8, y: 10},{x: 9, y: 5}
-        ],        
+            {x: 0, y: 5},{x: 1, y: 9},{x: 2, y: 7},
+            {x: 3, y: 5},{x: 4, y: 3},{x: 6, y: 4},
+            {x: 7, y: 2},{x: 8, y: 3},{x: 9, y: 2}
+        ],  
         d3.range(10).map(function(i){
             return {x: i, y: Math.sin(i) + 5};
         })
@@ -39,7 +44,7 @@
     
     function render(mode){
         var line = d3.svg.line()
-                .interpolate(mode)
+                .interpolate(mode) // <-A
                 .x(function(d){return x(d.x);})
                 .y(function(d){return y(d.y);});
                 
@@ -54,11 +59,11 @@
             .attr("d", function(d){return line(d);});        
     }
     
-    function renderDots(svg){
+    function renderDots(svg){ // <-B
         data.forEach(function(set){
              svg.append("g").selectAll("circle")
                 .data(set)
-              .enter().append("circle")
+              .enter().append("circle") // <-C
                 .attr("class", "dot")
                 .attr("cx", function(d) { return x(d.x); })
                 .attr("cy", function(d) { return y(d.y); })

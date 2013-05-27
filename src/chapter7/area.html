@@ -14,8 +14,12 @@
         height = 500,
         margin = 30,
         duration = 500,
-        x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
-        y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
+        x = d3.scale.linear()
+            .domain([0, 10])
+            .range([margin, width - margin]),
+        y = d3.scale.linear()
+            .domain([0, 10])
+            .range([height - margin, margin]);
         
     var data = d3.range(11).map(function(i){
             return {x: i, y: Math.sin(i)*3 + 5};

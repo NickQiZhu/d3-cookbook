@@ -14,12 +14,15 @@
         height = 500,
         margin = 30,
         duration = 500,    
-        domain = [0, 10],
-        x = d3.scale.linear().domain(domain).range([margin, width - margin]),
-        y = d3.scale.linear().domain([0, 1]).range([height - margin, margin]);
+        x = d3.scale.linear()
+            .domain([0, 10])
+            .range([margin, width - margin]),
+        y = d3.scale.linear()
+            .domain([0, 1])
+            .range([height - margin, margin]);
         
     var data = d3.range(10).map(function(i){
-            return {x: i, y: (Math.sin(i * 2) + 1) / 2};
+            return {x: i, y: (Math.sin(i * 3) + 1) / 2};
         });
     
     var svg = d3.select("body").append("svg");
@@ -44,9 +47,11 @@
                 .attr("class", "line");            
                 
         svg.selectAll("path.line")
-                .data(tension)                        
-            .transition().duration(duration).ease("linear")
-            .attr("d", function(d){return line.tension(d)(data);});
+                .data(tension) // <-A                    
+            .transition().duration(duration).ease("linear") // <-B
+            .attr("d", function(d){
+                return line.tension(d)(data); // <-C
+            });
             
         svg.selectAll("circle")
             .data(data)
@@ -59,7 +64,7 @@
     
     function renderAxes(svg){            
         var xAxis = d3.svg.axis()                
-                .scale(d3.scale.linear().domain(domain).range([0, quadrantWidth()]))
+                .scale(d3.scale.linear().domain([0, 10]).range([0, quadrantWidth()]))
                 .orient("bottom");            
                 
         var yAxis = d3.svg.axis()
