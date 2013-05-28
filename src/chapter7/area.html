@@ -14,14 +14,14 @@
         height = 500,
         margin = 30,
         duration = 500,
-        x = d3.scale.linear()
+        x = d3.scale.linear() // <-A
             .domain([0, 10])
             .range([margin, width - margin]),
         y = d3.scale.linear()
             .domain([0, 10])
             .range([height - margin, margin]);
         
-    var data = d3.range(11).map(function(i){
+    var data = d3.range(11).map(function(i){ // <-B
             return {x: i, y: Math.sin(i)*3 + 5};
         });
     
@@ -51,17 +51,17 @@
                 .data([data])       
             .attr("d", function(d){return line(d);});        
             
-        var area = d3.svg.area()
-            .x(function(d) { return x(d.x); })
-            .y0(height - margin)
-            .y1(function(d) { return y(d.y); });
+        var area = d3.svg.area() // <-C
+            .x(function(d) { return x(d.x); }) // <-D
+            .y0(height - margin) // <-E
+            .y1(function(d) { return y(d.y); }); // <-F
             
-        svg.selectAll("path.area")
+        svg.selectAll("path.area") // <-G
                 .data([data])
             .enter()
                 .append("path")
                 .attr("class", "area")
-                .attr("d", function(d){return area(d);});        
+                .attr("d", function(d){return area(d);}); // <-H
     }
     
     function renderDots(svg){        

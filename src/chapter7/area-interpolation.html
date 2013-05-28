@@ -13,12 +13,16 @@
     var width = 500,
         height = 500,
         margin = 30,
-        x = d3.scale.linear().domain([0, 10]).range([margin, width - margin]),
-        y = d3.scale.linear().domain([0, 10]).range([height - margin, margin]);
+        x = d3.scale.linear()
+            .domain([0, 10])
+            .range([margin, width - margin]),
+        y = d3.scale.linear()
+            .domain([0, 10])
+            .range([height - margin, margin]);
         
     var data = d3.range(11).map(function(i){
-            return {x: i, y: Math.sin(i)*3 + 5};
-        });
+        return {x: i, y: Math.sin(i)*3 + 5};
+    });
     
     var svg = d3.select("body").append("svg");
     
@@ -33,7 +37,7 @@
     
     function render(mode){
         var line = d3.svg.line()
-                .interpolate(mode)
+                .interpolate(mode) // <-A
                 .x(function(d){return x(d.x);})
                 .y(function(d){return y(d.y);});
                 
@@ -48,7 +52,7 @@
             .attr("d", function(d){return line(d);});        
             
         var area = d3.svg.area()
-            .interpolate(mode)
+            .interpolate(mode) // <-B
             .x(function(d) { return x(d.x); })
             .y0(height - margin)
             .y1(function(d) { return y(d.y); });
