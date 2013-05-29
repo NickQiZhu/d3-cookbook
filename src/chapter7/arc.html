@@ -10,45 +10,48 @@
 <body>
 
 <script type="text/javascript">
-    var width = 400,
-        height = 400,
-        fullAngle = 2 * Math.PI,
-        colors = d3.scale.category20c();
-        
-    var svg = d3.select("body").append("svg")
-                .attr("class", "pie")
-                .attr("height", height)
-                .attr("width", width);    
+var width = 400,
+    height = 400,
+    fullAngle = 2 * Math.PI, // <-A
+    colors = d3.scale.category20c();
     
-    function render(innerRadius, endAngle){
-        if(!endAngle) endAngle = fullAngle;
+var svg = d3.select("body").append("svg")
+            .attr("class", "pie")
+            .attr("height", height)
+            .attr("width", width);    
+
+function render(innerRadius, endAngle){
+    if(!endAngle) endAngle = fullAngle;
+
+    var data = [ // <-B
+        {startAngle: 0, endAngle: 0.1 * endAngle},
+        {startAngle: 0.1 * endAngle, endAngle: 0.2 * endAngle},
+        {startAngle: 0.2 * endAngle, endAngle: 0.4 * endAngle},
+        {startAngle: 0.4 * endAngle, endAngle: 0.6 * endAngle},        
+        {startAngle: 0.6 * endAngle, endAngle: 0.7 * endAngle},        
+        {startAngle: 0.7 * endAngle, endAngle: 0.9 * endAngle},        
+        {startAngle: 0.9 * endAngle, endAngle: endAngle}
+    ];
     
-        var data = [
-            {startAngle: 0, endAngle: 0.1 * endAngle},
-            {startAngle: 0.1 * endAngle, endAngle: 0.2 * endAngle},
-            {startAngle: 0.2 * endAngle, endAngle: 0.4 * endAngle},
-            {startAngle: 0.4 * endAngle, endAngle: 0.6 * endAngle},        
-            {startAngle: 0.6 * endAngle, endAngle: 0.7 * endAngle},        
-            {startAngle: 0.7 * endAngle, endAngle: 0.9 * endAngle},        
-            {startAngle: 0.9 * endAngle, endAngle: endAngle}
-        ];
-        
-        var arc = d3.svg.arc().outerRadius(200).innerRadius(innerRadius);
-        
-        svg.select("g").remove();
-        
-        svg.append("g")
-                .attr("transform", "translate(200,200)")
-        .selectAll("path.arc")
-                .data(data)
-            .enter()
-                .append("path")
-                    .attr("class", "arc")
-                    .attr("fill", function(d, i){return colors(i);})
-                    .attr("d", function(d, i){return arc(d, i);});
-    }
+    var arc = d3.svg.arc().outerRadius(200) // <-C
+                    .innerRadius(innerRadius);
     
-    render(0);
+    svg.select("g").remove();
+    
+    svg.append("g")
+            .attr("transform", "translate(200,200)")
+    .selectAll("path.arc")
+            .data(data)
+        .enter()
+            .append("path")
+                .attr("class", "arc")
+                .attr("fill", function(d, i){return colors(i);})
+                .attr("d", function(d, i){
+                    return arc(d, i); // <-D
+                });
+}
+
+render(0);
 </script>
 
 <div class="control-group">

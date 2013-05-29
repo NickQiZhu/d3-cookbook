@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Arc with Labels</title>
+    <title>Arc with Data</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -10,50 +10,50 @@
 <body>
 
 <script type="text/javascript">
-    var width = 400,
-        height = 400,
-        fullAngle = 2 * Math.PI,
-        colors = d3.scale.category20c();
-        
-    var svg = d3.select("body").append("svg")
-                .attr("class", "pie")
-                .attr("height", height)
-                .attr("width", width);    
+var width = 400,
+    height = 400,
+    fullAngle = 2 * Math.PI,
+    colors = d3.scale.category20c();
     
-    function render(innerRadius){    
-        var data = [
-            {startAngle: 0, endAngle: 0.1 * fullAngle, value: "A"},
-            {startAngle: 0.1 * fullAngle, endAngle: 0.2 * fullAngle, value: "B"},
-            {startAngle: 0.2 * fullAngle, endAngle: 0.4 * fullAngle, value: "C"},
-            {startAngle: 0.4 * fullAngle, endAngle: 0.6 * fullAngle, value: "D"},        
-            {startAngle: 0.6 * fullAngle, endAngle: 0.7 * fullAngle, value: "E"},        
-            {startAngle: 0.7 * fullAngle, endAngle: 0.9 * fullAngle, value: "F"},        
-            {startAngle: 0.9 * fullAngle, endAngle: fullAngle, value: "G"}
-        ];
-        
-        var arc = d3.svg.arc().outerRadius(200).innerRadius(innerRadius);
-        
-        svg.select("g").remove();
-        
-        var arcs = svg.append("g")
-                .attr("transform", "translate(200,200)")
-        .selectAll("path.arc")
-                .data(data)
-            .enter();
-                
-        arcs.append("path")
-            .attr("class", "arc")
-            .attr("fill", function(d, i){return colors(i);})
-            .attr("d", function(d, i){return arc(d, i);});
-        
-        arcs.append("text")
-            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-            .attr("dy", ".35em")
-            .attr("text-anchor", "middle")
-            .text(function(d) { return d.value; });;
-    }
+var svg = d3.select("body").append("svg")
+            .attr("class", "pie")
+            .attr("height", height)
+            .attr("width", width);    
+
+function render(innerRadius){    
+    var data = [
+        {startAngle: 0, endAngle: 0.1 * fullAngle, value: "A"},
+        {startAngle: 0.1 * fullAngle, endAngle: 0.2 * fullAngle, value: "B"},
+        {startAngle: 0.2 * fullAngle, endAngle: 0.4 * fullAngle, value: "C"},
+        {startAngle: 0.4 * fullAngle, endAngle: 0.6 * fullAngle, value: "D"},        
+        {startAngle: 0.6 * fullAngle, endAngle: 0.7 * fullAngle, value: "E"},        
+        {startAngle: 0.7 * fullAngle, endAngle: 0.9 * fullAngle, value: "F"},        
+        {startAngle: 0.9 * fullAngle, endAngle: fullAngle, value: "G"}
+    ];
     
-    render(100);
+    var arc = d3.svg.arc().outerRadius(200).innerRadius(innerRadius);
+    
+    svg.select("g").remove();
+    
+    var arcs = svg.append("g")
+            .attr("transform", "translate(200,200)")
+    .selectAll("path.arc")
+            .data(data)
+        .enter();
+            
+    arcs.append("path")
+        .attr("class", "arc")
+        .attr("fill", function(d, i){return colors(i);})
+        .attr("d", function(d, i){return arc(d, i);});
+    
+    arcs.append("text")
+        .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .text(function(d) { return d.value; });;
+}
+
+render(100);
 </script>
 
 </body>
