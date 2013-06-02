@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Line Chart</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    function lineChart(){
+        var chart = {};
+        
+        var margins = {top: 30, left: 30, right: 30, bottom: 30},
+            x, y;
+        
+        chart.margins = function(m){
+            if(!arguments.length) return margins;
+            margins = m;
+            return chart;
+        };
+        
+        return chart;
+    }
+</script>
+
+</body>
+
+</html>
