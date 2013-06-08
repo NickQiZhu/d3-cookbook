@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Line Chart</title>
+    <title>Area Chart</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -89,6 +89,8 @@ function lineChart() {
 
         renderLines();
 
+        renderAreas();
+
         renderDots();
     }
 
@@ -127,6 +129,26 @@ function lineChart() {
             dots.append("title")
                     .text(_titleGenerator);
         });
+    }
+
+    function renderAreas() {
+        var area = d3.svg.area()
+                    .x(function(d) { return _x(d.x); })
+                    .y0(yStart())
+                    .y1(function(d) { return _y(d.y); });
+
+        _bodyG.selectAll("path.area")
+                .data(_data)
+                .enter()
+                .append("path")
+                .attr("transform", "translate(" + xStart() + "," + yEnd() + ")")
+                .style("fill", function (d, i) { return _colors(i); })
+                .attr("class", "area");
+
+        _bodyG.selectAll("path.area")
+                .data(_data)
+                .transition()
+                .attr("d", function (d) { return area(d); });
     }
 
     function xStart() {

@@ -166,7 +166,7 @@ button {
 .area {
     stroke: none;
     fill: steelblue;
-    fill-opacity: .5;
+    fill-opacity: .2;
 }
 
 .pie text{
