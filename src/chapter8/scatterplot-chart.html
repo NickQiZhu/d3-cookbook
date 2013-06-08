@@ -20,7 +20,13 @@ function lineChart() {
             _colors = d3.scale.category10(),
             _svg,
             _bodyG,
-            _symbolTypes = d3.scale.ordinal().range(["circle", "cross", "diamond", "square", "triangle-down", "triangle-up"]);
+            _symbolTypes = d3.scale.ordinal()
+                    .range(["circle",
+                        "cross",
+                        "diamond",
+                        "square",
+                        "triangle-down",
+                        "triangle-up"]);
 
     _chart.render = function () {
         if (!_svg) {
