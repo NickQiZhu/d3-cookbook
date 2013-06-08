@@ -20,11 +20,7 @@ function lineChart() {
             _colors = d3.scale.category10(),
             _svg,
             _bodyG,
-            _line,
-            _titleGenerator = function(d, i){
-                var format = d3.format(".2f");
-                return "(" + format(d.x) + ", "+ format(d.y) +")";
-            };
+            _line;
 
     _chart.render = function () {
         if (!_svg) {
@@ -226,17 +222,19 @@ function update() {
     for (var i = 0; i < data.length; ++i) {
         var series = data[i];
         series.length = 0;
-        for (var j = 0; j < 11; ++j)
+        for (var j = 0; j < numberOfDataPoint; ++j)
             series.push({x: j, y: randomData()});
     }
 
     chart.render();
 }
 
-var numberOfLines = 2, data = [];
+var numberOfSeries = 2,
+    numberOfDataPoint = 11,
+    data = [];
 
-for (var i = 0; i < numberOfLines; ++i)
-    data.push(d3.range(11).map(function (i) {
+for (var i = 0; i < numberOfSeries; ++i)
+    data.push(d3.range(numberOfDataPoint).map(function (i) {
         return {x: i, y: randomData()};
     }));
 

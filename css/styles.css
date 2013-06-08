@@ -173,3 +173,33 @@ button {
     fill: white;
     font-weight: bold;
 }
+
+.circle {
+    stroke: red;
+    fill: none;
+}
+
+.cross {
+    stroke: blue;
+    fill: none;
+}
+
+.diamond {
+    stroke: green;
+    fill: none;
+}
+
+.square{
+    stroke: yellow;
+    fill: none;
+}
+
+.triangle-down{
+    stroke: blueviolet;
+    fill: none;
+}
+
+.triangle-up{
+    stroke: darkred;
+    fill: none;
+}
