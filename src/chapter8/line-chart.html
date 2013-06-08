@@ -109,7 +109,7 @@ function lineChart() {
 
     function renderDots() {
         _data.forEach(function (list, i) {
-            var dots = _bodyG.selectAll("circle._" + i)
+            _bodyG.selectAll("circle._" + i)
                     .data(list)
                     .enter().append("circle")
                     .attr("class", "dot _" + i);
@@ -122,10 +122,6 @@ function lineChart() {
                     .attr("cx", function (d) { return _x(d.x); })
                     .attr("cy", function (d) { return _y(d.y); })
                     .attr("r", 4.5);
-
-            dots.select("title").remove();
-            dots.append("title")
-                    .text(_titleGenerator);
         });
     }
 
