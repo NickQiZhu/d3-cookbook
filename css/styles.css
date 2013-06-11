@@ -203,3 +203,7 @@ button {
     stroke: darkred;
     fill: none;
 }
+
+.bubble{
+    fill-opacity: .3;
+}
