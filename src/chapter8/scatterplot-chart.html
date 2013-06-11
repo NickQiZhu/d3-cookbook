@@ -10,7 +10,7 @@
 <body>
 
 <script type="text/javascript">
-function lineChart() {
+function scatterPlotChart() {
     var _chart = {};
 
     var _width = 500, _height = 500,
@@ -205,7 +205,7 @@ for (var i = 0; i < numberOfSeries; ++i)
         return {x: randomData(), y: randomData()};
     }));
 
-var chart = lineChart()
+var chart = scatterPlotChart()
         .x(d3.scale.linear().domain([0, 10]))
         .y(d3.scale.linear().domain([0, 10]));
 
