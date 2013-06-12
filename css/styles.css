@@ -207,3 +207,8 @@ button {
 .bubble{
     fill-opacity: .3;
 }
+
+.bar{
+    stroke: none;
+    fill: steelblue;
+}
