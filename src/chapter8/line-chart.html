@@ -10,10 +10,10 @@
 <body>
 
 <script type="text/javascript">
-function lineChart() {
+function lineChart() { // <-1A
     var _chart = {};
 
-    var _width = 600, _height = 300,
+    var _width = 600, _height = 300, // <-1B
             _margins = {top: 30, left: 30, right: 30, bottom: 30},
             _x, _y,
             _data = [],
@@ -22,9 +22,9 @@ function lineChart() {
             _bodyG,
             _line;
 
-    _chart.render = function () {
+    _chart.render = function () { // <-2A
         if (!_svg) {
-            _svg = d3.select("body").append("svg")
+            _svg = d3.select("body").append("svg") // <-2B
                     .attr("height", _height)
                     .attr("width", _width);
 
@@ -40,51 +40,74 @@ function lineChart() {
         var axesG = svg.append("g")
                 .attr("class", "axes");
 
+        renderXAxis(axesG);
+
+        renderYAxis(axesG);
+    }
+    
+    function renderXAxis(axesG){
         var xAxis = d3.svg.axis()
                 .scale(_x.range([0, quadrantWidth()]))
-                .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-                .scale(_y.range([quadrantHeight(), 0]))
-                .orient("left");
+                .orient("bottom");        
 
         axesG.append("g")
-                .attr("class", "axis")
+                .attr("class", "x axis")
                 .attr("transform", function () {
                     return "translate(" + xStart() + "," + yStart() + ")";
                 })
                 .call(xAxis);
-
+                
+        d3.selectAll("g.x g.tick")
+            .append("line")
+                .classed("grid-line", true)
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", 0)
+                .attr("y2", - quadrantHeight());
+    }
+    
+    function renderYAxis(axesG){
+        var yAxis = d3.svg.axis()
+                .scale(_y.range([quadrantHeight(), 0]))
+                .orient("left");
+                
         axesG.append("g")
-                .attr("class", "axis")
+                .attr("class", "y axis")
                 .attr("transform", function () {
                     return "translate(" + xStart() + "," + yEnd() + ")";
                 })
                 .call(yAxis);
+                
+         d3.selectAll("g.y g.tick")
+            .append("line")
+                .classed("grid-line", true)
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", quadrantWidth())
+                .attr("y2", 0);
     }
 
-    function defineBodyClip(svg) {
+    function defineBodyClip(svg) { // <-2C
         var padding = 5;
 
         svg.append("defs")
                 .append("clipPath")
                 .attr("id", "body-clip")
                 .append("rect")
-                .attr("x", xStart() - padding)
-                .attr("y", yEnd())
+                .attr("x", 0 - padding)
+                .attr("y", 0)
                 .attr("width", quadrantWidth() + 2 * padding)
                 .attr("height", quadrantHeight());
     }
 
-    function renderBody(svg) {
+    function renderBody(svg) { // <-2D
         if (!_bodyG)
             _bodyG = svg.append("g")
                     .attr("class", "body")
-                    .attr("clip-path", "url(#body-clip)");
-
-        _line = d3.svg.line()
-                        .x(function (d) { return _x(d.x); })
-                        .y(function (d) { return _y(d.y); });
+                    .attr("transform", "translate(" 
+                        + xStart() + "," 
+                        + yEnd() + ")") // <-2E
+                    .attr("clip-path", "url(#body-clip)");        
 
         renderLines();
 
@@ -92,32 +115,39 @@ function lineChart() {
     }
 
     function renderLines() {
+        _line = d3.svg.line() //<-4A
+                        .x(function (d) { return _x(d.x); })
+                        .y(function (d) { return _y(d.y); });
+                        
         _bodyG.selectAll("path.line")
-                .data(_data)
-                .enter()
-                .append("path")
-                .attr("transform", "translate(" + xStart() + "," + yEnd() + ")")
-                .style("stroke", function (d, i) { return _colors(i); })
+                    .data(_data)
+                .enter() //<-4B
+                .append("path")                
+                .style("stroke", function (d, i) { 
+                    return _colors(i); //<-4C
+                })
                 .attr("class", "line");
 
         _bodyG.selectAll("path.line")
                 .data(_data)
-                .transition()
+                .transition() //<-4D
                 .attr("d", function (d) { return _line(d); });
     }
 
     function renderDots() {
         _data.forEach(function (list, i) {
-            _bodyG.selectAll("circle._" + i)
-                    .data(list)
-                    .enter().append("circle")
+            _bodyG.selectAll("circle._" + i) //<-4E
+                        .data(list)
+                    .enter()
+                    .append("circle")
                     .attr("class", "dot _" + i);
 
             _bodyG.selectAll("circle._" + i)
-                    .data(list)
-                    .attr("transform", "translate(" + xStart() + "," + yEnd() + ")")
-                    .style("stroke", function (d) { return _colors(i); })
-                    .transition()
+                    .data(list)                    
+                    .style("stroke", function (d) { 
+                        return _colors(i); //<-4F
+                    })
+                    .transition() //<-4G
                     .attr("cx", function (d) { return _x(d.x); })
                     .attr("cy", function (d) { return _y(d.y); })
                     .attr("r", 4.5);
@@ -154,7 +184,7 @@ function lineChart() {
         return _chart;
     };
 
-    _chart.height = function (h) {
+    _chart.height = function (h) { // <-1C
         if (!arguments.length) return _height;
         _height = h;
         return _chart;
@@ -184,12 +214,12 @@ function lineChart() {
         return _chart;
     };
 
-    _chart.addSeries = function (series) {
+    _chart.addSeries = function (series) { // <-1D
         _data.push(series);
         return _chart;
     };
 
-    return _chart;
+    return _chart; // <-1E
 }
 
 function randomData() {
