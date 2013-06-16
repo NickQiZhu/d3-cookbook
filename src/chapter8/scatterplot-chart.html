@@ -20,7 +20,7 @@ function scatterPlotChart() {
             _colors = d3.scale.category10(),
             _svg,
             _bodyG,
-            _symbolTypes = d3.scale.ordinal()
+            _symbolTypes = d3.scale.ordinal() // <-A
                     .range(["circle",
                         "cross",
                         "diamond",
@@ -118,7 +118,7 @@ function scatterPlotChart() {
         renderSymbols();
     }
 
-    function renderSymbols() {
+    function renderSymbols() { // <-B
         _data.forEach(function (list, i) {
             _bodyG.selectAll("path._" + i)
                         .data(list)
@@ -129,16 +129,18 @@ function scatterPlotChart() {
             _bodyG.selectAll("path._" + i)
                     .data(list)
                         .classed(_symbolTypes(i), true)
-                    .transition()
+                    .transition() // <-C
                         .attr("transform", function(d){
-                            return "translate("
+                            return "translate(" // <-D
                                     + _x(d.x) 
                                     + "," 
                                     + _y(d.y) 
                                     + ")";
                         })
                         .attr("d", 
-                            d3.svg.symbol().type(_symbolTypes(i)));
+                            d3.svg.symbol() // <-E
+                                .type(_symbolTypes(i))
+                        ); 
         });
     }
 
