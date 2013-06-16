@@ -175,33 +175,39 @@ button {
 }
 
 .circle {
-    stroke: red;
-    fill: none;
+    stroke: none;
+    fill: red;
+    fill-opacity: .7;
 }
 
 .cross {
-    stroke: blue;
-    fill: none;
+    stroke: none;
+    fill: blue;
+    fill-opacity: .7;
 }
 
 .diamond {
-    stroke: green;
-    fill: none;
+    stroke: none;
+    fill: green;
+    fill-opacity: .7;
 }
 
 .square{
-    stroke: yellow;
-    fill: none;
+    stroke: none;
+    fill: yellow;
+    fill-opacity: .7;
 }
 
 .triangle-down{
-    stroke: blueviolet;
-    fill: none;
+    stroke: none;
+    fill: blueviolet;
+    fill-opacity: .7;
 }
 
 .triangle-up{
-    stroke: darkred;
-    fill: none;
+    stroke: none;
+    fill: darkred;
+    fill-opacity: .7;
 }
 
 .bubble{

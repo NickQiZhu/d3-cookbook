@@ -46,27 +46,51 @@ function scatterPlotChart() {
         var axesG = svg.append("g")
                 .attr("class", "axes");
 
+        renderXAxis(axesG);
+
+        renderYAxis(axesG);
+    }
+    
+    function renderXAxis(axesG){
         var xAxis = d3.svg.axis()
                 .scale(_x.range([0, quadrantWidth()]))
-                .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-                .scale(_y.range([quadrantHeight(), 0]))
-                .orient("left");
+                .orient("bottom");        
 
         axesG.append("g")
-                .attr("class", "axis")
+                .attr("class", "x axis")
                 .attr("transform", function () {
                     return "translate(" + xStart() + "," + yStart() + ")";
                 })
                 .call(xAxis);
-
+                
+        d3.selectAll("g.x g.tick")
+            .append("line")
+                .classed("grid-line", true)
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", 0)
+                .attr("y2", - quadrantHeight());
+    }
+    
+    function renderYAxis(axesG){
+        var yAxis = d3.svg.axis()
+                .scale(_y.range([quadrantHeight(), 0]))
+                .orient("left");
+                
         axesG.append("g")
-                .attr("class", "axis")
+                .attr("class", "y axis")
                 .attr("transform", function () {
                     return "translate(" + xStart() + "," + yEnd() + ")";
                 })
                 .call(yAxis);
+                
+         d3.selectAll("g.y g.tick")
+            .append("line")
+                .classed("grid-line", true)
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", quadrantWidth())
+                .attr("y2", 0);
     }
 
     function defineBodyClip(svg) {
@@ -76,8 +100,8 @@ function scatterPlotChart() {
                 .append("clipPath")
                 .attr("id", "body-clip")
                 .append("rect")
-                .attr("x", xStart() - padding)
-                .attr("y", yEnd())
+                .attr("x", 0 - padding)
+                .attr("y", 0)
                 .attr("width", quadrantWidth() + 2 * padding)
                 .attr("height", quadrantHeight());
     }
@@ -85,7 +109,10 @@ function scatterPlotChart() {
     function renderBody(svg) {
         if (!_bodyG)
             _bodyG = svg.append("g")
-                    .attr("class", "body")
+                    .attr("class", "body")                    
+                    .attr("transform", "translate(" 
+                        + xStart() + "," 
+                        + yEnd() + ")") 
                     .attr("clip-path", "url(#body-clip)");
 
         renderSymbols();
@@ -94,22 +121,24 @@ function scatterPlotChart() {
     function renderSymbols() {
         _data.forEach(function (list, i) {
             _bodyG.selectAll("path._" + i)
-                    .data(list)
-                    .enter().append("path")
+                        .data(list)
+                    .enter()
+                    .append("path")
                     .attr("class", "symbol _" + i);
 
             _bodyG.selectAll("path._" + i)
                     .data(list)
-                    .classed(_symbolTypes(i), true)
+                        .classed(_symbolTypes(i), true)
                     .transition()
-                    .attr("transform", function(d){
-                        return "translate("
-                                + (xStart() + _x(d.x))
-                                + ","
-                                + (yEnd() + _y(d.y))
-                                + ")";
-                    })
-                    .attr("d", d3.svg.symbol().type(_symbolTypes(i)));
+                        .attr("transform", function(d){
+                            return "translate("
+                                    + _x(d.x) 
+                                    + "," 
+                                    + _y(d.y) 
+                                    + ")";
+                        })
+                        .attr("d", 
+                            d3.svg.symbol().type(_symbolTypes(i)));
         });
     }
 
