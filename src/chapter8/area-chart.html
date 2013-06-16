@@ -163,15 +163,19 @@ function areaChart() {
 
         _bodyG.selectAll("path.area")
                 .data(_data)
-                .enter()
+                .enter() // <-B
                 .append("path")
-                .style("fill", function (d, i) { return _colors(i); })
+                .style("fill", function (d, i) { 
+                    return _colors(i); 
+                })
                 .attr("class", "area");
 
         _bodyG.selectAll("path.area")
                 .data(_data)
-                .transition()
-                .attr("d", function (d) { return area(d); });
+                .transition() // <-D
+                .attr("d", function (d) { 
+                    return area(d); // <-E
+                });
     }
 
     function xStart() {
