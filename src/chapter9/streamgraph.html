@@ -2,19 +2,33 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Stacked Area Chart</title>
+    <title>Streamgraph</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
 
 <body>
 
+<style>
+path.area{
+    fill-opacity: 1;
+}
+
+g.x path.domain{
+    stroke: none;
+}
+
+g.x g.tick line{
+    stroke: none;
+}
+</style>
+
 <script type="text/javascript">
 function lineChart() {
     var _chart = {};
 
     var _width = 900, _height = 450,
-            _margins = {top: 30, left: 30, right: 30, bottom: 30},
+            _margins = {top: 30, left: 30, right: 30, bottom: 80},
             _x, _y,
             _data = [],
             _colors = d3.scale.category10(),
@@ -53,38 +67,15 @@ function lineChart() {
         axesG.append("g")
                 .attr("class", "x axis")
                 .attr("transform", function () {
-                    return "translate(" + xStart() + "," + yStart() + ")";
+                    return "translate(" + xStart() + "," + (yStart() + 50) + ")";
                 })
                 .call(xAxis);
-
-        d3.selectAll("g.x g.tick")
-                .append("line")
-                .classed("grid-line", true)
-                .attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", 0)
-                .attr("y2", -quadrantHeight());
     }
 
     function renderYAxis(axesG) {
         var yAxis = d3.svg.axis()
                 .scale(_y.range([quadrantHeight(), 0]))
                 .orient("left");
-
-        axesG.append("g")
-                .attr("class", "y axis")
-                .attr("transform", function () {
-                    return "translate(" + xStart() + "," + yEnd() + ")";
-                })
-                .call(yAxis);
-
-        d3.selectAll("g.y g.tick")
-                .append("line")
-                .classed("grid-line", true)
-                .attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", quadrantWidth())
-                .attr("y2", 0);
     }
 
     function defineBodyClip(svg) {
@@ -110,42 +101,15 @@ function lineChart() {
                     .attr("clip-path", "url(#body-clip)");
 
         var stack = d3.layout.stack()
-                .offset('zero');
+                .offset('wiggle');
         var stackedData = stack(_data);
-
-        renderLines(stackedData);
 
         renderAreas(stackedData);
     }
 
-    function renderLines(stackedData) {
-        _line = d3.svg.line()
-                .x(function (d) {
-                    return _x(d.x);
-                })
-                .y(function (d) {
-                    return _y(d.y + d.y0);
-                });
-
-        _bodyG.selectAll("path.line")
-                .data(stackedData)
-                .enter()
-                .append("path")
-                .style("stroke", function (d, i) {
-                    return _colors(i);
-                })
-                .attr("class", "line");
-
-        _bodyG.selectAll("path.line")
-                .data(stackedData)
-                .transition()
-                .attr("d", function (d) {
-                    return _line(d);
-                });
-    }
-
     function renderAreas(stackedData) {
         var area = d3.svg.area()
+                .interpolate('cardinal')
                 .x(function (d) {
                     return _x(d.x);
                 })
@@ -159,7 +123,7 @@ function lineChart() {
                 .enter()
                 .append("path")
                 .style("fill", function (d, i) {
-                    return _colors(i);
+                    return _colors(Math.random());
                 })
                 .attr("class", "area");
 
@@ -201,7 +165,7 @@ function lineChart() {
         return _chart;
     };
 
-    _chart.height = function (h) { // <-1C
+    _chart.height = function (h) { 
         if (!arguments.length) return _height;
         _height = h;
         return _chart;
@@ -254,7 +218,7 @@ function update() {
     chart.render();
 }
 
-var numberOfSeries = 3,
+var numberOfSeries = 8,
         numberOfDataPoint = 51,
         data = [];
 
@@ -265,7 +229,8 @@ for (var i = 0; i < numberOfSeries; ++i)
 
 var chart = lineChart()
         .x(d3.scale.linear().domain([0, numberOfDataPoint - 1]))
-        .y(d3.scale.linear().domain([0, 26]));
+        .y(d3.scale.linear().domain([0, 65]))
+        .colors(d3.scale.linear().range(["#64AAD0", "#034569"]));
 
 data.forEach(function (series) {
     chart.addSeries(series);

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Stacked Area Chart</title>
+    <title>Expanded Stacked Area Chart</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -110,7 +110,7 @@ function lineChart() {
                     .attr("clip-path", "url(#body-clip)");
 
         var stack = d3.layout.stack()
-                .offset('zero');
+                .offset('expand');
         var stackedData = stack(_data);
 
         renderLines(stackedData);
@@ -254,8 +254,8 @@ function update() {
     chart.render();
 }
 
-var numberOfSeries = 3,
-        numberOfDataPoint = 51,
+var numberOfSeries = 4,
+        numberOfDataPoint = 70,
         data = [];
 
 for (var i = 0; i < numberOfSeries; ++i)
@@ -265,7 +265,7 @@ for (var i = 0; i < numberOfSeries; ++i)
 
 var chart = lineChart()
         .x(d3.scale.linear().domain([0, numberOfDataPoint - 1]))
-        .y(d3.scale.linear().domain([0, 26]));
+        .y(d3.scale.linear().domain([0, 1]));
 
 data.forEach(function (series) {
     chart.addSeries(series);
