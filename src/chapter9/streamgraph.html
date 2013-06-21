@@ -230,7 +230,7 @@ for (var i = 0; i < numberOfSeries; ++i)
 var chart = lineChart()
         .x(d3.scale.linear().domain([0, numberOfDataPoint - 1]))
         .y(d3.scale.linear().domain([0, 65]))
-        .colors(d3.scale.linear().range(["#64AAD0", "#034569"]));
+        .colors(d3.scale.linear().range(["#aad", "#556"]));
 
 data.forEach(function (series) {
     chart.addSeries(series);
