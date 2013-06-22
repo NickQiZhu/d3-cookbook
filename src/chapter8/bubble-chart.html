@@ -15,7 +15,7 @@ function bubbleChart() {
 
     var _width = 600, _height = 300,
             _margins = {top: 30, left: 30, right: 30, bottom: 30},
-            _x, _y, _r,
+            _x, _y, _r, // <-A
             _data = [],
             _colors = d3.scale.category10(),
             _svg,
@@ -81,31 +81,37 @@ function bubbleChart() {
                     .attr("class", "body")
                     .attr("clip-path", "url(#body-clip)");
 
-        _line = d3.svg.line()
-                        .x(function (d) { return _x(d.x); })
-                        .y(function (d) { return _y(d.y); });
-
         renderBubbles();
     }
 
     function renderBubbles() {
-        _r.range([0, 50])
+        _r.range([0, 50]); // <-B
     
         _data.forEach(function (list, i) {
             _bodyG.selectAll("circle._" + i)
-                    .data(list)
-                    .enter().append("circle")
+                        .data(list)
+                    .enter()
+                    .append("circle") // <-C
                     .attr("class", "bubble _" + i);
 
             _bodyG.selectAll("circle._" + i)
-                    .data(list)
-                    .attr("transform", "translate(" + xStart() + "," + yEnd() + ")")
-                    .style("stroke", function (d, j) { return _colors(j); })
-                    .style("fill", function (d, j) { return _colors(j); })
+                        .data(list)
+                    .style("stroke", function (d, j) { 
+                        return _colors(j); 
+                    })
+                    .style("fill", function (d, j) { 
+                        return _colors(j); 
+                    })
                     .transition()
-                    .attr("cx", function (d) { return _x(d.x); })
-                    .attr("cy", function (d) { return _y(d.y); })
-                    .attr("r", function (d) { return _r(d.r); });
+                    .attr("cx", function (d) { 
+                        return _x(d.x); 
+                    })
+                    .attr("cy", function (d) { 
+                        return _y(d.y); 
+                    })
+                    .attr("r", function (d) { 
+                        return _r(d.r); 
+                    });
         });
     }
 
