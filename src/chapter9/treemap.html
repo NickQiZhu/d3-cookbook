@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Treemap</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    function treemapChart() {
+        var _chart = {};
+
+        var _width = 1700, _height = 800,
+                _colors = d3.scale.category20(),
+                _svg,
+                _nodes,
+                _x = d3.scale.linear().range([0, _width]),
+                _y = d3.scale.linear().range([0, _height]),
+                _bodyG;
+
+        _chart.render = function () {
+            if (!_svg) {
+                _svg = d3.select("body").append("svg")
+                        .attr("height", _height)
+                        .attr("width", _width);
+            }
+
+            renderBody(_svg);
+        };
+
+        function renderBody(svg) {
+            if (!_bodyG)
+                _bodyG = svg.append("g")
+                        .attr("class", "body");
+                        
+            var treemap = d3.layout.treemap()
+                        .round(false)
+                        .size([_width, _height])
+                        .sticky(true)
+                        .value(function(d) { return d.size; });;
+                        
+            var nodes = treemap.nodes(_nodes)
+              .filter(function(d) { return !d.children; });
+              
+              console.log(nodes);
+
+          var cell = svg.selectAll("g")
+              .data(nodes)
+            .enter().append("svg:g")
+              .attr("class", "cell")
+              .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+          cell.append("svg:rect")
+              .attr("width", function(d) { return d.dx - 1; })
+              .attr("height", function(d) { return d.dy - 1; })
+              .style("fill", function(d) { return _colors(d.parent.name); });
+
+          cell.append("svg:text")
+              .attr("x", function(d) { return d.dx / 2; })
+              .attr("y", function(d) { return d.dy / 2; })
+              .attr("dy", ".35em")
+              .attr("text-anchor", "middle")
+              .text(function(d) { return d.name; })
+              .style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
+        }
+
+        _chart.width = function (w) {
+            if (!arguments.length) return _width;
+            _width = w;
+            return _chart;
+        };
+
+        _chart.height = function (h) {
+            if (!arguments.length) return _height;
+            _height = h;
+            return _chart;
+        };
+
+        _chart.colors = function (c) {
+            if (!arguments.length) return _colors;
+            _colors = c;
+            return _chart;
+        };
+        
+        _chart.nodes = function (n) {
+            if (!arguments.length) return _nodes;
+            _nodes = n;
+            return _chart;
+        };
+
+        return _chart;
+    }
+    
+    d3.json("flare.json", function(nodes) {
+        var chart = treemapChart()
+            .nodes(nodes);
+            
+        chart.render();
+    });
+</script>
+
+<div class="control-group">
+    <button onclick="update()">Update</button>
+</div>
+
+</body>
+
+</html>

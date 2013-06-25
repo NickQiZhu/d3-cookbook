@@ -41,7 +41,7 @@
         }
 
         function renderPie() {
-            var pie = d3.layout.pie()
+            var pie = d3.layout.pie() // <-A
                     .sort(function (d) {
                         return d.id;
                     })
@@ -56,7 +56,10 @@
             if (!_pieG)
                 _pieG = _bodyG.append("g")
                         .attr("class", "pie")
-                        .attr("transform", "translate(" + _radius + "," + _radius + ")");
+                        .attr("transform", "translate(" 
+                            + _radius 
+                            + "," 
+                            + _radius + ")");
 
             renderSlices(pie, arc);
 
@@ -65,9 +68,7 @@
 
         function renderSlices(pie, arc) {
             var slices = _pieG.selectAll("path.arc")
-                    .data(pie, function (d) {
-                        return d.data.id;
-                    });
+                    .data(pie); // <-B
 
             slices.enter()
                     .append("path")
@@ -78,13 +79,17 @@
 
             slices.transition()
                     .attrTween("d", function (d) {
-                        var currentArc = this.__current_arc__;
+                        var currentArc = this.__current__; // <-C
 
                         if (!currentArc)
-                            currentArc = {startAngle: 0, endAngle: 0};
+                            currentArc = {startAngle: 0, 
+                                            endAngle: 0};
 
-                        var interpolate = d3.interpolate(currentArc, d);
-                        this.__current_arc__ = interpolate(1);
+                        var interpolate = d3.interpolate(
+                                            currentArc, d);
+                                            
+                        this.__current__ = interpolate(1);//<-D
+                        
                         return function (t) {
                             return arc(interpolate(t));
                         };
@@ -93,9 +98,7 @@
 
         function renderLabels(pie, arc) {
             var labels = _pieG.selectAll("text.label")
-                    .data(pie, function (d) {
-                        return d.data.id;
-                    });
+                    .data(pie); // <-E
 
             labels.enter()
                     .append("text")
@@ -103,7 +106,8 @@
 
             labels.transition()
                     .attr("transform", function (d) {
-                        return "translate(" + arc.centroid(d) + ")";
+                        return "translate(" 
+                            + arc.centroid(d) + ")"; // <-F
                     })
                     .attr("dy", ".35em")
                     .attr("text-anchor", "middle")
