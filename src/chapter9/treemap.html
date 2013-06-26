@@ -13,12 +13,15 @@
     function treemapChart() {
         var _chart = {};
 
-        var _width = 1700, _height = 800,
-                _colors = d3.scale.category20(),
+        var _width = 1100, _height = 600,
+                _colors = d3.scale.category20c(),
                 _svg,
                 _nodes,
                 _x = d3.scale.linear().range([0, _width]),
                 _y = d3.scale.linear().range([0, _height]),
+                _valueAccessor = function (d) {
+                    return 1;
+                },
                 _bodyG;
 
         _chart.render = function () {
@@ -35,36 +38,61 @@
             if (!_bodyG)
                 _bodyG = svg.append("g")
                         .attr("class", "body");
-                        
+
             var treemap = d3.layout.treemap()
-                        .round(false)
-                        .size([_width, _height])
-                        .sticky(true)
-                        .value(function(d) { return d.size; });;
-                        
+                    .round(false)
+                    .size([_width, _height])
+                    .sticky(true)
+                    .value(_valueAccessor);
+
             var nodes = treemap.nodes(_nodes)
-              .filter(function(d) { return !d.children; });
-              
-              console.log(nodes);
+                    .filter(function (d) {
+                        return !d.children;
+                    });
 
-          var cell = svg.selectAll("g")
-              .data(nodes)
-            .enter().append("svg:g")
-              .attr("class", "cell")
-              .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+            var cell = svg.selectAll("g")
+                    .data(nodes, function (d) {
+                        return !d ? '' : d.name;
+                    });
 
-          cell.append("svg:rect")
-              .attr("width", function(d) { return d.dx - 1; })
-              .attr("height", function(d) { return d.dy - 1; })
-              .style("fill", function(d) { return _colors(d.parent.name); });
+            var cellEnter = cell.enter().append("g")
+                    .attr("class", "cell");
 
-          cell.append("svg:text")
-              .attr("x", function(d) { return d.dx / 2; })
-              .attr("y", function(d) { return d.dy / 2; })
-              .attr("dy", ".35em")
-              .attr("text-anchor", "middle")
-              .text(function(d) { return d.name; })
-              .style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
+            cellEnter.append("rect")
+            cellEnter.append("text");
+
+            cell.transition().attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            })
+                    .select("rect")
+                    .attr("width", function (d) {
+                        return d.dx - 1;
+                    })
+                    .attr("height", function (d) {
+                        return d.dy - 1;
+                    })
+                    .style("fill", function (d) {
+                        return _colors(d.parent.name);
+                    });
+
+            cell.select("text")
+                    .attr("x", function (d) {
+                        return d.dx / 2;
+                    })
+                    .attr("y", function (d) {
+                        return d.dy / 2;
+                    })
+                    .attr("dy", ".35em")
+                    .attr("text-anchor", "middle")
+                    .text(function (d) {
+                        return d.name;
+                    })
+                    .style("opacity", function (d) {
+                        d.w = this.getComputedTextLength();
+                        return d.dx > d.w ? 1 : 0;
+                    });
+
+            cell.exit().remove();
         }
 
         _chart.width = function (w) {
@@ -84,26 +112,53 @@
             _colors = c;
             return _chart;
         };
-        
+
         _chart.nodes = function (n) {
             if (!arguments.length) return _nodes;
             _nodes = n;
             return _chart;
         };
 
+        _chart.valueAccessor = function (fn) {
+            if (!arguments.length) return _valueAccessor;
+            _valueAccessor = fn;
+            return _chart;
+        };
+
         return _chart;
     }
-    
-    d3.json("flare.json", function(nodes) {
-        var chart = treemapChart()
-            .nodes(nodes);
-            
-        chart.render();
-    });
+
+    var chart = treemapChart();
+
+    function largeFlare() {
+        d3.json("flare.json", function (nodes) {
+            chart.nodes(nodes).render();
+        });
+    }
+
+    function simpleFlare() {
+        d3.json("simple-flare.json", function (nodes) {
+            chart.nodes(nodes).render();
+        });
+    }
+
+    function size(d) {
+        return d.size;
+    }
+
+    function count(d) {
+        return 1;
+    }
+
+    function flip(chart) {
+        chart.valueAccessor(chart.valueAccessor() == size ? count : size).render();
+    }
 </script>
 
 <div class="control-group">
-    <button onclick="update()">Update</button>
+    <button onclick="largeFlare()">Complete Flare</button>
+    <button onclick="simpleFlare()">Small Flare</button>
+    <button onclick="flip(chart)">Flip Value vs. Count</button>
 </div>
 
 </body>
