@@ -111,11 +111,11 @@ function expandedAreaChart() {
 
         var stack = d3.layout.stack()
                 .offset('expand');
-        var stackedData = stack(_data);
+        stack(_data);
 
-        renderLines(stackedData);
+        renderLines(_data);
 
-        renderAreas(stackedData);
+        renderAreas(_data);
     }
 
     function renderLines(stackedData) {
@@ -128,7 +128,7 @@ function expandedAreaChart() {
                 });
 
         _bodyG.selectAll("path.line")
-                .data(stackedData)
+					.data(stackedData)
                 .enter()
                 .append("path")
                 .style("stroke", function (d, i) {
@@ -137,7 +137,7 @@ function expandedAreaChart() {
                 .attr("class", "line");
 
         _bodyG.selectAll("path.line")
-                .data(stackedData)
+					.data(stackedData)
                 .transition()
                 .attr("d", function (d) {
                     return _line(d);
@@ -155,7 +155,7 @@ function expandedAreaChart() {
                 });
 
         _bodyG.selectAll("path.area")
-                .data(stackedData)
+					.data(stackedData)
                 .enter()
                 .append("path")
                 .style("fill", function (d, i) {
@@ -164,7 +164,7 @@ function expandedAreaChart() {
                 .attr("class", "area");
 
         _bodyG.selectAll("path.area")
-                .data(_data)
+					.data(_data)
                 .transition()
                 .attr("d", function (d) {
                     return area(d);
