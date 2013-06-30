@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Expanded Stacked Area Chart</title>
+    <title>Expanded Area Chart</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 </head>
@@ -10,7 +10,7 @@
 <body>
 
 <script type="text/javascript">
-function lineChart() {
+function expandedAreaChart() {
     var _chart = {};
 
     var _width = 900, _height = 450,
@@ -255,7 +255,7 @@ function update() {
 }
 
 var numberOfSeries = 4,
-        numberOfDataPoint = 70,
+        numberOfDataPoint = 35,
         data = [];
 
 for (var i = 0; i < numberOfSeries; ++i)
@@ -263,7 +263,7 @@ for (var i = 0; i < numberOfSeries; ++i)
         return {x: i, y: randomData()};
     }));
 
-var chart = lineChart()
+var chart = expandedAreaChart()
         .x(d3.scale.linear().domain([0, numberOfDataPoint - 1]))
         .y(d3.scale.linear().domain([0, 1]));
 

@@ -10,7 +10,7 @@
 <body>
 
 <script type="text/javascript">
-function lineChart() {
+function stackedAreaChart() {
     var _chart = {};
 
     var _width = 900, _height = 450,
@@ -109,26 +109,26 @@ function lineChart() {
                             + yEnd() + ")")
                     .attr("clip-path", "url(#body-clip)");
 
-        var stack = d3.layout.stack()
+        var stack = d3.layout.stack() //<-A
                 .offset('zero');
-        var stackedData = stack(_data);
+        stack(_data); //<-B
 
-        renderLines(stackedData);
+        renderLines(_data);
 
-        renderAreas(stackedData);
+        renderAreas(_data);
     }
 
     function renderLines(stackedData) {
         _line = d3.svg.line()
                 .x(function (d) {
-                    return _x(d.x);
+                    return _x(d.x); //<-C
                 })
                 .y(function (d) {
-                    return _y(d.y + d.y0);
+                    return _y(d.y + d.y0); //<-D
                 });
 
         _bodyG.selectAll("path.line")
-                .data(stackedData)
+					.data(stackedData)
                 .enter()
                 .append("path")
                 .style("stroke", function (d, i) {
@@ -137,7 +137,7 @@ function lineChart() {
                 .attr("class", "line");
 
         _bodyG.selectAll("path.line")
-                .data(stackedData)
+					.data(stackedData)
                 .transition()
                 .attr("d", function (d) {
                     return _line(d);
@@ -147,15 +147,15 @@ function lineChart() {
     function renderAreas(stackedData) {
         var area = d3.svg.area()
                 .x(function (d) {
-                    return _x(d.x);
+                    return _x(d.x); //<-E
                 })
-                .y0(function(d){return _y(d.y0);})
+                .y0(function(d){return _y(d.y0);}) //<-F
                 .y1(function (d) {
-                    return _y(d.y + d.y0);
+                    return _y(d.y + d.y0); //<-G
                 });
 
         _bodyG.selectAll("path.area")
-                .data(stackedData)
+					.data(stackedData)
                 .enter()
                 .append("path")
                 .style("fill", function (d, i) {
@@ -164,7 +164,7 @@ function lineChart() {
                 .attr("class", "area");
 
         _bodyG.selectAll("path.area")
-                .data(_data)
+					.data(_data)
                 .transition()
                 .attr("d", function (d) {
                     return area(d);
@@ -201,7 +201,7 @@ function lineChart() {
         return _chart;
     };
 
-    _chart.height = function (h) { // <-1C
+    _chart.height = function (h) {
         if (!arguments.length) return _height;
         _height = h;
         return _chart;
@@ -263,7 +263,7 @@ for (var i = 0; i < numberOfSeries; ++i)
         return {x: i, y: randomData()};
     }));
 
-var chart = lineChart()
+var chart = stackedAreaChart()
         .x(d3.scale.linear().domain([0, numberOfDataPoint - 1]))
         .y(d3.scale.linear().domain([0, 26]));
 
