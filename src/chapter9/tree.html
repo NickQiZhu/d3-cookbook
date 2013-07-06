@@ -54,28 +54,29 @@ function tree() {
     function renderBody(svg) {
         if (!_bodyG) {
             _bodyG = svg.append("g")
-                    .attr("class", "body")
-                    .attr("transform", function (d) {
-                        return "translate(" + _margins.left + "," + _margins.top + ")";
-                    });
+				.attr("class", "body")
+				.attr("transform", function (d) {
+					return "translate(" + _margins.left 
+						+ "," + _margins.top + ")";
+				});
         }
 
         _tree = d3.layout.tree()
-                .size([(_height - _margins.top - _margins.bottom), (_width - _margins.left - _margins.right)]);
-
+                .size([
+					(_height - _margins.top - _margins.bottom), 
+					(_width - _margins.left - _margins.right)
+				]);
+				
         _diagonal = d3.svg.diagonal()
                 .projection(function (d) {
                     return [d.y, d.x];
                 });
 
-        _nodes.x0 = (_height - _margins.top - _margins.bottom) / 2;
-        _nodes.y0 = 0;
-
         render(_nodes);
     }
 
     function render(source) {
-        var nodes = _tree.nodes(_nodes).reverse();
+        var nodes = _tree.nodes(_nodes);
 
         renderNodes(nodes, source);
 
@@ -95,7 +96,8 @@ function tree() {
         var nodeEnter = node.enter().append("svg:g")
                 .attr("class", "node")
                 .attr("transform", function (d) {
-                    return "translate(" + source.y0 + "," + source.x0 + ")";
+                    return "translate(" + source.y0 
+						+ "," + source.x0 + ")";
                 })
                 .on("click", function (d) {
                     toggle(d);
@@ -121,7 +123,8 @@ function tree() {
 
         var nodeExit = node.exit().transition()
                 .attr("transform", function (d) {
-                    return "translate(" + source.y + "," + source.x + ")";
+                    return "translate(" + source.y 
+						+ "," + source.x + ")";
                 })
                 .remove();
 
