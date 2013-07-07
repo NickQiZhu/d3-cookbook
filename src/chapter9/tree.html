@@ -5,9 +5,6 @@
     <title>Tree</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
-<<<<<<< HEAD
-=======
-
     <style type="text/css">
         .node circle {
             cursor: pointer;
@@ -26,154 +23,11 @@
             stroke-width: 1.5px;
         }
     </style>
->>>>>>> 4104d598b664c2aa74a64ae7913e3f284da298cc
 </head>
 
 <body>
 
 <script type="text/javascript">
-<<<<<<< HEAD
-    function tree() {
-        var _chart = {};
-
-        var _width = 1600, _height = 800,
-                _colors = d3.scale.category20c(),
-                _svg,
-                _nodes,
-                _x = d3.scale.linear().range([0, _width]),
-                _y = d3.scale.linear().range([0, _height]),
-                _valueAccessor = function (d) {
-                    return 1;
-                },
-				_treemap,
-                _bodyG;
-
-        _chart.render = function () {
-            if (!_svg) {
-                _svg = d3.select("body").append("svg")
-                        .attr("height", _height)
-                        .attr("width", _width);
-            }
-
-            renderBody(_svg);
-        };
-
-        function renderBody(svg) {
-            if (!_bodyG){
-                _bodyG = svg.append("g")
-                        .attr("class", "body");
-						
-				_treemap = d3.layout.treemap() //<-A
-                    .round(false)
-                    .size([_width, _height])
-                    .sticky(true);
-			}
-			
-			_treemap.value(_valueAccessor); //<-B
-
-            var nodes = _treemap.nodes(_nodes) //<-C
-                    .filter(function (d) {
-                        return !d.children; //<-D
-                    });
-					
-					console.log(nodes);
-
-            var cells = svg.selectAll("g") //<-E
-                    .data(nodes);
-
-			renderCells(cells);		
-        }
-		
-		function renderCells(cells){
-			var cellEnter = cells.enter().append("g")
-                    .attr("class", "cell");
-
-            cellEnter.append("rect")
-            cellEnter.append("text");
-
-            cells.transition().attr("transform", function (d) {
-				return "translate(" + d.x + "," + d.y + ")"; //<-F
-			})
-			.select("rect")
-				.attr("width", function (d) {return d.dx - 1;})
-				.attr("height", function (d) {return d.dy - 1;})
-				.style("fill", function (d) {
-					return _colors(d.parent.name); //<-G
-				});
-
-            cells.select("text") //<-H
-				.attr("x", function (d) {return d.dx / 2;})
-				.attr("y", function (d) {return d.dy / 2;})
-				.attr("dy", ".35em")
-				.attr("text-anchor", "middle")
-				.text(function (d) {return d.name;})
-				.style("opacity", function (d) {
-					d.w = this.getComputedTextLength();
-					return d.dx > d.w ? 1 : 0; //<-I
-				});
-
-            cells.exit().remove();
-		}
-
-        _chart.width = function (w) {
-            if (!arguments.length) return _width;
-            _width = w;
-            return _chart;
-        };
-
-        _chart.height = function (h) {
-            if (!arguments.length) return _height;
-            _height = h;
-            return _chart;
-        };
-
-        _chart.colors = function (c) {
-            if (!arguments.length) return _colors;
-            _colors = c;
-            return _chart;
-        };
-
-        _chart.nodes = function (n) {
-            if (!arguments.length) return _nodes;
-            _nodes = n;
-            return _chart;
-        };
-
-        _chart.valueAccessor = function (fn) {
-            if (!arguments.length) return _valueAccessor;
-            _valueAccessor = fn;
-            return _chart;
-        };
-
-        return _chart;
-    }
-
-    var chart = tree();
-
-    function largeFlare() {
-        d3.json("flare.json", function (nodes) {
-            chart.nodes(nodes).render();
-        });
-    }
-
-    function simpleFlare() {
-        d3.json("simple-flare.json", function (nodes) {
-            chart.nodes(nodes).render();
-        });
-    }
-
-    function size(d) {
-        return d.size;
-    }
-
-    function count(d) {
-        return 1;
-    }
-
-    function flip(chart) {
-        chart.valueAccessor(chart.valueAccessor() == size ? count : size).render();
-    }
-=======
 function tree() {
     var _chart = {};
 
@@ -387,19 +241,11 @@ function simpleFlare() {
         chart.nodes(nodes).render();
     });
 }
->>>>>>> 4104d598b664c2aa74a64ae7913e3f284da298cc
 </script>
 
 <div class="control-group">
     <button onclick="largeFlare()">Complete Flare</button>
-<<<<<<< HEAD
-	<!--
     <button onclick="simpleFlare()">Small Flare</button>
-	-->
-    <button onclick="flip(chart)">Flip Value vs. Count</button>
-=======
-    <button onclick="simpleFlare()">Small Flare</button>
->>>>>>> 4104d598b664c2aa74a64ae7913e3f284da298cc
 </div>
 
 </body>
