@@ -78,6 +78,7 @@
                     });
 
             var nodes = pack.nodes(_nodes);
+            console.log(nodes);
 
             renderCircles(nodes);
 
@@ -88,22 +89,15 @@
             var circles = _bodyG.selectAll("circle")
                     .data(nodes);
 
-            circles
-                    .enter().append("svg:circle");
+            circles.enter().append("svg:circle");
 
             circles.transition()
-                    .attr("class", function (d) {
-                        return d.children ? "parent" : "child";
-                    })
-                    .attr("cx", function (d) {
-                        return d.x;
-                    })
-                    .attr("cy", function (d) {
-                        return d.y;
-                    })
-                    .attr("r", function (d) {
-                        return d.r;
-                    });
+                .attr("class", function (d) {
+                    return d.children ? "parent" : "child";
+                })
+                .attr("cx", function (d) {return d.x;})
+                .attr("cy", function (d) {return d.y;})
+                .attr("r", function (d) {return d.r;});
 
             circles.exit().transition()
                     .attr("r", 0)
@@ -123,15 +117,9 @@
                     .attr("class", function (d) {
                         return d.children ? "parent" : "child";
                     })
-                    .attr("x", function (d) {
-                        return d.x;
-                    })
-                    .attr("y", function (d) {
-                        return d.y;
-                    })
-                    .text(function (d) {
-                        return d.name;
-                    })
+                    .attr("x", function (d) {return d.x;})
+                    .attr("y", function (d) {return d.y;})
+                    .text(function (d) {return d.name;})
                     .style("opacity", function (d) {
                         return d.r > 20 ? 1 : 0;
                     });

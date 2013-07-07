@@ -100,6 +100,10 @@ function tree() {
                 .attr("transform", function (d) {
                     return "translate(" + source.y0 
 						+ "," + source.x0 + ")";
+                })
+                .on("click", function (d) {
+                    toggle(d);
+                    render(d);
                 });
 
         nodeEnter.append("svg:circle")
@@ -169,9 +173,7 @@ function tree() {
                 .attr("d", function (d) {
                     var o = {x: source.x0, y: source.y0};
                     return _diagonal({source: o, target: o});
-                })
-                .transition()
-                .attr("d", _diagonal);
+                });
 
         link.transition()
                 .attr("d", _diagonal);
