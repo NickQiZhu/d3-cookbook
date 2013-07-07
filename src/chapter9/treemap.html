@@ -22,7 +22,7 @@
                 _valueAccessor = function (d) {
                     return 1;
                 },
-				_treemap,
+                _treemap,
                 _bodyG;
 
         _chart.render = function () {
@@ -36,61 +36,69 @@
         };
 
         function renderBody(svg) {
-            if (!_bodyG){
+            if (!_bodyG) {
                 _bodyG = svg.append("g")
                         .attr("class", "body");
-						
-				_treemap = d3.layout.treemap() //<-A
-                    .round(false)
-                    .size([_width, _height])
-                    .sticky(true);
-			}
-			
-			_treemap.value(_valueAccessor); //<-B
+
+                _treemap = d3.layout.treemap() //<-A
+                        .round(false)
+                        .size([_width, _height])
+                        .sticky(true);
+            }
+
+            _treemap.value(_valueAccessor); //<-B
 
             var nodes = _treemap.nodes(_nodes) //<-C
                     .filter(function (d) {
                         return !d.children; //<-D
                     });
-					
-					console.log(nodes);
 
             var cells = svg.selectAll("g") //<-E
                     .data(nodes);
 
-			renderCells(cells);		
+            renderCells(cells);
         }
-		
-		function renderCells(cells){
-			var cellEnter = cells.enter().append("g")
+
+        function renderCells(cells) {
+            var cellEnter = cells.enter().append("g")
                     .attr("class", "cell");
 
             cellEnter.append("rect")
             cellEnter.append("text");
 
             cells.transition().attr("transform", function (d) {
-				return "translate(" + d.x + "," + d.y + ")"; //<-F
-			})
-			.select("rect")
-				.attr("width", function (d) {return d.dx - 1;})
-				.attr("height", function (d) {return d.dy - 1;})
-				.style("fill", function (d) {
-					return _colors(d.parent.name); //<-G
-				});
+                return "translate(" + d.x + "," + d.y + ")"; //<-F
+            })
+                    .select("rect")
+                    .attr("width", function (d) {
+                        return d.dx - 1;
+                    })
+                    .attr("height", function (d) {
+                        return d.dy - 1;
+                    })
+                    .style("fill", function (d) {
+                        return _colors(d.parent.name); //<-G
+                    });
 
             cells.select("text") //<-H
-				.attr("x", function (d) {return d.dx / 2;})
-				.attr("y", function (d) {return d.dy / 2;})
-				.attr("dy", ".35em")
-				.attr("text-anchor", "middle")
-				.text(function (d) {return d.name;})
-				.style("opacity", function (d) {
-					d.w = this.getComputedTextLength();
-					return d.dx > d.w ? 1 : 0; //<-I
-				});
+                    .attr("x", function (d) {
+                        return d.dx / 2;
+                    })
+                    .attr("y", function (d) {
+                        return d.dy / 2;
+                    })
+                    .attr("dy", ".35em")
+                    .attr("text-anchor", "middle")
+                    .text(function (d) {
+                        return d.name;
+                    })
+                    .style("opacity", function (d) {
+                        d.w = this.getComputedTextLength();
+                        return d.dx > d.w ? 1 : 0; //<-I
+                    });
 
             cells.exit().remove();
-		}
+        }
 
         _chart.width = function (w) {
             if (!arguments.length) return _width;
@@ -154,9 +162,9 @@
 
 <div class="control-group">
     <button onclick="largeFlare()">Complete Flare</button>
-	<!--
+    <!--
     <button onclick="simpleFlare()">Small Flare</button>
-	-->
+    -->
     <button onclick="flip(chart)">Flip Value vs. Count</button>
 </div>
 
