@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mouse</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var h = 500, w = 900, r = 60;
+
+    var svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+    var circle = svg.append("circle")
+            .attr("cx", w / 2)
+            .attr("cy", h / 2)
+            .attr("r", r);
+
+    var eventLabel = svg.append("text")
+            .attr("x", 10)
+            .attr("y", 30)
+            .text("Event: ");
+
+    var positionLabel = svg.append("text")
+            .attr("x", 10)
+            .attr("y", 60)
+            .text("Position: ");
+
+    function printPosition() {
+        var position = d3.mouse(svg.node());
+        positionLabel.text("Position: " + position);
+    }
+    circle.on("mousemove", function () {
+        eventLabel.text("Event: mousemove");
+        printPosition();
+    });
+
+    circle.on("mouseout", function () {
+        eventLabel.text("Event: mouseout");
+        positionLabel.text("Position: ");
+    });
+
+    circle.on("click", function () {
+        eventLabel.text("Event: click");
+        printPosition();
+        circle.transition().attr("r", r/4).transition().attr("r", r);
+    });
+</script>
+
+</body>
+
+</html>
