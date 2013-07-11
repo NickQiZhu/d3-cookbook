@@ -31,15 +31,15 @@
             .attr("y", 30);
 
     function printPosition() {
-        var position = d3.mouse(svg.node());
+        var position = d3.touch(svg.node());
         positionLabel.text(position);
     }
 
-    svg.on("touchmove", function () {
+    svg.on("touchstart", function () {
         printPosition();
     });
 
-    svg.on("click", function () {
+    function ripple() {
         for (var i = 1; i < 5; ++i) {
             var position = d3.mouse(svg.node());
 
@@ -48,10 +48,14 @@
                     .attr("cy", position[1])
                     .attr("r", 0)
                     .style("stroke-width", 5 / (i))
-                    .transition().delay(Math.pow(i,2.5)*50).duration(2000).ease('quad-in')
+                    .transition().delay(Math.pow(i, 2.5) * 50).duration(2000).ease('quad-in')
                     .attr("r", r)
                     .style("stroke-opacity", 0);
         }
+    }
+
+    svg.on("click", function () {
+        ripple();
     });
 </script>
 
