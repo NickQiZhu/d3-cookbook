@@ -42,33 +42,42 @@
     svg.on("touchstart", function () {
         position = d3.touches(svg.node())[0];
 
-        var arc = d3.svg.arc().outerRadius(initR).innerRadius(initR-thickness);
+        var arc = d3.svg.arc().outerRadius(initR).innerRadius(initR - thickness);
 
-        svg.append("g")
-                .attr("transform", "translate(" + position[0] + "," + position[1] + ")")
-                .append("path")
-                .attr("class", "arc")
-                .transition().duration(3000)
+        var g = svg.append("g")
+                .attr("transform", "translate(" + position[0] + "," + position[1] + ")");
+
+        var progressArc = g.append("path")
+                .attr("class", "arc");
+
+        progressArc.transition().duration(2000)
                 .attrTween("d", function (d) {
                     var interpolate = d3.interpolate({startAngle: 0, endAngle: 0},
                             {startAngle: 0, endAngle: 2 * Math.PI});
-                    return function (t) {
-                        return arc(interpolate(t));
-                    };
+                    return function (g) {
+                        return function (t) {
+                            return arc(interpolate(t));
+                        }
+                    }(g);
                 })
-                .each("end", function () {
-                    if (!arcExists())
-                        ripples();
-                    d3.select(this).remove();
-                });
+                .each("end", function (g) {
+                    return function () {
+                        if (complete(g))
+                            ripples();
+                        g.remove();
+                    };
+                }(g));
     });
 
-    function arcExists() {
-        return svg.select("path.arc").empty();
+    function complete(g) {
+        return g.node().__stopped__ != true;
     }
+
     svg.on("touchend", function () {
-        if (!arcExists())
-            svg.select("path.arc").remove();
+        svg.selectAll("g").each(function(){
+            this.__stopped__ = true;
+        });
+        svg.selectAll("g").remove();
     });
 
     function ripples() {
@@ -76,7 +85,7 @@
             var circle = svg.append("circle")
                     .attr("cx", position[0])
                     .attr("cy", position[1])
-                    .attr("r", initR - (thickness/2))
+                    .attr("r", initR - (thickness / 2))
                     .style("stroke-width", thickness / (i))
                     .transition().delay(Math.pow(i, 2.5) * 50).duration(2000).ease('quad-in')
                     .attr("r", r)
