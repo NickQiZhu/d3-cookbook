@@ -43,6 +43,7 @@
             .attr("width", w)
             .attr("height", h);
 
+    svg.on("mousedown", touch);
     svg.on("touchstart", touch);
 
     function touch() {
@@ -84,6 +85,7 @@
     svg.on("touchend", touchEnd);
     svg.on("touchcancel", touchEnd);
     svg.on("touchleave", touchEnd);
+    svg.on("mouseup", touchEnd);
 
     function touchEnd() {
         d3.event.preventDefault();
