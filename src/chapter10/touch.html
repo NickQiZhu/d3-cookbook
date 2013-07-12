@@ -64,7 +64,6 @@
                 })
                 .append("path")
                     .attr("class", "arc")
-                    .attr("d", "")
                     .transition().duration(2000)
                     .attrTween("d", function (d) {
                         var interpolate = d3.interpolate({startAngle: 0, endAngle: 0},
