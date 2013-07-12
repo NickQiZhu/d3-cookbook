@@ -44,52 +44,43 @@
             .attr("height", h);
 
     d3.select("body")
-        .on("touchstart", touch)
-        .on("touchend", touchEnd)
-        .on("touchcancel", touchEnd)
-        .on("touchleave", touchEnd);
+            .on("touchstart", touch)
+            .on("touchend", touch);
 
     function touch() {
-        var positions = d3.touches(svg.node());
-
-        for (var i = 0; i < positions.length; ++i) {
-            var position = positions[i];
-            handlePosition(position);
-        }
-    }
-
-    function handlePosition(position) {
         d3.event.preventDefault();
 
         var arc = d3.svg.arc().outerRadius(initR).innerRadius(initR - thickness);
-
-        var g = svg.append("g")
-                .attr("transform", "translate(" + position[0] + "," + position[1] + ")");
-
-        var progressArc = g.append("path")
-                .attr("class", "arc");
-
-        progressArc.transition().duration(2000)
-                .attrTween("d", function (d) {
-                    var interpolate = d3.interpolate({startAngle: 0, endAngle: 0},
-                            {startAngle: 0, endAngle: 2 * Math.PI});
-                    return function (t) {
-                        return arc(interpolate(t));
-                    };
-                })
-                .each("end", function () {
-                    if (complete(g))
-                        ripples(position);
-                    g.remove();
+        var g = svg.selectAll("g.touch")
+                .data(d3.touches(svg.node()), function (d) {
+                    return d.identifier;
                 });
-    }
 
-    function touchEnd() {
-        d3.event.preventDefault();
+        g.enter()
+                .append("g")
+                .attr("class", "touch")
+                .attr("transform", function (d) {
+                    return "translate(" + d[0] + "," + d[1] + ")";
+                })
+                .append("path")
+                    .attr("class", "arc")
+                    .attr("d", "")
+                    .transition().duration(2000)
+                    .attrTween("d", function (d) {
+                        var interpolate = d3.interpolate({startAngle: 0, endAngle: 0},
+                                {startAngle: 0, endAngle: 2 * Math.PI});
+                        return function (t) {
+                            return arc(interpolate(t));
+                        };
+                    })
+                    .each("end", function (d) {
+                        if (complete(g))
+                            ripples(d);
+                        g.remove();
+                    });
 
-        svg.selectAll("g").each(function () {
+        g.exit().remove().each(function () {
             this.__stopped__ = true;
-            d3.select(this).remove();
         });
     }
 
