@@ -7,10 +7,15 @@
     <script type="text/javascript" src="../../lib/d3.js"></script>
 
     <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
         svg {
-            cursor: pointer;
-            display: block;
-            overflow: hidden;
             width: 100%;
             height: 100%;
         }
@@ -41,11 +46,7 @@
     svg.on("touchmove", touch);
 
     function touch() {
-        d3.event.preventDefault();
-
         var positions = d3.touches(svg.node());
-
-        console.log(positions);
 
         for (var i = 0; i < positions.length; ++i) {
             var position = positions[i];
@@ -54,6 +55,8 @@
     }
 
     function handlePosition(position) {
+        d3.event.preventDefault();
+
         var arc = d3.svg.arc().outerRadius(initR).innerRadius(initR - thickness);
 
         var g = svg.append("g")
