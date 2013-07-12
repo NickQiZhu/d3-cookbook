@@ -35,19 +35,22 @@
             .attr("width", w)
             .attr("height", h);
 
-    var positionLabel = svg.append("text")
-            .attr("x", 10)
-            .attr("y", 30);
-
-    var position;
-
     svg.on("touchstart", touch);
 
     function touch() {
         d3.event.preventDefault();
 
-        position = d3.touches(svg.node())[0];
+        var positions = d3.touches(svg.node());
 
+        console.log(positions);
+
+        for (var i = 0; i < positions.length; ++i) {
+            var position = positions[i];
+            handlePosition(position);
+        }
+    }
+
+    function handlePosition(position) {
         var arc = d3.svg.arc().outerRadius(initR).innerRadius(initR - thickness);
 
         var g = svg.append("g")
@@ -60,19 +63,15 @@
                 .attrTween("d", function (d) {
                     var interpolate = d3.interpolate({startAngle: 0, endAngle: 0},
                             {startAngle: 0, endAngle: 2 * Math.PI});
-                    return function (g) {
-                        return function (t) {
-                            return arc(interpolate(t));
-                        }
-                    }(g);
-                })
-                .each("end", function (g) {
-                    return function () {
-                        if (complete(g))
-                            ripples();
-                        g.remove();
+                    return function (t) {
+                        return arc(interpolate(t));
                     };
-                }(g));
+                })
+                .each("end", function () {
+                    if (complete(g))
+                        ripples(position);
+                    g.remove();
+                });
     }
 
 
@@ -93,7 +92,7 @@
         return g.node().__stopped__ != true;
     }
 
-    function ripples() {
+    function ripples(position) {
         for (var i = 1; i < 5; ++i) {
             var circle = svg.append("circle")
                     .attr("cx", position[0])
