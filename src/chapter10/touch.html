@@ -38,6 +38,7 @@
             .attr("height", h);
 
     svg.on("touchstart", touch);
+    svg.on("touchmove", touch);
 
     function touch() {
         d3.event.preventDefault();
