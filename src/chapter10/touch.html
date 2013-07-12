@@ -8,7 +8,9 @@
 
     <style type="text/css">
         svg {
-            cursor: pointer
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
         }
 
         circle {
@@ -39,7 +41,11 @@
 
     var position;
 
-    svg.on("touchstart", function () {
+    svg.on("touchstart", touch);
+
+    function touch() {
+        d3.event.preventDefault();
+
         position = d3.touches(svg.node())[0];
 
         var arc = d3.svg.arc().outerRadius(initR).innerRadius(initR - thickness);
@@ -67,18 +73,25 @@
                         g.remove();
                     };
                 }(g));
-    });
+    }
+
+
+    svg.on("touchend", touchEnd);
+    svg.on("touchcancel", touchEnd);
+    svg.on("touchleave", touchEnd);
+
+    function touchEnd() {
+        d3.event.preventDefault();
+
+        svg.selectAll("g").each(function () {
+            this.__stopped__ = true;
+            d3.select(this).remove();
+        });
+    }
 
     function complete(g) {
         return g.node().__stopped__ != true;
     }
-
-    svg.on("touchend", function () {
-        svg.selectAll("g").each(function(){
-            this.__stopped__ = true;
-        });
-        svg.selectAll("g").remove();
-    });
 
     function ripples() {
         for (var i = 1; i < 5; ++i) {
