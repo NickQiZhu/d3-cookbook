@@ -43,8 +43,11 @@
             .attr("width", w)
             .attr("height", h);
 
-    svg.on("mousedown", touch);
-    svg.on("touchstart", touch);
+    d3.select("body")
+        .on("touchstart", touch)
+        .on("touchend", touchEnd)
+        .on("touchcancel", touchEnd)
+        .on("touchleave", touchEnd);
 
     function touch() {
         var positions = d3.touches(svg.node());
@@ -80,12 +83,6 @@
                     g.remove();
                 });
     }
-
-
-    svg.on("touchend", touchEnd);
-    svg.on("touchcancel", touchEnd);
-    svg.on("touchleave", touchEnd);
-    svg.on("mouseup", touchEnd);
 
     function touchEnd() {
         d3.event.preventDefault();
