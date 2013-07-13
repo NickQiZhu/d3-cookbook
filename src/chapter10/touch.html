@@ -36,12 +36,10 @@
 <body>
 
 <script type="text/javascript">
-    var h = 700, w = 1100, initR = 100, r = 400, thickness = 20;
+    var initR = 100, r = 400, thickness = 20;
 
     var svg = d3.select("body")
-            .append("svg")
-            .attr("width", w)
-            .attr("height", h);
+            .append("svg");
 
     d3.select("body")
             .on("touchstart", touch)
