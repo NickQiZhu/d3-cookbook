@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Zoom & Pan</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+
+    <style type="text/css">
+        circle {
+            fill: #dc143c;
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var width = 960, height = 500, r = 50;
+
+    var data = [
+        [width / 2 - r, height / 2 - r],
+        [width / 2 - r, height / 2 + r],
+        [width / 2 + r, height / 2 - r],
+        [width / 2 + r, height / 2 + r]
+    ];
+
+    var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+            .append("g");
+
+    svg.selectAll("circle")
+            .data(data)
+            .enter().append("circle")
+            .attr("r", r)
+            .attr("transform", function (d) {
+                return "translate(" + d + ")";
+            });
+
+    function zoom() {
+        svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+</script>
+
+</body>
+
+</html>
