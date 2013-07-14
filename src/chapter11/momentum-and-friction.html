@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Momentum and Friction</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        circle {
+            fill: steelblue;
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var force = d3.layout.force()
+            .gravity(0)
+            .charge(0)
+            .friction(0.95);
+
+    var svg = d3.select("body").append("svg:svg");
+
+    force.on("tick", function () {
+        svg.selectAll("circle")
+                .attr("cx", function (d) {
+                    return d.x;
+                })
+                .attr("cy", function (d) {
+                    return d.y;
+                });
+    });
+
+    var previousPoint;
+
+    svg.on("mousemove", function () {
+        var point = d3.mouse(this),
+            node = {
+                x: point[0],
+                y: point[1],
+                px: previousPoint?previousPoint[0]:point[0],
+                py:previousPoint?previousPoint[1]:point[1]
+            };
+
+        previousPoint = point;
+
+        svg.append("svg:circle")
+                .data([node])
+                .attr("class", "node")
+                .attr("cx", function (d) {
+                    return d.x;
+                })
+                .attr("cy", function (d) {
+                    return d.y;
+                })
+                .attr("r", 1e-6)
+                .transition()
+                .attr("r", 4.5)
+                .transition()
+                .delay(5000)
+                .attr("r", 1e-6)
+                .each("end", function () {
+                    force.nodes().shift();
+                })
+                .remove();
+
+        force.nodes().push(node);
+        force.start();
+    });
+</script>
+
+</body>
+
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
-    <title>Particles</title>
+    <title>Charge</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 
@@ -24,6 +24,12 @@
         circle {
             fill: steelblue;
         }
+        
+        text {
+            cursor: pointer;
+            text-decoration: underline;
+            fill: blue;
+        }
     </style>
 </head>
 
@@ -32,10 +38,22 @@
 <script type="text/javascript">
     var force = d3.layout.force()
             .gravity(0)
-            .charge(0)
-            .friction(0.95);
+            .charge(-60)
+            .friction(0.7);
 
     var svg = d3.select("body").append("svg:svg");
+
+    svg.append("text")
+            .attr("x", 10)
+            .attr("y", 30)
+            .text("Mutual Repulsion")
+            .on("click", function(){changeCharge(-60);});
+
+    svg.append("text")
+            .attr("x", 150)
+            .attr("y", 30)
+            .text("Mutual Attraction")
+            .on("click", function(){changeCharge(60);});
 
     force.on("tick", function () {
         svg.selectAll("circle")
@@ -47,18 +65,9 @@
                 });
     });
 
-    var previousPoint;
-
     svg.on("mousemove", function () {
         var point = d3.mouse(this),
-            node = {
-                x: point[0],
-                y: point[1],
-                px: previousPoint?previousPoint[0]:point[0],
-                py:previousPoint?previousPoint[1]:point[1]
-            };
-
-        previousPoint = point;
+                node = {x: point[0], y: point[1]};
 
         svg.append("svg:circle")
                 .data([node])
@@ -83,6 +92,10 @@
         force.nodes().push(node);
         force.start();
     });
+
+    function changeCharge(charge){
+        force.charge(charge);
+    }
 </script>
 
 </body>
