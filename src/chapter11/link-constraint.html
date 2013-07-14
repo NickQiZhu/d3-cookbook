@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Link Constraint</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        circle {
+            fill: steelblue;
+        }
+
+        .line {
+            stroke: grey;
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var force = d3.layout.force()
+            .gravity(0.1)
+            .charge(-30)
+            .friction(0.95);
+
+    var duration = 60000;
+
+    var svg = d3.select("body").append("svg:svg");
+
+    force.size([svg.node().clientWidth, svg.node().clientHeight])
+        .on("tick", function () {
+            svg.selectAll("circle")
+                .attr("cx", function (d) {return d.x;})
+                .attr("cy", function (d) {return d.y;});
+
+            svg.selectAll("line")
+                .attr("x1", function (d) {return d.source.x;})
+                .attr("y1", function (d) {return d.source.y;})
+                .attr("x2", function (d) {return d.target.x;})
+                .attr("y2", function (d) {return d.target.y;});
+        });
+
+    function offset() {
+        return Math.random() * 100;
+    }
+
+    function createNodes(point) {
+        var numberOfNodes = Math.round(Math.random() * 10);
+        var nodes = [];
+
+        for (var i = 0; i < numberOfNodes; ++i) {
+            nodes.push({x: point[0] + offset(), y: point[1] + offset()});
+        }
+
+        return nodes;
+    }
+
+    function createLinks(nodes) {
+        var links = [];
+        for (var i = 0; i < nodes.length; ++i) {
+            if (i > 0) links.push({source: nodes[i - 1], target: nodes[i]});
+            if(i == nodes.length - 1) links.push({source: nodes[i], target: nodes[0]});
+        }
+        return links;
+    }
+
+    svg.on("click", function () {
+        var point = d3.mouse(this),
+                nodes = createNodes(point),
+                links = createLinks(nodes);
+
+        nodes.forEach(function (node) {
+            var circles = svg.append("circle")
+                .data([node])
+                .attr("class", "node")
+                .attr("cx", function (d) {return d.x;})
+                .attr("cy", function (d) {return d.y;})
+                .attr("r", 1e-6)
+                .call(force.drag)
+                .transition()
+                .attr("r", 7)
+                .transition()
+                .delay(duration)
+                .attr("r", 1e-6)
+                .each("end", function () {force.nodes().shift();})
+                .remove();
+        });
+
+        links.forEach(function (link) {
+            var circles = svg.append("line")
+                .data([link])
+                .attr("class", "line")
+                .attr("x1", function (d) {return d.source.x;})
+                .attr("y1", function (d) {return d.source.y;})
+                .attr("x2", function (d) {return d.target.x;})
+                .attr("y2", function (d) {return d.target.y;})
+                .transition()
+                .delay(duration)
+                .style("stroke-opacity", 1e-6)
+                .each("end", function () {force.links().shift();})
+                .remove();
+        });
+
+        nodes.forEach(function (n) {force.nodes().push(n);});
+        links.forEach(function (l) {force.links().push(l);});
+
+        force.start();
+    });
+</script>
+
+</body>
+
+</html>
