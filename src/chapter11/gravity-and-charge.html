@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
-    <title>Charge</title>
+    <title>Gravity and Charge</title>
     <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
     <script type="text/javascript" src="../../lib/d3.js"></script>
 
@@ -24,7 +24,7 @@
         circle {
             fill: steelblue;
         }
-        
+
         text {
             cursor: pointer;
             text-decoration: underline;
@@ -47,13 +47,33 @@
             .attr("x", 10)
             .attr("y", 30)
             .text("Mutual Repulsion")
-            .on("click", function(){changeCharge(-60);});
+            .on("click", function () {
+                changeForce(-60, 0);
+            });
 
     svg.append("text")
             .attr("x", 150)
             .attr("y", 30)
             .text("Mutual Attraction")
-            .on("click", function(){changeCharge(60);});
+            .on("click", function () {
+                changeForce(60, 0);
+            });
+
+    svg.append("text")
+            .attr("x", 300)
+            .attr("y", 30)
+            .text("Gravity")
+            .on("click", function () {
+                changeForce(0, 0.02);
+            });
+
+    svg.append("text")
+                .attr("x", 380)
+                .attr("y", 30)
+                .text("Gravity with Repulsion")
+                .on("click", function () {
+                    changeForce(-30, 0.1);
+                });
 
     force.on("tick", function () {
         svg.selectAll("circle")
@@ -82,7 +102,7 @@
                 .transition()
                 .attr("r", 4.5)
                 .transition()
-                .delay(5000)
+                .delay(7000)
                 .attr("r", 1e-6)
                 .each("end", function () {
                     force.nodes().shift();
@@ -93,8 +113,11 @@
         force.start();
     });
 
-    function changeCharge(charge){
-        force.charge(charge);
+    function changeForce(charge, gravity) {
+        var svgNode = svg.node();
+        force.charge(charge)
+                .gravity(gravity)
+                .size([svgNode.clientWidth, svgNode.clientHeight]);
     }
 </script>
 
