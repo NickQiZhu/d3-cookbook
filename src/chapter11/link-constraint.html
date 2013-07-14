@@ -37,7 +37,9 @@
     var force = d3.layout.force()
             .gravity(0.1)
             .charge(-30)
-            .friction(0.95);
+            .friction(0.95)
+            .linkDistance(20)
+            .linkStrength(2);
 
     var duration = 60000;
 
