@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Arbitrary Visualization</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .bubble {
+            stroke: grey;
+            stroke-width: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+<svg>
+    <defs>
+        <radialGradient id="gradient" cx="50%" cy="50%" r="100%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:blue;stop-opacity:0"/>
+            <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:1"/>
+        </radialGradient>
+    </defs>
+</svg>
+
+<script type="text/javascript">
+    var force = d3.layout.force()
+            .gravity(0.1)
+            .charge(-30)
+            .friction(0.95)
+            .linkDistance(20)
+            .linkStrength(2);
+
+    var duration = 10000;
+
+    var svg = d3.select("svg");
+
+
+    var line = d3.svg.line()
+            .interpolate("basis-closed")
+            .x(function(d){return d.x;})
+            .y(function(d){return d.y;});
+
+    force.size([svg.node().clientWidth, svg.node().clientHeight])
+        .on("tick", function () {
+            svg.selectAll("path")
+                .attr("d", line);
+        });
+
+    function offset() {
+        return Math.random() * 100;
+    }
+
+    function createNodes(point) {
+        var numberOfNodes = Math.round(Math.random() * 10 + 3);
+        var nodes = [];
+
+        for (var i = 0; i < numberOfNodes; ++i) {
+            nodes.push({x: point[0] + offset(), y: point[1] + offset()});
+        }
+
+        return nodes;
+    }
+
+    function createLinks(nodes) {
+        var links = [];
+        for (var i = 0; i < nodes.length; ++i) {
+            if (i > 0) links.push({source: nodes[i - 1], target: nodes[i]});
+            if(i == nodes.length - 1) links.push({source: nodes[i], target: nodes[0]});
+        }
+        return links;
+    }
+
+    svg.on("click", function () {
+        var point = d3.mouse(this),
+                nodes = createNodes(point),
+                links = createLinks(nodes);
+
+        var circles = svg.append("path")
+            .data([nodes])
+            .attr("class", "bubble")
+            .attr("fill", "url(#gradient)")
+            .attr("d", function(d){return line(d);})
+            .transition().delay(duration)
+            .attr("fill-opacity", 0)
+            .attr("stroke-opacity", 0)
+            .each("end", function(){d3.select(this).remove();});
+
+        nodes.forEach(function (n) {force.nodes().push(n);});
+        links.forEach(function (l) {force.links().push(l);});
+
+        force.start();
+    });
+</script>
+
+</body>
+
+</html>

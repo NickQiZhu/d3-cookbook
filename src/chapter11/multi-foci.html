@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Custom Force Manipulation</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .touch{
+            fill-opacity: .2
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var svg = d3.select("body").append("svg:svg"),
+            colors = d3.scale.category10(),
+            w = svg.node().clientWidth,
+            h = svg.node().clientHeight;
+
+    var force = d3.layout.force()
+            .gravity(0.1)
+            .charge(-30)
+            .size([w, h]);
+
+    var nodes = force.nodes(),
+            centers = [];
+
+    for (var i = 0; i < 5; ++i) {
+        for (var j = 0; j < 50; ++j) {
+            nodes.push({x: w / 2 + offset(), y: h / 2 + offset(), color: colors(i), type: i});
+        }
+    }
+
+    function offset() {
+        return Math.random() * 100;
+    }
+
+    svg.selectAll("circle")
+            .data(nodes)
+            .enter()
+            .append("circle")
+            .attr("class", "node")
+            .attr("cx", function (d) {return d.x;})
+            .attr("cy", function (d) {return d.y;})
+            .attr("fill", function(d){return d.color;})
+            .attr("r", 1e-6)
+            .transition()
+            .attr("r", 4.5);
+
+    force.on("tick", function(e) {
+          var k = e.alpha * .5;
+          nodes.forEach(function(node) {
+            var center = centers[node.type];
+            if(center){
+                node.x += (center[0] - node.x) * k;
+                node.y += (center[1] - node.y) * k;
+            }
+          });
+
+          svg.selectAll("circle")
+              .attr("cx", function(d) { return d.x; })
+              .attr("cy", function(d) { return d.y; });
+    });
+
+    d3.select("body")
+                .on("touchstart", touch)
+                .on("touchend", touch);
+
+    function touch() {
+        d3.event.preventDefault();
+
+        centers = d3.touches(svg.node());
+
+        var g = svg.selectAll("g.touch")
+                .data(centers, function (d) {
+                    return d.identifier;
+                });
+
+        g.enter()
+                .append("g")
+                .attr("class", "touch")
+                .attr("transform", function (d) {
+                    return "translate(" + d[0] + "," + d[1] + ")";
+                })
+                .append("circle")
+                    .attr("class", "touch")
+                    .attr("fill", function(d){return colors(d.identifier);})
+                    .transition()
+                    .attr("r", 50);
+
+        g.exit().remove();
+
+        force.resume();
+    }
+
+    force.start();
+</script>
+
+</body>
+
+</html>
