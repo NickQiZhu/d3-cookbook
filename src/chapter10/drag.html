@@ -48,10 +48,19 @@
             .call(drag);
 
     function move(d) {
-        d3.select(this)
+        var x = d3.event.x, 
+            y = d3.event.y;
+
+        if(inBoundaries(x, y))
+            d3.select(this) 
                 .attr("transform", function (d) {
-                    return "translate(" + d3.event.x + ", " + d3.event.y + ")";
+                    return "translate(" + x + ", " + y + ")";
                 });
+    }
+    
+    function inBoundaries(x, y){
+        return (x >= (0 + r) && x <= (width - r)) 
+            && (y >= (0 + r) && y <= (height - r));
     }
 </script>
 
