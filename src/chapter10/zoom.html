@@ -36,8 +36,8 @@
             .attr("height", height)
             .call( // <-A
                 d3.behavior.zoom() // <-B
-                    .scaleExtent([1, 10])
-                    .on("zoom", zoom)
+                    .scaleExtent([1, 10]) // <-C
+                    .on("zoom", zoom) // <-D
             )
             .append("g");
 

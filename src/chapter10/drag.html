@@ -35,7 +35,7 @@
             .attr("height", height)
             .append("g");
 
-    var drag = d3.behavior.drag()
+    var drag = d3.behavior.drag() // <-A
             .on("drag", move);
 
     svg.selectAll("circle")
@@ -45,15 +45,15 @@
             .attr("transform", function (d) {
                 return "translate(" + d + ")";
             })
-            .call(drag);
+            .call(drag); // <-A
 
     function move(d) {
-        var x = d3.event.x, 
+        var x = d3.event.x, // <-C
             y = d3.event.y;
 
         if(inBoundaries(x, y))
             d3.select(this) 
-                .attr("transform", function (d) {
+                .attr("transform", function (d) { // <-D
                     return "translate(" + x + ", " + y + ")";
                 });
     }
