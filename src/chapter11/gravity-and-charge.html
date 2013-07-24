@@ -68,11 +68,19 @@
             });
 
     svg.append("text")
-                .attr("x", 380)
+            .attr("x", 380)
+            .attr("y", 30)
+            .text("Gravity with Repulsion")
+            .on("click", function () {
+                changeForce(-30, 0.1);
+            });
+
+    svg.append("text")
+                .attr("x", 570)
                 .attr("y", 30)
-                .text("Gravity with Repulsion")
+                .text("No Force")
                 .on("click", function () {
-                    changeForce(-30, 0.1);
+                    changeForce(0, 0);
                 });
 
     force.on("tick", function () {
