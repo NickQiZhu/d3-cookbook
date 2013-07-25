@@ -157,13 +157,13 @@
     var chart = pack();
 
     function largeFlare() {
-        d3.json("flare.json", function (nodes) {
+        d3.json("/data/flare.json", function (nodes) {
             chart.nodes(nodes).render();
         });
     }
 
     function simpleFlare() {
-        d3.json("simple-flare.json", function (nodes) {
+        d3.json("/data/simple-flare.json", function (nodes) {
             chart.nodes(nodes).render();
         });
     }
