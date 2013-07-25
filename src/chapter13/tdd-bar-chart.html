@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TDD Bar Chart</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+    <script type="text/javascript" src="src/bar_chart.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+function randomData() {
+    return Math.random() * 9;
+}
+
+function update() {
+    data.length = 0;
+    for (var j = 0; j < numberOfDataPoint; ++j)
+        data.push({x: j, y: randomData()});    
+
+    chart.render();
+}
+
+var numberOfDataPoint = 31,
+    data = [];
+
+data = d3.range(numberOfDataPoint).map(function (i) {
+    return {x: i, y: randomData()};
+});
+
+var chart = BarChart(d3.select('body'))
+        .x(d3.scale.linear().domain([-1, 32]))
+        .y(d3.scale.linear().domain([0, 10]))
+        .data(data)
+        .render();
+</script>
+
+</body>
+
+</html>

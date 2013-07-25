@@ -2,7 +2,7 @@ Data Visualization with D3 Cookbook Source Code
 ===============================================
 
 This is the source code repository for "Data Visualization with D3 Cookbook" authored by me and published by
-Packt Publishing.
+Packt Publishing. Check out our [Live Recipe Site](http://nickqizhu.github.io/d3-cookbook/).
 
 License
 -------
