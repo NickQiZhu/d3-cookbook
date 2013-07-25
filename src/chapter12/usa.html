@@ -31,23 +31,24 @@
 
     var svg = d3.select("body").append("svg")
             .attr("width", width)
-            .attr("height", height)
-            .append('g')
+            .attr("height", height);
+
+    var g = svg.append('g')
             .call(
-                d3.behavior.zoom()
-                    .scaleExtent([1, 10])
-                    .on("zoom", zoom)
+                    d3.behavior.zoom()
+                            .scaleExtent([1, 10])
+                            .on("zoom", zoom)
             );
 
     d3.json("/data/us.json", function (error, topology) {
-        svg.selectAll("path")
+        g.selectAll("path")
                 .data(topojson.feature(topology, topology.objects.states).features)
                 .enter().append("path")
                 .attr("d", path);
     });
 
     function zoom() {
-        svg.attr("transform", "translate("
+        g.attr("transform", "translate("
                 + d3.event.translate
                 + ")scale(" + d3.event.scale + ")");
     }
