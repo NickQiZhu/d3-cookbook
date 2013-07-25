@@ -13,7 +13,7 @@
 <script type="text/javascript">
     var w = 1280,
         h = 800,
-        z = d3.scale.category20c();
+        z = d3.scale.category20();
 
     var force = d3.layout.force()
         .size([w, h]);
@@ -22,7 +22,7 @@
         .attr("width", w)
         .attr("height", h);
 
-    d3.json("/data/flare.json", function(root) {
+    d3.json("../../data/flare.json", function(root) {
       var nodes = flatten(root),
           links = d3.layout.tree().links(nodes);
 
@@ -56,7 +56,7 @@
       });
     });
 
-    function flatten(root) {
+    function flatten(root) { // <-A
       var nodes = [];
       function traverse(node, depth) {
         if (node.children) {

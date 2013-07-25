@@ -14,7 +14,7 @@
         var _chart = {};
 
         var _width = 1600, _height = 800,
-                _colors = d3.scale.category20c(),
+                _colors = d3.scale.category20(),
                 _svg,
                 _nodes,
                 _x = d3.scale.linear().range([0, _width]),
@@ -136,13 +136,13 @@
     var chart = treemapChart();
 
     function largeFlare() {
-        d3.json("/data/flare.json", function (nodes) {
+        d3.json("../../data/flare.json", function (nodes) {
             chart.nodes(nodes).render();
         });
     }
 
     function simpleFlare() {
-        d3.json("/data/simple-flare.json", function (nodes) {
+        d3.json("../../data/simple-flare.json", function (nodes) {
             chart.nodes(nodes).render();
         });
     }

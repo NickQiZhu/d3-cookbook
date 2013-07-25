@@ -18,7 +18,7 @@
 
 <script type="text/javascript">
     var svg = d3.select("body").append("svg:svg"),
-            colors = d3.scale.category10(),
+            colors = d3.scale.category20(),
             w = 900,
             h = 600;
 
@@ -43,19 +43,18 @@
     }
 
     svg.selectAll("circle")
-            .data(nodes)
-            .enter()
+                .data(nodes).enter()
             .append("circle")
             .attr("class", "node")
             .attr("cx", function (d) {return d.x;})
             .attr("cy", function (d) {return d.y;})
             .attr("fill", function(d){return d.color;})
             .attr("r", 1e-6)
-            .transition()
+                .transition()
             .attr("r", 4.5);
 
     force.on("tick", function(e) {
-          var k = e.alpha * 1.2;
+          var k = e.alpha * .2;
           nodes.forEach(function(node) {
             var center = centers[node.type];
             if(center){
@@ -70,8 +69,8 @@
     });
 
     d3.select("body")
-                .on("touchstart", touch)
-                .on("touchend", touch);
+        .on("touchstart", touch)
+        .on("touchend", touch);
 
     function touch() {
         d3.event.preventDefault();
@@ -84,16 +83,16 @@
                 });
 
         g.enter()
-                .append("g")
+            .append("g")
+            .attr("class", "touch")
+            .attr("transform", function (d) {
+                return "translate(" + d[0] + "," + d[1] + ")";
+            })
+            .append("circle")
                 .attr("class", "touch")
-                .attr("transform", function (d) {
-                    return "translate(" + d[0] + "," + d[1] + ")";
-                })
-                .append("circle")
-                    .attr("class", "touch")
-                    .attr("fill", function(d){return colors(d.identifier);})
+                .attr("fill", function(d){return colors(d.identifier);})
                     .transition()
-                    .attr("r", 50);
+                .attr("r", 50);
 
         g.exit().remove();
 

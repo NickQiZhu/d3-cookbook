@@ -63,30 +63,30 @@
         translate = [width / 2, height / 2];
 
     var projections = [
-        ['azimuthalEqualArea', d3.geo.azimuthalEqualArea()
+        {name: 'azimuthalEqualArea', fn: d3.geo.azimuthalEqualArea()
                 .scale(50)
-                .translate(translate)],
-        ['conicEquidistant', d3.geo.conicEquidistant()
+                .translate(translate)},
+        {name: 'conicEquidistant', fn: d3.geo.conicEquidistant()
                 .scale(35)
-                .translate(translate)],
-        ['equirectangular', d3.geo.equirectangular()
+                .translate(translate)},
+        {name: 'equirectangular', fn: d3.geo.equirectangular()
                 .scale(50)
-                .translate(translate)],
-        ['mercator', d3.geo.mercator()
+                .translate(translate)},
+        {name: 'mercator', fn: d3.geo.mercator()
                 .scale(50)
-                .translate(translate)],
-        ['orthographic', d3.geo.orthographic()
+                .translate(translate)},
+        {name: 'orthographic', fn: d3.geo.orthographic()
                         .scale(90)
-                        .translate(translate)],
-        ['stereographic', d3.geo.stereographic()
+                        .translate(translate)},
+        {name: 'stereographic', fn: d3.geo.stereographic()
                                 .scale(35)
-                                .translate(translate)]
+                                .translate(translate)}
     ];
 
-    d3.json("/data/world-50m.json", function (error, world) {
+    d3.json("../../data/world-50m.json", function (error, world) {
         projections.forEach(function (projection) {
             var path = d3.geo.path()
-                    .projection(projection[1]);
+                    .projection(projection.fn);
 
             var div = d3.select("body")
                     .append("div")
@@ -97,19 +97,17 @@
                     .attr("width", width)
                     .attr("height", height);
 
-            svg.insert("path", ".graticule")
+            svg.append("path")
                     .datum(topojson.feature(world, world.objects.land))
                     .attr("class", "land")
                     .attr("d", path);
 
-            svg.insert("path", ".graticule")
-                    .datum(topojson.mesh(world, world.objects.countries, function (a, b) {
-                        return a !== b;
-                    }))
+            svg.append("path")
+                    .datum(topojson.mesh(world, world.objects.countries))
                     .attr("class", "boundary")
                     .attr("d", path);
 
-            div.append("h3").text(projection[0]);
+            div.append("h3").text(projection.name);
         });
     });
 </script>
