@@ -95,7 +95,7 @@
 
     svg.on("mousemove", function () {
         var point = d3.mouse(this),
-                node = {x: point[0], y: point[1]};
+                node = {x: point[0], y: point[1] + 10};
 
         svg.append("svg:circle")
                 .data([node])
