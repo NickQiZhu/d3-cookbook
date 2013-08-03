@@ -39,7 +39,7 @@
             .charge(-30)
             .friction(0.95)
             .linkDistance(20)
-            .linkStrength(2);
+            .linkStrength(1);
 
     var duration = 60000;
 
@@ -67,7 +67,10 @@
         var nodes = [];
 
         for (var i = 0; i < numberOfNodes; ++i) {
-            nodes.push({x: point[0] + offset(), y: point[1] + offset()});
+            nodes.push({
+                x: point[0] + offset(), 
+                y: point[1] + offset()
+            });
         }
 
         return nodes;
@@ -75,9 +78,15 @@
 
     function createLinks(nodes) {
         var links = [];
-        for (var i = 0; i < nodes.length; ++i) {
-            if (i > 0) links.push({source: nodes[i - 1], target: nodes[i]});
-            if(i == nodes.length - 1) links.push({source: nodes[i], target: nodes[0]});
+        for (var i = 0; i < nodes.length; ++i) {            
+            if(i == nodes.length - 1) 
+                links.push(
+                    {source: nodes[i], target: nodes[0]}
+                );
+            else
+                links.push(
+                    {source: nodes[i], target: nodes[i + 1]}
+                );
         }
         return links;
     }
@@ -88,32 +97,32 @@
                 links = createLinks(nodes);
 
         nodes.forEach(function (node) {
-            var circles = svg.append("circle")
-                .data([node])
+            svg.append("circle")
+                    .data([node])
                 .attr("class", "node")
                 .attr("cx", function (d) {return d.x;})
                 .attr("cy", function (d) {return d.y;})
                 .attr("r", 1e-6)
                 .call(force.drag)
-                .transition()
+                    .transition()
                 .attr("r", 7)
-                .transition()
-                .delay(duration)
+                    .transition()
+                    .delay(duration)
                 .attr("r", 1e-6)
                 .each("end", function () {force.nodes().shift();})
                 .remove();
         });
 
         links.forEach(function (link) {
-            var circles = svg.append("line")
-                .data([link])
+            svg.append("line")
+                    .data([link])
                 .attr("class", "line")
                 .attr("x1", function (d) {return d.source.x;})
                 .attr("y1", function (d) {return d.source.y;})
                 .attr("x2", function (d) {return d.target.x;})
                 .attr("y2", function (d) {return d.target.y;})
-                .transition()
-                .delay(duration)
+                    .transition()
+                    .delay(duration)
                 .style("stroke-opacity", 1e-6)
                 .each("end", function () {force.links().shift();})
                 .remove();
