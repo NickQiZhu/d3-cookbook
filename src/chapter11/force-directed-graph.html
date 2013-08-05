@@ -56,7 +56,7 @@
       });
     });
 
-    function flatten(root) {
+    function flatten(root) { // <-A
       var nodes = [];
       function traverse(node, depth) {
         if (node.children) {

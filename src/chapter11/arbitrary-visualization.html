@@ -93,11 +93,11 @@
                 links = createLinks(nodes);
 
         var circles = svg.append("path")
-            .data([nodes])
+                .data([nodes])
             .attr("class", "bubble")
             .attr("fill", "url(#gradient)")
             .attr("d", function(d){return line(d);})
-            .transition().delay(duration)
+                .transition().delay(duration)
             .attr("fill-opacity", 0)
             .attr("stroke-opacity", 0)
             .each("end", function(){d3.select(this).remove();});
