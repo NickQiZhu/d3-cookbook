@@ -11,9 +11,16 @@ function BarChart(p) {
             .attr("height", _height)
             .attr("width", _width);
 
-        svg.append("g")
+        var body = svg.append("g")
             .attr("class", 'body')
-            .attr("transform", "translate(" + _margins.left + "," + _margins.top + ")");
+            .attr("transform", "translate(" + _margins.left + "," + _margins.top + ")")
+
+        if(_data){
+            body.selectAll('rect.bar')
+                .data(_data).enter()
+            .append('rect')
+                .attr("class", 'bar');
+        }
     };
 
     that.width = function (w) {

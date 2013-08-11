@@ -1,7 +1,11 @@
 describe('BarChart', function () {
     var div,
         chart,
-        data = [{x: 0, y: 0},{x: 1, y: 3},{x: 2, y: 6}];
+        data = [
+            {x: 0, y: 0},
+            {x: 1, y: 3},
+            {x: 2, y: 6}
+        ];
 
     beforeEach(function () {
         div = d3.select('body').append('div');
@@ -13,7 +17,7 @@ describe('BarChart', function () {
     });
 
     describe('.data', function () {
-        it('should allow setting and retrieve chart data', function(){
+        it('should allow setting and retrieve chart data', function () {
             expect(chart.data(data).data()).toBe(data);
         });
     });
@@ -39,22 +43,30 @@ describe('BarChart', function () {
         });
 
         describe('chart body', function () {
-            it('create body g', function () {
+            it('should create body g', function () {
                 chart.render();
-                expect(svg().select('g.body')).not.toBeEmpty();
+                expect(chartBody()).not.toBeEmpty();
             });
 
             it('should translate to (left, top)', function () {
                 chart.render();
-                expect(svg().select('g.body').attr('transform')).toBe('translate(30,10)')
+                expect(chartBody().attr('transform')).toBe('translate(30,10)')
             });
         });
 
         describe('bars', function () {
+            it('should create 3 svg:rect elements', function () {
+                chart.data(data).render();
+                expect(chartBody().selectAll('rect.bar').size()).toBe(3);
+            });
         });
     });
 
     function svg() {
         return div.select('svg');
+    }
+
+    function chartBody() {
+        return svg().select('g.body');
     }
 });
