@@ -59,6 +59,17 @@ describe('BarChart', function () {
                 chart.data(data).render();
                 expect(chartBody().selectAll('rect.bar').size()).toBe(3);
             });
+
+            it('should calculate bar width automatically', function(){
+                chart.data(data).width(100).height(100)
+                    .x(d3.scale.linear().domain([0, 3]))
+                    .y(d3.scale.linear().domain([0, 6]))
+                    .render();
+
+                chartBody().selectAll('rect.bar').each(function(){
+                    expect(d3.select(this).attr('width')).toBe('20');
+                });
+            });
         });
     });
 
