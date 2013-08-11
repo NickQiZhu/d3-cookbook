@@ -4,7 +4,8 @@ function BarChart(p) {
     var _parent = p, _width = 500, _height = 350,
         _margins = {top: 10, left: 30, right: 10, bottom: 30},
         _data,
-        _x, _y;
+        _x = d3.scale.linear(),
+        _y = d3.scale.linear();
 
     that.render = function () {
         var svg = _parent
@@ -17,12 +18,17 @@ function BarChart(p) {
             .attr("transform", "translate(" + _margins.left + "," + _margins.top + ")")
 
         if (_data) {
+            _x.range([0, quadrantWidth()]);
+
             body.selectAll('rect.bar')
                 .data(_data).enter()
                 .append('rect')
                 .attr("class", 'bar')
                 .attr("width", function () {
-                    return Math.floor((_width - _margins.left - _margins.right) / _data.length);
+                    return Math.floor(quadrantWidth() / _data.length);
+                })
+                .attr("x", function (d) {
+                    return _x(d.x);
                 });
         }
     };
@@ -56,6 +62,10 @@ function BarChart(p) {
         _y = y;
         return that;
     };
+
+    function quadrantWidth() {
+        return _width - _margins.left - _margins.right;
+    }
 
     return that;
 }

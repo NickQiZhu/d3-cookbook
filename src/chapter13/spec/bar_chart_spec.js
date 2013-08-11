@@ -57,18 +57,26 @@ describe('BarChart', function () {
         describe('bars', function () {
             it('should create 3 svg:rect elements', function () {
                 chart.data(data).render();
-                expect(chartBody().selectAll('rect.bar').size()).toBe(3);
+                expect(bars().size()).toBe(3);
             });
 
-            it('should calculate bar width automatically', function(){
+            it('should calculate bar width automatically', function () {
+                chart.data(data).width(100).height(100)
+                    .render();
+                bars().each(function () {
+                    expect(d3.select(this).attr('width')).toBe('20');
+                });
+            });
+
+            it('should map bar x using x-scale', function () {
                 chart.data(data).width(100).height(100)
                     .x(d3.scale.linear().domain([0, 3]))
                     .y(d3.scale.linear().domain([0, 6]))
                     .render();
 
-                chartBody().selectAll('rect.bar').each(function(){
-                    expect(d3.select(this).attr('width')).toBe('20');
-                });
+                expect(d3.select(bars()[0][0]).attr('x')).toBe('0');
+                expect(d3.select(bars()[0][1]).attr('x')).toBe('20');
+                expect(d3.select(bars()[0][2]).attr('x')).toBe('40');
             });
         });
     });
@@ -79,5 +87,9 @@ describe('BarChart', function () {
 
     function chartBody() {
         return svg().select('g.body');
+    }
+
+    function bars() {
+        return chartBody().selectAll('rect.bar');
     }
 });
