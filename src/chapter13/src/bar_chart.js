@@ -1,4 +1,6 @@
 function BarChart(p) {
+    var BAR_PADDING = 2;
+
     var that = {};
 
     var _parent = p, _width = 500, _height = 350,
@@ -26,13 +28,16 @@ function BarChart(p) {
                 .append('rect')
                 .attr("class", 'bar')
                 .attr("width", function () {
-                    return Math.floor(quadrantWidth() / _data.length);
+                    return quadrantWidth() / _data.length - BAR_PADDING;
                 })
                 .attr("x", function (d) {
                     return _x(d.x);
                 })
                 .attr("y", function (d) {
                     return _y(d.y);
+                })
+                .attr("height", function (d) {
+                    return _height - _margins.bottom - _y(d.y);
                 });
         }
     };

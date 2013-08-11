@@ -68,7 +68,7 @@ describe('BarChart', function () {
 
             it('should calculate bar width automatically', function () {
                 bars().each(function () {
-                    expect(d3.select(this).attr('width')).toBe('20');
+                    expect(d3.select(this).attr('width')).toBe('18');
                 });
             });
 
@@ -82,6 +82,12 @@ describe('BarChart', function () {
                 expect(d3.select(bars()[0][0]).attr('y')).toBe('60');
                 expect(d3.select(bars()[0][1]).attr('y')).toBe('30');
                 expect(d3.select(bars()[0][2]).attr('y')).toBe('0');
+            });
+
+            it('should calculate bar height based on y', function () {
+                expect(d3.select(bars()[0][0]).attr('height')).toBe('10');
+                expect(d3.select(bars()[0][1]).attr('height')).toBe('40');
+                expect(d3.select(bars()[0][2]).attr('height')).toBe('70');
             });
         });
     });
