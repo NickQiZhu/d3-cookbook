@@ -55,28 +55,33 @@ describe('BarChart', function () {
         });
 
         describe('bars', function () {
+            beforeEach(function () {
+                chart.data(data).width(100).height(100)
+                    .x(d3.scale.linear().domain([0, 3]))
+                    .y(d3.scale.linear().domain([0, 6]))
+                    .render();
+            });
+
             it('should create 3 svg:rect elements', function () {
-                chart.data(data).render();
                 expect(bars().size()).toBe(3);
             });
 
             it('should calculate bar width automatically', function () {
-                chart.data(data).width(100).height(100)
-                    .render();
                 bars().each(function () {
                     expect(d3.select(this).attr('width')).toBe('20');
                 });
             });
 
             it('should map bar x using x-scale', function () {
-                chart.data(data).width(100).height(100)
-                    .x(d3.scale.linear().domain([0, 3]))
-                    .y(d3.scale.linear().domain([0, 6]))
-                    .render();
-
                 expect(d3.select(bars()[0][0]).attr('x')).toBe('0');
                 expect(d3.select(bars()[0][1]).attr('x')).toBe('20');
                 expect(d3.select(bars()[0][2]).attr('x')).toBe('40');
+            });
+
+            it('should map bar y using y-scale', function () {
+                expect(d3.select(bars()[0][0]).attr('y')).toBe('60');
+                expect(d3.select(bars()[0][1]).attr('y')).toBe('30');
+                expect(d3.select(bars()[0][2]).attr('y')).toBe('0');
             });
         });
     });

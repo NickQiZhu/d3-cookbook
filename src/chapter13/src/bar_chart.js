@@ -19,6 +19,7 @@ function BarChart(p) {
 
         if (_data) {
             _x.range([0, quadrantWidth()]);
+            _y.range([quadrantHeight(), 0]);
 
             body.selectAll('rect.bar')
                 .data(_data).enter()
@@ -29,6 +30,9 @@ function BarChart(p) {
                 })
                 .attr("x", function (d) {
                     return _x(d.x);
+                })
+                .attr("y", function (d) {
+                    return _y(d.y);
                 });
         }
     };
@@ -65,6 +69,10 @@ function BarChart(p) {
 
     function quadrantWidth() {
         return _width - _margins.left - _margins.right;
+    }
+
+    function quadrantHeight() {
+        return _height - _margins.top - _margins.bottom;
     }
 
     return that;
