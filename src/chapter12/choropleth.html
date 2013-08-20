@@ -39,8 +39,8 @@
             .scaleExtent([1, 10])
             .on("zoom", zoom));
 
-    d3.json("/data/us.json", function (error, us) {
-        d3.tsv("/data/unemployment.tsv", function (error, unemployment) {
+    d3.json("../../data/us.json", function (error, us) {
+        d3.tsv("../../data/unemployment.tsv", function (error, unemployment) {
             var rateById = {};
 
             unemployment.forEach(function (d) {

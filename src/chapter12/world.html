@@ -83,7 +83,7 @@
                                 .translate(translate)]
     ];
 
-    d3.json("/data/world-50m.json", function (error, world) {
+    d3.json("../../data/world-50m.json", function (error, world) {
         projections.forEach(function (projection) {
             var path = d3.geo.path()
                     .projection(projection[1]);
