@@ -136,13 +136,13 @@
     var chart = treemapChart();
 
     function largeFlare() {
-        d3.json("/data/flare.json", function (nodes) {
+        d3.json("../../data/flare.json", function (nodes) {
             chart.nodes(nodes).render();
         });
     }
 
     function simpleFlare() {
-        d3.json("/data/simple-flare.json", function (nodes) {
+        d3.json("../../data/simple-flare.json", function (nodes) {
             chart.nodes(nodes).render();
         });
     }
