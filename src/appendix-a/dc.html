@@ -24,11 +24,18 @@
     d3.json('../../data/payment.json', function(json){
         var data = crossfilter(json);
 
-        var hours = data.dimension(function(d){return d3.time.hour(timeFormat.parse(d.date));})
-        var totalByHour = hours.group().reduceSum(function(d){return d.total;});
+        var hours = data.dimension(function(d){
+            return d3.time.hour(timeFormat.parse(d.date));
+        });
+        var totalByHour = hours.group().reduceSum(function(d){
+                                return d.total;
+                            });
 
         var types = data.dimension(function(d){return d.type;});
         var transactionByType = types.group().reduceCount();
+        
+        var quantities = data.dimension(function(d){return d.quantity;});
+        var salesByQuantity = quantities.group();
 
         dc.lineChart("#area-chart")
                 .width(500)
@@ -48,6 +55,15 @@
                 .innerRadius(50)
                 .dimension(types)
                 .group(transactionByType);
+                
+        dc.barChart("#bar-chart")
+                .width(500)
+                .height(250)
+                .dimension(quantities)
+                .group(salesByQuantity)
+                .x(d3.scale.linear().domain([0, 7]))
+                .y(d3.scale.linear().domain([0, 12]))
+                .centerBar(true);
 
         dc.renderAll();
     });
