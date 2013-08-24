@@ -40,6 +40,7 @@
                             .on("zoom", zoom)
             );
 
+
     d3.json("../../data/us.json", function (error, topology) {
         g.selectAll("path")
                 .data(topojson.feature(topology, topology.objects.states).features)
