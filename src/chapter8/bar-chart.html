@@ -201,7 +201,7 @@ data = d3.range(numberOfDataPoint).map(function (i) {
     return {x: i, y: randomData()};
 });
 
-var chart = lineChart()
+var chart = barChart()
         .x(d3.scale.linear().domain([-1, 32]))
         .y(d3.scale.linear().domain([0, 10]));
 
