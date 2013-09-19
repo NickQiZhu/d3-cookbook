@@ -54,7 +54,7 @@
         var area = d3.svg.area()
             .interpolate(mode) // <-B
             .x(function(d) { return x(d.x); })
-            .y0(height - margin)
+            .y0(y(0))
             .y1(function(d) { return y(d.y); });
             
         svg.selectAll("path.area")

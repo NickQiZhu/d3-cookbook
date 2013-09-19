@@ -53,7 +53,7 @@
             
         var area = d3.svg.area() // <-C
             .x(function(d) { return x(d.x); }) // <-D
-            .y0(height - margin) // <-E
+            .y0(y(0)) // <-E
             .y1(function(d) { return y(d.y); }); // <-F
             
         svg.selectAll("path.area") // <-G
