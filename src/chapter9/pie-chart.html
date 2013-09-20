@@ -47,7 +47,7 @@
                     })
                     .value(function (d) {
                         return d.value;
-                    })(_data);
+                    });
 
             var arc = d3.svg.arc()
                     .outerRadius(_radius)
@@ -68,7 +68,7 @@
 
         function renderSlices(pie, arc) {
             var slices = _pieG.selectAll("path.arc")
-                    .data(pie); // <-B
+                    .data(pie(_data)); // <-B
 
             slices.enter()
                     .append("path")
@@ -98,7 +98,7 @@
 
         function renderLabels(pie, arc) {
             var labels = _pieG.selectAll("text.label")
-                    .data(pie); // <-E
+                    .data(pie(_data)); // <-E
 
             labels.enter()
                     .append("text")
