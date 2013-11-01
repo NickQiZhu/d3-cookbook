@@ -30,13 +30,13 @@
         };
 
         instance.headline = function (h) {
-            if (!arguments.length) h; // <-- G
+            if (!arguments.length) return headline; // <-- G
             headline = h;
             return instance; // <-- H
         };
 
         instance.description = function (d) {
-            if (!arguments.length) d;
+            if (!arguments.length) return description;
             description = d;
             return instance;
         };
