@@ -1,0 +1,35 @@
+{
+    "name": "d3-project-template-with-grunt",
+    "version": "0.0.1",
+    "description": "Ready to go d3 data visualization project template with grunt",
+    "keywords": [
+        "data visualization",
+        "d3"
+    ],
+    "homepage": "<project home page>",
+    "author": {
+        "name": "<your name>",
+        "url": "<your url>"
+    },
+    "repository": {
+        "type": "git",
+        "url": "<source repo url>"
+    },
+    "dependencies": {
+        "d3": "3.x"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib": "~0.4.0",
+        "grunt-contrib-uglify": "~0.2.2",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-sass": "~0.4.1",
+        "grunt-contrib-jasmine": "~0.5.1",
+        "grunt-contrib-jshint": "~0.4.0",
+        "grunt-template-jasmine-istanbul": "~0.2.5"
+
+    },
+    "scripts": {
+        "test": "grunt jasmine"
+    }
+}
