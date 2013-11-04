@@ -1,4 +1,4 @@
-zoom-ui
+project
 =======
 
-NO-UI framework for next-gen web UI
+Data visualization with D3 template
