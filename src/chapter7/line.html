@@ -52,13 +52,11 @@
         
     function renderAxes(svg){ // <-G
         var xAxis = d3.svg.axis()
-                .scale(d3.scale.linear()
-                    .range([0, quadrantWidth()]))
+                .scale(x.range([0, quadrantWidth()]))
                 .orient("bottom");            
                 
         var yAxis = d3.svg.axis()
-                .scale(d3.scale.linear()
-                    .range([quadrantHeight(), 0]))
+                .scale(y.range([quadrantHeight(), 0]))
                 .orient("left");
         
         svg.append("g")        
